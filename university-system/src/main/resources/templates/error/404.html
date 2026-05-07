@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Page Not Found â€” Creativa')}"></head>
+
+<body class="bg-background text-foreground min-h-screen flex flex-col">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+
+    <div class="flex-1 flex items-center justify-center p-4">
+        <div class="text-center animate-fade-in-up">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="absolute inset-0 bg-teal-600/20 rounded-full blur-2xl animate-pulse-glow"></div>
+                <div class="relative w-full h-full bg-card rounded-3xl border border-subtle flex items-center justify-center shadow-2xl shadow-teal-900/20">
+                    <span class="text-5xl font-bold font-heading text-teal-400">404</span>
+                </div>
+            </div>
+            
+            <h1 class="text-4xl font-bold font-heading mb-4">Page Not Found</h1>
+            <p class="text-muted max-w-md mx-auto mb-8">Oops! The page you are looking for doesn't exist, has been removed, or is temporarily unavailable.</p>
+            
+            <a th:href="@{/}" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-700 text-foreground font-semibold rounded-xl transition-all shadow-[0_0_20px_rgba(15,118,110,0.3)] hover:shadow-[0_0_25px_rgba(15,118,110,0.4)]">
+                <i data-lucide="home" class="w-5 h-5"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+    <div th:replace="~{fragments :: theme-toggle}"></div>
+</body>
+</html>
+
+

@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+ 
+<head th:replace="~{fragments :: head('Student Dashboard – Creativa')}"></head>
+ 
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div th:replace="~{fragments :: toasts}"></div>
+ 
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-7xl mx-auto">
+ 
+            <!-- Flash Messages -->
+            <div th:if="${successMessage}" data-toast class="animate-fade-in-up bg-green-500/10 border border-green-500/30 text-green-400 p-4 rounded-2xl mb-6 flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+                <span th:text="${successMessage}">Success!</span>
+            </div>
+            <div th:if="${errorMessage}" data-toast class="animate-fade-in-up bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-2xl mb-6 flex items-center gap-3">
+                <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+                <span th:text="${errorMessage}">Error!</span>
+            </div>
+ 
+            <!-- Welcome Card -->
+            <div class="glass rounded-3xl p-8 mb-8 relative overflow-hidden border border-subtle shadow-[0_0_30px_rgba(15,118,110,0.08)] animate-fade-in-up">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-teal-600/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+                <div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-teal-600 to-teal-800 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-teal-600/20">
+                        <span class="text-3xl font-bold font-heading text-white" th:text="${#strings.substring(student.name, 0, 1)}">S</span>
+                    </div>
+                    <div class="text-center sm:text-left flex-1">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-600/15 border border-teal-500/25 mb-3">
+                            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-teal-400"></i>
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider">Student</span>
+                        </div>
+                        <h1 class="text-3xl font-bold font-heading mb-1">Welcome back, <span th:text="${student.name}">Student</span>!</h1>
+                        <p class="text-muted text-sm flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                            <span class="flex items-center gap-1.5"><i data-lucide="hash" class="w-3.5 h-3.5 text-teal-400"></i> <span th:text="${student.studentId}">STU-001</span></span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="book" class="w-3.5 h-3.5 text-teal-400"></i> <span th:text="${student.major}">Major</span></span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-teal-400"></i> Class of <span th:text="${student.enrollmentYear}">2024</span></span>
+                        </p>
+                    </div>
+                    <div class="text-center glass rounded-2xl p-4 border border-teal-500/20 flex-shrink-0">
+                        <p class="text-3xl font-bold font-heading text-teal-300" th:text="${student.gpa > 0 ? student.gpa : 'N/A'}">3.8</p>
+                        <p class="text-xs text-muted mt-1">Current GPA</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <!-- Stats Row -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 animate-fade-in-up delay-100">
+                <div class="glass rounded-2xl p-5 border border-subtle flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-teal-600/15 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="book-open" class="w-5 h-5 text-teal-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold font-heading" th:text="${enrolledCourses != null ? enrolledCourses.size() : 0}">0</p>
+                        <p class="text-xs text-muted">Courses</p>
+                    </div>
+                </div>
+                <div class="glass rounded-2xl p-5 border border-subtle flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600/15 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="zap" class="w-5 h-5 text-blue-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold font-heading" th:text="${creditTotal != null ? creditTotal : 0}">0</p>
+                        <p class="text-xs text-muted">Credits</p>
+                    </div>
+                </div>
+                <div class="glass rounded-2xl p-5 border border-subtle flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-600/15 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="clipboard-list" class="w-5 h-5 text-amber-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold font-heading" th:text="${upcomingAssignments != null ? upcomingAssignments.size() : 0}">0</p>
+                        <p class="text-xs text-muted">Assignments</p>
+                    </div>
+                </div>
+                <div class="glass rounded-2xl p-5 border border-subtle flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-green-600/15 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="star" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl font-bold font-heading" th:text="${enrollments != null ? enrollments.size() : 0}">0</p>
+                        <p class="text-xs text-muted">Enrollments</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <!-- Main Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ 
+                <!-- Enrolled Courses -->
+                <div class="lg:col-span-2 animate-fade-in-up delay-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold font-heading flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-5 h-5 text-teal-400"></i> My Courses
+                        </h2>
+                        <a th:href="@{/courses-page}" class="text-xs text-teal-400 hover:text-teal-300 flex items-center gap-1 transition-colors">
+                            Browse All <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+ 
+                    <div th:if="${enrolledCourses == null or #lists.isEmpty(enrolledCourses)}" class="glass rounded-2xl p-10 text-center border border-subtle">
+                        <i data-lucide="book-x" class="w-10 h-10 text-muted-dark mx-auto mb-3"></i>
+                        <p class="text-muted font-medium">No courses enrolled yet</p>
+                        <a th:href="@{/courses-page}" class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-teal-600/20 hover:bg-teal-600/30 text-teal-400 rounded-xl text-sm font-medium transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Browse Courses
+                        </a>
+                    </div>
+ 
+                    <div class="space-y-3">
+                        <div th:each="course : ${enrolledCourses}" class="glass rounded-2xl p-5 border border-subtle hover:border-teal-500/30 transition-all duration-300 flex items-center justify-between gap-4">
+                            <div class="flex items-center gap-4 flex-1 min-w-0">
+                                <div class="w-10 h-10 rounded-xl bg-teal-600/15 flex items-center justify-center flex-shrink-0 border border-teal-500/20">
+                                    <i data-lucide="book" class="w-5 h-5 text-teal-400"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="font-semibold text-foreground truncate" th:text="${course.title}">Course Title</p>
+                                    <p class="text-xs text-muted-dark" th:text="${course.coursecode} + ' · ' + ${course.creditHours} + ' credits'">CODE · 3 credits</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <a th:href="@{/student/course/{id}/assignments(id=${course.id})}" class="p-2 bg-amber-600/10 hover:bg-amber-600/20 text-amber-400 rounded-lg transition-colors" title="Assignments">
+                                    <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                                </a>
+                                <a th:href="@{/course-detail/{id}(id=${course.id})}" class="p-2 bg-teal-600/10 hover:bg-teal-600/20 text-teal-400 rounded-lg transition-colors" title="Details">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <!-- Sidebar: Upcoming Assignments + Grades -->
+                <div class="space-y-6 animate-fade-in-up delay-300">
+ 
+                    <!-- Upcoming Assignments -->
+                    <div class="glass rounded-2xl p-5 border border-subtle">
+                        <h3 class="font-bold font-heading mb-4 flex items-center gap-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i> Upcoming Assignments
+                        </h3>
+                        <div th:if="${upcomingAssignments == null or #lists.isEmpty(upcomingAssignments)}" class="text-center py-4">
+                            <p class="text-sm text-muted">No upcoming assignments.</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div th:each="a : ${upcomingAssignments}" class="p-3 rounded-xl bg-white/[0.03] border border-subtle">
+                                <p class="text-sm font-semibold text-foreground truncate" th:text="${a.title}">Assignment</p>
+                                <p class="text-xs text-muted mt-1" th:text="${a.course.title}">Course</p>
+                                <p class="text-xs text-amber-400 mt-1 flex items-center gap-1">
+                                    <i data-lucide="calendar" class="w-3 h-3"></i>
+                                    <span th:text="${#temporals.format(a.dueDate, 'dd MMM yyyy')}">Due Date</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <!-- Grade Summary -->
+                    <div class="glass rounded-2xl p-5 border border-subtle">
+                        <h3 class="font-bold font-heading mb-4 flex items-center gap-2">
+                            <i data-lucide="bar-chart-2" class="w-4 h-4 text-green-400"></i> Grade Summary
+                        </h3>
+                        <div th:if="${enrollments == null or #lists.isEmpty(enrollments)}" class="text-center py-4">
+                            <p class="text-sm text-muted">No grades recorded yet.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <div th:each="e : ${enrollments}" th:if="${e.grade != null and !e.grade.isBlank()}"
+                                 class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] border border-subtle">
+                                <div class="min-w-0">
+                                    <p class="text-xs font-medium text-foreground truncate" th:text="${e.course.title}">Course</p>
+                                    <p class="text-xs text-muted-dark" th:text="'Sem ' + ${e.semester}">Sem 1</p>
+                                </div>
+                                <span class="text-sm font-bold text-teal-300 flex-shrink-0 ml-2" th:text="${e.grade}">A</span>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <!-- Quick Links -->
+                    <div class="glass rounded-2xl p-5 border border-subtle">
+                        <h3 class="font-bold font-heading mb-4 flex items-center gap-2">
+                            <i data-lucide="navigation" class="w-4 h-4 text-teal-400"></i> Quick Links
+                        </h3>
+                        <div class="space-y-2">
+                            <a th:href="@{/student/timetable}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-glass transition-colors text-sm text-secondary hover:text-foreground">
+                                <i data-lucide="calendar" class="w-4 h-4 text-teal-400"></i> My Timetable
+                            </a>
+                            <a th:href="@{/student/profile}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-glass transition-colors text-sm text-secondary hover:text-foreground">
+                                <i data-lucide="user" class="w-4 h-4 text-teal-400"></i> My Profile
+                            </a>
+                            <a th:href="@{/courses-page}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-glass transition-colors text-sm text-secondary hover:text-foreground">
+                                <i data-lucide="search" class="w-4 h-4 text-teal-400"></i> Browse Courses
+                            </a>
+                            <a th:href="@{/notifications}" class="flex items-center gap-3 p-3 rounded-xl hover:bg-glass transition-colors text-sm text-secondary hover:text-foreground">
+                                <i data-lucide="bell" class="w-4 h-4 text-teal-400"></i> Notifications
+                            </a>
+                        </div>
+                    </div>
+ 
+                </div>
+            </div>
+ 
+        </div>
+    </div>
+ 
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

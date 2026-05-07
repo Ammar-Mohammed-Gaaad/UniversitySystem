@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ 
+<head th:replace="~{fragments :: head('Lecturer Registration – Creativa')}"></head>
+ 
+<body class="bg-background text-foreground min-h-screen flex flex-col">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+ 
+    <div class="flex-1 flex items-center justify-center px-4 pt-24 pb-16">
+        <div class="w-full max-w-md animate-fade-in-up">
+ 
+            <div class="text-center mb-10">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(217,119,6,0.4)]">
+                    <i data-lucide="user-check" class="w-8 h-8 text-white"></i>
+                </div>
+                <h1 class="text-3xl font-bold font-heading">Lecturer Registration</h1>
+                <p class="text-muted mt-2 text-sm">Create your Creativa lecturer account</p>
+            </div>
+ 
+            <div id="errorBox" class="hidden mb-6 bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-2xl flex items-center gap-3">
+                <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+                <span class="text-sm font-medium" id="errorMsg">Registration failed.</span>
+            </div>
+ 
+            <div class="glass rounded-3xl border border-subtle p-8">
+                <div class="space-y-4">
+ 
+                    <div>
+                        <label class="block text-sm font-medium text-secondary mb-2">Full Name</label>
+                        <input type="text" id="name" required placeholder="e.g. Dr. Fatima Al-Zahra"
+                               class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 outline-none transition text-sm">
+                    </div>
+ 
+                    <div>
+                        <label class="block text-sm font-medium text-secondary mb-2">Email Address</label>
+                        <input type="email" id="email" required placeholder="lecturer@university.edu"
+                               class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 outline-none transition text-sm">
+                    </div>
+ 
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-secondary mb-2">Academic Title</label>
+                            <select id="title" class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground focus:border-amber-500/50 outline-none appearance-none text-sm">
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Assistant Professor">Asst. Professor</option>
+                                <option value="Associate Professor">Assoc. Professor</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Dr.">Dr.</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-secondary mb-2">Department</label>
+                            <input type="text" id="department" placeholder="e.g. Computer Science"
+                                   class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 outline-none transition text-sm">
+                        </div>
+                    </div>
+ 
+                    <div>
+                        <label class="block text-sm font-medium text-secondary mb-2">Office Hours</label>
+                        <input type="text" id="officeHours" placeholder="e.g. Sun & Tue 10:00-12:00"
+                               class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 outline-none transition text-sm">
+                    </div>
+ 
+                    <div>
+                        <label class="block text-sm font-medium text-secondary mb-2">Password</label>
+                        <input type="password" id="password" required placeholder="Min 6 characters"
+                               class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 outline-none transition text-sm">
+                    </div>
+ 
+                    <button onclick="register()" id="regBtn"
+                            class="w-full py-3 bg-gradient-to-r from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(217,119,6,0.3)] flex items-center justify-center gap-2">
+                        <i data-lucide="user-plus" class="w-4 h-4"></i> Create Lecturer Account
+                    </button>
+                </div>
+            </div>
+ 
+            <div class="mt-6 text-center">
+                <p class="text-sm text-muted">
+                    Already have an account? <a th:href="@{/login}" class="text-teal-400 hover:text-teal-300 font-semibold transition-colors">Sign In</a>
+                </p>
+                <p class="text-sm text-muted mt-2">
+                    Student? <a th:href="@{/register}" class="text-teal-400 hover:text-teal-300 font-semibold transition-colors">Register as Student</a>
+                </p>
+            </div>
+        </div>
+    </div>
+ 
+    <footer th:replace="~{fragments :: footer}"></footer>
+ 
+    <script>
+        async function register() {
+            const btn = document.getElementById('regBtn');
+            btn.disabled = true;
+ 
+            const body = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                title: document.getElementById('title').value,
+                department: document.getElementById('department').value || 'General',
+                officeHours: document.getElementById('officeHours').value
+            };
+ 
+            try {
+                const res = await fetch('/api/auth/register/lecturer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/login';
+                    form.innerHTML = `<input name="username" value="${body.email}"><input name="password" value="${body.password}">`;
+                    document.body.appendChild(form);
+                    form.submit();
+                } else {
+                    showError(data.error || 'Registration failed.');
+                    btn.disabled = false;
+                }
+            } catch (e) {
+                showError('Network error. Please try again.');
+                btn.disabled = false;
+            }
+        }
+ 
+        function showError(msg) {
+            const box = document.getElementById('errorBox');
+            document.getElementById('errorMsg').textContent = msg;
+            box.classList.remove('hidden');
+            box.classList.add('flex');
+        }
+    </script>
+</body>
+</html>

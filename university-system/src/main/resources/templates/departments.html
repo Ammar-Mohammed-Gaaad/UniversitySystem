@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Departments â€” Creativa')}"></head>
+
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Header -->
+            <div class="mb-10 animate-fade-in-up">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-teal-600 to-teal-800 glow-teal">
+                        <i data-lucide="building-2" class="w-6 h-6 text-foreground"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl sm:text-4xl font-bold font-heading">Departments</h1>
+                        <p class="text-sm text-muted mt-0.5">Explore academic departments and their courses</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${#lists.isEmpty(departments)}" class="flex flex-col items-center justify-center py-24 text-center animate-fade-in">
+                <div class="w-24 h-24 rounded-3xl flex items-center justify-center mb-6 bg-teal-600/10 border border-teal-500/20 glow-teal">
+                    <i data-lucide="search-x" class="w-12 h-12 text-teal-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-3 font-heading">No Departments Available</h3>
+                <p class="text-muted max-w-md text-lg">There are no departments in the system yet. Check back later.</p>
+            </div>
+
+            <!-- Departments Grid -->
+            <div th:if="${!#lists.isEmpty(departments)}" class="animate-fade-in-up delay-100">
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="text-sm text-muted-dark">Showing</span>
+                    <span class="text-sm font-bold text-teal-400" th:text="${#lists.size(departments)}">0</span>
+                    <span class="text-sm text-muted-dark">departments</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Department Card -->
+                    <div th:each="dept : ${departments}" class="group rounded-2xl overflow-hidden bg-bgCard border border-subtle hover:border-teal-500/40 transition-all duration-500 hover:shadow-[0_0_30px_rgba(15,118,110,0.12)] hover:-translate-y-1">
+                        <div class="p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="w-12 h-12 rounded-2xl flex items-center justify-center bg-teal-600/20 border border-teal-500/20 group-hover:border-teal-500/50 transition-all">
+                                    <i data-lucide="building-2" class="w-6 h-6 text-teal-400"></i>
+                                </div>
+                                <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-teal-600/10 border border-teal-500/20">
+                                    <i data-lucide="book-open" class="w-3.5 h-3.5 text-teal-400"></i>
+                                    <span class="text-xs font-bold text-teal-400" th:text="${#lists.size(dept.courses)} + ' Courses'">0 Courses</span>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold mb-2 font-heading group-hover:text-teal-300 transition-colors" th:text="${dept.name}">Department Name</h3>
+                            
+                            <div th:if="${dept.headOfDepartment != null}" class="flex items-center gap-2.5 text-sm text-muted mb-4">
+                                <div class="w-7 h-7 rounded-lg flex items-center justify-center bg-teal-600/10">
+                                    <i data-lucide="user" class="w-3.5 h-3.5 text-teal-400"></i>
+                                </div>
+                                <span th:text="'Head: ' + ${dept.headOfDepartment.name}">Head Name</span>
+                            </div>
+
+                            <!-- Course List Preview -->
+                            <div th:if="${!#lists.isEmpty(dept.courses)}" class="mt-4 pt-4 border-t border-subtle space-y-2">
+                                <div th:each="course : ${dept.courses}" class="flex items-center justify-between p-2 rounded-lg hover:bg-glass transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs font-mono font-bold text-teal-400 bg-teal-600/15 px-2 py-1 rounded" th:text="${course.coursecode}">CODE</span>
+                                        <span class="text-sm font-medium truncate max-w-[120px]" th:text="${course.title}">Title</span>
+                                    </div>
+                                    <span class="text-xs text-muted-dark font-medium" th:text="${course.creditHours} + ' hrs'">3 hrs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+
+</html>
+
+

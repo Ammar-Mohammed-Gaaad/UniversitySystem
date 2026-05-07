@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments :: head('Courses â€” Creativa')}"></head>
+
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div th:replace="~{fragments :: toasts}"></div>
+
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Header -->
+            <div class="mb-10 animate-fade-in-up">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-teal-600 to-teal-800 glow-teal">
+                        <i data-lucide="book-open" class="w-6 h-6 text-foreground"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl sm:text-4xl font-bold font-heading">Course Catalog</h1>
+                        <p class="text-sm text-muted mt-0.5">Browse all available courses</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="glass p-4 rounded-2xl mb-8 flex flex-col md:flex-row gap-4 border border-subtle animate-fade-in-up delay-100">
+                <div class="flex-1 relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="w-5 h-5 text-muted-dark"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search by course code or title..." class="w-full pl-11 pr-4 py-2.5 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-500 focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all outline-none">
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <select id="departmentFilter" class="px-4 py-2.5 bg-glass border border-subtle rounded-xl text-foreground focus:ring-2 focus:ring-teal-500/50 outline-none appearance-none min-w-[150px]">
+                        <option value="">All Departments</option>
+                        <option th:each="dept : ${departments}" th:value="${dept.name}" th:text="${dept.name}">Department</option>
+                    </select>
+                    
+                    <select id="creditsFilter" class="px-4 py-2.5 bg-glass border border-subtle rounded-xl text-foreground focus:ring-2 focus:ring-teal-500/50 outline-none appearance-none min-w-[120px]">
+                        <option value="">All Credits</option>
+                        <option value="1">1 Credit</option>
+                        <option value="2">2 Credits</option>
+                        <option value="3">3 Credits</option>
+                        <option value="4">4 Credits</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${#lists.isEmpty(courses)}" class="flex flex-col items-center justify-center py-24 text-center animate-fade-in">
+                <div class="w-24 h-24 rounded-3xl flex items-center justify-center mb-6 bg-teal-600/10 border border-teal-500/20 glow-teal">
+                    <i data-lucide="search-x" class="w-12 h-12 text-teal-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-3 font-heading">No Courses Available</h3>
+                <p class="text-muted max-w-md text-lg">There are no courses in the system yet. Check back later.</p>
+            </div>
+
+            <!-- Courses Grid -->
+            <div th:if="${!#lists.isEmpty(courses)}" class="animate-fade-in-up delay-200">
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="text-sm text-muted-dark">Showing</span>
+                    <span id="courseCountDisplay" class="text-sm font-bold text-teal-400" th:text="${#lists.size(courses)}">0</span>
+                    <span class="text-sm text-muted-dark">courses</span>
+                    <span sec:authorize="hasRole('STUDENT')" class="ml-auto text-xs text-muted-dark flex items-center gap-1">
+                        <i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-400"></i> Green = already enrolled
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="coursesContainer">
+                    <!-- Course Card -->
+                    <div th:each="course : ${courses}"
+                         th:data-title="${#strings.toLowerCase(course.title)}"
+                         th:data-code="${#strings.toLowerCase(course.coursecode)}"
+                         th:data-dept="${course.department != null ? course.department.name : ''}"
+                         th:data-credits="${course.creditHours}"
+                         th:classappend="${enrolledIds != null and #lists.contains(enrolledIds, course.id)} ? 'ring-1 ring-green-500/30' : ''"
+                         class="course-card group relative rounded-2xl overflow-hidden bg-bgCard border border-subtle hover:border-teal-500/40 transition-all duration-500 hover:shadow-[0_0_30px_rgba(15,118,110,0.15)] hover:-translate-y-1.5">
+
+                        <!-- Already-enrolled stripe -->
+                        <div th:if="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
+                             class="h-1 w-full bg-gradient-to-r from-green-600 via-green-400 to-green-500"></div>
+                        <div th:unless="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
+                             class="h-1 w-full bg-gradient-to-r from-teal-800 via-teal-600 to-teal-400 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div class="p-6 relative z-10">
+                            <!-- Header row: code + enrolled badge -->
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-teal-600/15 border border-teal-500/25 group-hover:bg-teal-600/25 transition-all">
+                                    <i data-lucide="book-open" class="w-3.5 h-3.5 text-teal-400"></i>
+                                    <span class="text-xs font-bold text-teal-400 tracking-wider uppercase" th:text="${course.coursecode}">CODE</span>
+                                </div>
+                                <!-- Enrolled badge -->
+                                <span th:if="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
+                                      class="inline-flex items-center gap-1 text-xs font-bold text-green-400 bg-green-600/15 border border-green-500/25 px-2 py-1 rounded-full">
+                                    <i data-lucide="check" class="w-3 h-3"></i> Enrolled
+                                </span>
+                            </div>
+
+                            <!-- Title -->
+                            <h3 class="text-lg font-bold mb-3 font-heading group-hover:text-teal-300 transition-colors leading-tight"
+                                th:text="${course.title}">Course Title</h3>
+
+                            <!-- Details -->
+                            <div class="space-y-2 mt-4">
+                                <div class="flex items-center gap-2.5 text-sm text-muted">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center bg-teal-600/10">
+                                        <i data-lucide="clock" class="w-3.5 h-3.5 text-teal-400"></i>
+                                    </div>
+                                    <span th:text="${course.creditHours} + ' Credit Hours'">3 Credit Hours</span>
+                                </div>
+                                <div th:if="${course.lecturer != null}" class="flex items-center gap-2.5 text-sm text-muted">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center bg-teal-600/10">
+                                        <i data-lucide="user" class="w-3.5 h-3.5 text-teal-400"></i>
+                                    </div>
+                                    <span th:text="${course.lecturer.name}">Lecturer Name</span>
+                                </div>
+                                <div th:if="${course.department != null}" class="flex items-center gap-2.5 text-sm text-muted-dark">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center bg-blue-600/10">
+                                        <i data-lucide="building-2" class="w-3.5 h-3.5 text-blue-400"></i>
+                                    </div>
+                                    <span th:text="${course.department.name}">Department</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="px-6 pb-6 pt-2 relative z-10 flex gap-2">
+                            <!-- View Details â€” always visible -->
+                            <a th:href="@{/course-detail/{id}(id=${course.id})}" class="flex-1 py-2.5 bg-glass hover:bg-glass-hover text-secondary hover:text-foreground border border-subtle rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 text-sm">
+                                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Details
+                            </a>
+
+                            <!-- Already Enrolled â€” student only -->
+                            <div sec:authorize="hasRole('STUDENT')"
+                                 th:if="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
+                                 class="flex-1">
+                                <form th:action="@{/student/unenroll/{id}(id=${course.id})}" method="post" class="m-0">
+                                    <button type="submit"
+                                            class="w-full py-2.5 bg-green-600/15 hover:bg-red-600/20 text-green-400 hover:text-red-400 border border-green-500/25 hover:border-red-500/25 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 text-sm"
+                                            onclick="return confirm('Drop this course?')">
+                                        <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Enrolled
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Enroll Now â€” student not yet enrolled -->
+                            <div sec:authorize="hasRole('STUDENT')"
+                                 th:unless="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
+                                 class="flex-1">
+                                <form th:action="@{/student/enroll/{id}(id=${course.id})}" method="post" class="m-0">
+                                    <button type="submit"
+                                            class="w-full py-2.5 bg-teal-600/20 hover:bg-teal-600 text-teal-300 hover:text-foreground border border-teal-500/30 hover:border-teal-500 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 text-sm group-hover:shadow-[0_0_15px_rgba(15,118,110,0.3)]">
+                                        <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Enroll
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Guest â€” sign in to enroll -->
+                            <div sec:authorize="!isAuthenticated()" class="flex-1">
+                                <a th:href="@{/login}"
+                                   class="block py-2.5 bg-teal-600/10 hover:bg-teal-600/20 text-teal-400 border border-teal-500/20 rounded-xl font-semibold transition-all text-center text-sm">
+                                    Sign in
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="absolute inset-0 bg-gradient-to-br from-teal-600/5 via-transparent to-teal-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
+                    </div>
+                </div>
+
+                <div id="noResultsMsg" class="hidden text-center py-12">
+                    <p class="text-muted">No courses match your search criteria.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const deptFilter = document.getElementById('departmentFilter');
+            const creditsFilter = document.getElementById('creditsFilter');
+            const cards = document.querySelectorAll('.course-card');
+            const countDisplay = document.getElementById('courseCountDisplay');
+            const noResultsMsg = document.getElementById('noResultsMsg');
+
+            function filterCourses() {
+                if(!searchInput) return;
+                
+                const searchTerm = searchInput.value.toLowerCase();
+                const dept = deptFilter.value;
+                const credits = creditsFilter.value;
+                let visibleCount = 0;
+
+                cards.forEach(card => {
+                    const title = card.getAttribute('data-title');
+                    const code = card.getAttribute('data-code');
+                    const cDept = card.getAttribute('data-dept');
+                    const cCredits = card.getAttribute('data-credits');
+
+                    const matchesSearch = title.includes(searchTerm) || code.includes(searchTerm);
+                    const matchesDept = dept === '' || cDept === dept;
+                    const matchesCredits = credits === '' || cCredits === credits;
+
+                    if (matchesSearch && matchesDept && matchesCredits) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if(countDisplay) countDisplay.textContent = visibleCount;
+                if(noResultsMsg) noResultsMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            if(searchInput) {
+                searchInput.addEventListener('input', filterCourses);
+                deptFilter.addEventListener('change', filterCourses);
+                creditsFilter.addEventListener('change', filterCourses);
+            }
+        });
+    </script>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
+
+

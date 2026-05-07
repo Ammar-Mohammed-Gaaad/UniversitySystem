@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Lecturer Timetable â€” Creativa')}"></head>
+
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-6xl mx-auto">
+
+            <!-- Header -->
+            <div class="mb-8 flex items-center gap-4">
+                <div class="w-12 h-12 bg-teal-600/20 rounded-xl flex items-center justify-center border border-teal-500/30">
+                    <i data-lucide="calendar-clock" class="w-6 h-6 text-teal-400"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold font-heading">My Weekly Timetable</h1>
+                    <p class="text-muted text-sm mt-1">Schedule of all your teaching sessions.</p>
+                </div>
+            </div>
+
+            <div class="glass rounded-3xl border border-subtle overflow-hidden">
+                <div class="p-6 border-b border-subtle">
+                    <h3 class="text-lg font-bold font-heading">Weekly Schedule</h3>
+                </div>
+
+                <div th:if="${#lists.isEmpty(schedules)}" class="p-12 text-center">
+                    <div class="w-16 h-16 bg-glass rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="calendar-x" class="w-8 h-8 text-muted-dark"></i>
+                    </div>
+                    <p class="text-muted text-lg">You have no scheduled classes at the moment.</p>
+                </div>
+
+                <div th:if="${!#lists.isEmpty(schedules)}" class="overflow-x-auto">
+                    <!-- Simple list view for now, could be upgraded to CSS Grid calendar -->
+                    <table class="w-full text-left whitespace-nowrap">
+                        <thead class="bg-glass text-muted border-b border-subtle text-sm">
+                            <tr>
+                                <th class="px-6 py-4 font-semibold">Day</th>
+                                <th class="px-6 py-4 font-semibold">Time</th>
+                                <th class="px-6 py-4 font-semibold">Course</th>
+                                <th class="px-6 py-4 font-semibold">Room</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr th:each="schedule : ${schedules}" class="hover:bg-glass-subtle transition-colors">
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-glass text-secondary text-sm font-medium border border-subtle" th:text="${schedule.dayOfWeek}">Monday</span>
+                                </td>
+                                <td class="px-6 py-4 text-teal-300 font-medium" th:text="${schedule.startTime + ' - ' + schedule.endTime}">09:00 - 11:00</td>
+                                <td class="px-6 py-4">
+                                    <div th:if="${schedule.course != null}">
+                                        <div class="font-bold text-foreground text-sm" th:text="${schedule.course.title}">Course Title</div>
+                                        <div class="text-xs text-muted-dark" th:text="${schedule.course.coursecode}">CODE</div>
+                                    </div>
+                                    <span th:if="${schedule.course == null}" class="text-muted-dark">â€”</span>
+                                </td>
+                                <td class="px-6 py-4 text-muted text-sm flex items-center gap-1.5">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-blue-400"></i>
+                                    <span th:text="${schedule.room}">Room 101</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
+
+

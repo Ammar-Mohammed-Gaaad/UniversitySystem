@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ 
+<head th:replace="~{fragments :: head('My Profile – Creativa')}"></head>
+ 
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div th:replace="~{fragments :: toasts}"></div>
+ 
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-4xl mx-auto">
+ 
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center gap-2 text-sm text-muted-dark mb-8 animate-fade-in-up">
+                <a th:href="@{/student/dashboard}" class="hover:text-secondary transition-colors">Dashboard</a>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                <span class="text-teal-400 font-medium">My Profile</span>
+            </nav>
+ 
+            <!-- Profile Header -->
+            <div class="glass rounded-3xl p-8 mb-8 border border-subtle animate-fade-in-up">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                    <div class="w-24 h-24 bg-gradient-to-br from-teal-600 to-teal-800 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-teal-600/20">
+                        <span class="text-4xl font-bold font-heading text-white" th:text="${#strings.substring(student.name, 0, 1)}">S</span>
+                    </div>
+                    <div class="text-center sm:text-left flex-1">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-600/15 border border-teal-500/25 mb-2">
+                            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-teal-400"></i>
+                            <span class="text-xs font-bold text-teal-400">Student</span>
+                        </div>
+                        <h1 class="text-3xl font-bold font-heading" th:text="${student.name}">Student Name</h1>
+                        <p class="text-muted mt-1 flex flex-wrap items-center gap-3 justify-center sm:justify-start text-sm">
+                            <span th:text="${student.email}">email@uni.edu</span>
+                            <span class="text-muted-dark">·</span>
+                            <span th:text="'ID: ' + ${student.studentId}">STU-001</span>
+                        </p>
+                    </div>
+                    <div class="text-center glass rounded-2xl px-6 py-4 border border-teal-500/20">
+                        <p class="text-2xl font-bold text-teal-300" th:text="${student.gpa > 0 ? student.gpa : 'N/A'}">3.8</p>
+                        <p class="text-xs text-muted">GPA</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ 
+                <!-- Academic Info -->
+                <div class="glass rounded-3xl p-6 border border-subtle animate-fade-in-up delay-100">
+                    <h2 class="text-lg font-bold font-heading mb-5 flex items-center gap-2">
+                        <i data-lucide="award" class="w-5 h-5 text-teal-400"></i> Academic Info
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl bg-white/[0.03] border border-subtle">
+                            <p class="text-xs text-muted-dark uppercase tracking-wider mb-1">Major</p>
+                            <p class="font-semibold text-foreground" th:text="${student.major}">Computer Science</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/[0.03] border border-subtle">
+                            <p class="text-xs text-muted-dark uppercase tracking-wider mb-1">Enrollment Year</p>
+                            <p class="font-semibold text-foreground" th:text="${student.enrollmentYear}">2024</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/[0.03] border border-subtle">
+                            <p class="text-xs text-muted-dark uppercase tracking-wider mb-1">Total Credit Hours</p>
+                            <p class="font-semibold text-teal-300" th:text="${creditTotal + ' hours'}">0 hours</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-white/[0.03] border border-subtle">
+                            <p class="text-xs text-muted-dark uppercase tracking-wider mb-1">Enrolled Courses</p>
+                            <p class="font-semibold text-foreground" th:text="${enrolledCourses != null ? enrolledCourses.size() : 0} + ' courses'">0 courses</p>
+                        </div>
+                    </div>
+                </div>
+ 
+                <!-- Enrollment History -->
+                <div class="glass rounded-3xl p-6 border border-subtle animate-fade-in-up delay-200">
+                    <h2 class="text-lg font-bold font-heading mb-5 flex items-center gap-2">
+                        <i data-lucide="history" class="w-5 h-5 text-teal-400"></i> Grade History
+                    </h2>
+ 
+                    <div th:if="${enrollments == null or #lists.isEmpty(enrollments)}" class="text-center py-8">
+                        <i data-lucide="file-x" class="w-8 h-8 text-muted-dark mx-auto mb-2"></i>
+                        <p class="text-sm text-muted">No enrollment records yet.</p>
+                    </div>
+ 
+                    <div class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                        <div th:each="e : ${enrollments}" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-subtle">
+                            <div class="min-w-0 flex-1">
+                                <p class="text-sm font-medium text-foreground truncate" th:text="${e.course.title}">Course</p>
+                                <p class="text-xs text-muted-dark" th:text="${e.course.coursecode} + ' · Sem ' + ${e.semester}">CODE · Sem 1</p>
+                            </div>
+                            <span th:if="${e.grade != null and !e.grade.isBlank()}"
+                                  class="text-sm font-bold text-teal-300 ml-3 flex-shrink-0 bg-teal-600/15 px-2.5 py-1 rounded-lg"
+                                  th:text="${e.grade}">A</span>
+                            <span th:unless="${e.grade != null and !e.grade.isBlank()}"
+                                  class="text-xs text-muted-dark ml-3 flex-shrink-0">Pending</span>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+ 
+            <!-- Quick Navigation -->
+            <div class="mt-6 glass rounded-2xl p-5 border border-subtle animate-fade-in-up delay-300">
+                <div class="flex flex-wrap gap-3">
+                    <a th:href="@{/student/dashboard}" class="flex items-center gap-2 px-4 py-2 bg-glass hover:bg-glass-hover border border-subtle rounded-xl text-sm text-secondary hover:text-foreground transition-all">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4 text-teal-400"></i> Dashboard
+                    </a>
+                    <a th:href="@{/student/timetable}" class="flex items-center gap-2 px-4 py-2 bg-glass hover:bg-glass-hover border border-subtle rounded-xl text-sm text-secondary hover:text-foreground transition-all">
+                        <i data-lucide="calendar" class="w-4 h-4 text-teal-400"></i> Timetable
+                    </a>
+                    <a th:href="@{/courses-page}" class="flex items-center gap-2 px-4 py-2 bg-glass hover:bg-glass-hover border border-subtle rounded-xl text-sm text-secondary hover:text-foreground transition-all">
+                        <i data-lucide="book-open" class="w-4 h-4 text-teal-400"></i> Browse Courses
+                    </a>
+                </div>
+            </div>
+ 
+        </div>
+    </div>
+ 
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

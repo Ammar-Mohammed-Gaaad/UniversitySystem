@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Assignments â€” Creativa')}"></head>
+
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div th:replace="~{fragments :: toasts}"></div>
+
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- Breadcrumbs & Header -->
+            <div class="mb-8">
+                <nav class="flex items-center gap-2 text-sm text-muted-dark mb-4">
+                    <a th:href="@{/student/dashboard}" class="hover:text-secondary transition-colors">Dashboard</a>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    <span class="text-teal-400 font-medium" th:text="${course.coursecode}">CODE</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    <span class="text-secondary">Assignments</span>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-amber-600/20 rounded-xl flex items-center justify-center border border-amber-500/30">
+                        <i data-lucide="clipboard-edit" class="w-6 h-6 text-amber-400"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold font-heading" th:text="'Assignments: ' + ${course.title}">Assignments</h1>
+                        <p class="text-muted text-sm mt-1">View and submit coursework.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${successMessage}" data-toast class="bg-green-500/10 border border-green-500/30 text-green-400 p-4 rounded-xl mb-6 flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                <span th:text="${successMessage}">Success!</span>
+            </div>
+
+            <div th:if="${#lists.isEmpty(assignments)}" class="glass rounded-3xl p-12 text-center border border-subtle">
+                <div class="w-16 h-16 bg-glass rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="check-square" class="w-8 h-8 text-muted-dark"></i>
+                </div>
+                <h3 class="text-lg font-bold text-foreground mb-2">No Assignments</h3>
+                <p class="text-sm text-muted">You don't have any pending assignments for this course.</p>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(assignments)}" class="space-y-6">
+                <div th:each="assignment : ${assignments}" class="glass rounded-2xl border border-subtle overflow-hidden">
+                    
+                    <div class="p-6 border-b border-subtle">
+                        <div class="flex flex-col sm:flex-row justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-foreground mb-1" th:text="${assignment.title}">Title</h3>
+                                <div class="flex items-center gap-4 text-sm">
+                                    <span class="flex items-center gap-1.5 text-muted"><i data-lucide="calendar" class="w-4 h-4 text-teal-400"></i> Due: <span th:classappend="${assignment.dueDate.isBefore(#temporals.createNow()) ? 'text-red-400 font-medium' : 'text-secondary'}" th:text="${#temporals.format(assignment.dueDate, 'dd MMM yyyy HH:mm')}">Date</span></span>
+                                    <span class="flex items-center gap-1.5 text-muted"><i data-lucide="star" class="w-4 h-4 text-amber-400"></i> Score: <span class="text-secondary" th:text="${submissionMap.get(assignment.id) != null && submissionMap.get(assignment.id).grade != null ? submissionMap.get(assignment.id).grade + ' / ' + assignment.maxScore : 'Not Graded (/' + assignment.maxScore + ')'}"></span></span>
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <span th:if="${submissionMap.containsKey(assignment.id)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600/15 border border-green-500/30 text-green-400 rounded-lg text-sm font-medium">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Submitted
+                                </span>
+                                <span th:unless="${submissionMap.containsKey(assignment.id)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-600/15 border border-amber-500/30 text-amber-400 rounded-lg text-sm font-medium">
+                                    <i data-lucide="clock" class="w-4 h-4"></i> Pending
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-secondary text-sm whitespace-pre-wrap" th:text="${assignment.description}">Description</p>
+                    </div>
+
+                    <!-- Submission Section -->
+                    <div class="p-6 bg-glass-subtle">
+                        <!-- Already Submitted -->
+                        <div th:if="${submissionMap.containsKey(assignment.id)}" class="space-y-4">
+                            <h4 class="text-sm font-bold text-secondary flex items-center gap-2"><i data-lucide="file-check" class="w-4 h-4 text-green-400"></i> Your Submission</h4>
+                            <div class="bg-black/20 rounded-xl p-4 border border-subtle text-muted text-sm whitespace-pre-wrap" th:text="${submissionMap.get(assignment.id).content != null && !submissionMap.get(assignment.id).content.isEmpty() ? submissionMap.get(assignment.id).content : 'File submitted.'}">Content</div>
+                            
+                            <a th:if="${submissionMap.get(assignment.id).fileUrl != null}" th:href="${submissionMap.get(assignment.id).fileUrl}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/30 rounded-xl transition-colors text-sm font-medium">
+                                <i data-lucide="download" class="w-4 h-4"></i> View Attached File
+                            </a>
+
+                            <div th:if="${submissionMap.get(assignment.id).feedback != null && !submissionMap.get(assignment.id).feedback.isEmpty()}" class="mt-4 p-4 rounded-xl bg-teal-600/10 border border-teal-500/20">
+                                <h4 class="text-xs font-bold text-teal-400 uppercase tracking-wider mb-2">Lecturer Feedback</h4>
+                                <p class="text-sm text-secondary" th:text="${submissionMap.get(assignment.id).feedback}">Feedback text</p>
+                            </div>
+                        </div>
+
+                        <!-- Needs Submission Form -->
+                        <div th:unless="${submissionMap.containsKey(assignment.id)}">
+                            <form th:action="@{/student/assignment/{id}/submit(id=${assignment.id})}" method="post" enctype="multipart/form-data" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-secondary mb-1">Text Submission (Optional)</label>
+                                    <textarea name="content" rows="4" class="block w-full px-4 py-3 bg-card border border-subtle rounded-xl text-foreground text-sm focus:ring-2 focus:ring-teal-500/50 outline-none placeholder-gray-600" placeholder="Type your answer here..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-secondary mb-1">File Attachment (Optional)</label>
+                                    <input type="file" name="file" class="block w-full text-sm text-muted file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-teal-600/10 file:text-teal-400 hover:file:bg-teal-600/20 focus:outline-none">
+                                </div>
+                                <div class="flex justify-end pt-2">
+                                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-700 text-foreground font-semibold rounded-xl transition-all shadow-[0_0_15px_rgba(15,118,110,0.3)] flex items-center gap-2">
+                                        <i data-lucide="send" class="w-4 h-4"></i> Submit Work
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
+
+

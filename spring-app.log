@@ -1,0 +1,573 @@
+2026-05-07T02:49:16.248+03:00  INFO 10656 --- [main] c._.u.UniversitySystemApplication        : Starting UniversitySystemApplication using Java 21.0.10 with PID 10656 (A:\university-system\university-system\target\classes started by Amar in A:\university-system)
+2026-05-07T02:49:16.309+03:00  INFO 10656 --- [main] c._.u.UniversitySystemApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-05-07T02:49:21.543+03:00  INFO 10656 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-07T02:49:21.728+03:00  INFO 10656 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 125 ms. Found 10 JPA repository interfaces.
+2026-05-07T02:49:23.527+03:00  INFO 10656 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-05-07T02:49:23.566+03:00  INFO 10656 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-07T02:49:23.567+03:00  INFO 10656 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-05-07T02:49:23.984+03:00  INFO 10656 --- [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 7246 ms
+2026-05-07T02:49:24.489+03:00  INFO 10656 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-07T02:49:25.048+03:00  INFO 10656 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1e76afeb
+2026-05-07T02:49:25.050+03:00  INFO 10656 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-07T02:49:27.621+03:00  INFO 10656 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-07T02:49:35.526+03:00  INFO 10656 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-07T02:49:36.066+03:00  INFO 10656 --- [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-07T02:49:37.315+03:00  WARN 10656 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-07T02:49:37.608+03:00  INFO 10656 --- [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-07T02:49:38.075+03:00  INFO 10656 --- [main] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page template: index
+2026-05-07T02:49:38.247+03:00 DEBUG 10656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 79 mappings in 'requestMappingHandlerMapping'
+2026-05-07T02:49:38.526+03:00 DEBUG 10656 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**, /uploads/**] in 'resourceHandlerMapping'
+2026-05-07T02:49:38.563+03:00 DEBUG 10656 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 2 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-05-07T02:49:39.446+03:00 DEBUG 10656 --- [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-05-07T02:49:39.891+03:00  INFO 10656 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8083 (http) with context path '/'
+2026-05-07T02:49:39.898+03:00  INFO 10656 --- [main] c._.u.UniversitySystemApplication        : Started UniversitySystemApplication in 26.158 seconds (process running for 28.911)
+2026-05-07T02:50:30.555+03:00  INFO 10656 --- [http-nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-07T02:50:30.556+03:00  INFO 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-07T02:50:30.558+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-05-07T02:50:30.559+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-05-07T02:50:30.562+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4a0dd851
+2026-05-07T02:50:30.564+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@3e7c66b3
+2026-05-07T02:50:30.569+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-05-07T02:50:30.570+03:00  INFO 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 14 ms
+2026-05-07T02:50:30.655+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:50:30.708+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:50:30.800+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:50:32.209+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:50:32.225+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:50:32.262+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:50:32.305+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:50:33.409+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/login", parameters={}
+2026-05-07T02:50:33.410+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#login()
+2026-05-07T02:50:33.413+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.v.ContentNegotiatingViewResolver : Selected '*/*' given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8]
+2026-05-07T02:50:33.587+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:50:36.970+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/register", parameters={}
+2026-05-07T02:50:36.971+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#register()
+2026-05-07T02:50:36.975+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:50:37.119+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:50:37.131+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:50:37.147+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:50:37.159+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:50:37.370+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/login", parameters={}
+2026-05-07T02:50:37.371+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#login()
+2026-05-07T02:50:37.377+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected '*/*' given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8]
+2026-05-07T02:50:37.424+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:18.124+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register/student", parameters={}
+2026-05-07T02:51:18.126+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.AuthController#registerStudent(Map)
+2026-05-07T02:51:18.301+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [{name=Ammar Mohammed Gaad, email=1241517@creative.edu.eg, password=121212, major=Enginnering, enroll (truncated)...]
+2026-05-07T02:51:19.617+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-07T02:51:19.620+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{role=STUDENT, name=Ammar Mohammed Gaad, userId=11, token=eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMjQxNTE3Q (truncated)...]
+2026-05-07T02:51:19.651+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:20.126+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/student/dashboard", parameters={}
+2026-05-07T02:51:20.128+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentDashboard(Model, Principal)
+2026-05-07T02:51:20.421+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:20.525+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:20.526+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:20.530+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:20.645+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:20.758+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/favicon.ico", parameters={}
+2026-05-07T02:51:20.760+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:20.764+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found for path [favicon.ico]
+2026-05-07T02:51:20.768+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico for request '/favicon.ico'.]
+2026-05-07T02:51:20.772+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2026-05-07T02:51:20.781+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2026-05-07T02:51:20.813+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.webmvc.autoconfigure.error.BasicErrorController#error(HttpServletRequest)
+2026-05-07T02:51:20.824+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json;q=0.8', given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8] and supported [application/json, application/*+json]
+2026-05-07T02:51:20.825+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Thu May 07 02:51:20 EEST 2026, status=404, error=Not Found, path=/favicon.ico}]
+2026-05-07T02:51:20.840+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 404
+2026-05-07T02:51:30.713+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/departments-page", parameters={}
+2026-05-07T02:51:30.714+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#departmentsPage(Model)
+2026-05-07T02:51:30.724+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:30.788+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:30.791+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:30.794+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:30.917+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:34.528+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:51:34.528+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:51:34.552+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:34.635+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:34.636+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:34.645+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:34.709+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:36.592+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:51:36.592+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:51:36.594+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:36.627+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:36.630+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:36.633+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:36.635+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:43.652+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:51:43.656+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:51:43.685+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:43.725+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:43.726+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:43.734+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:43.754+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:44.896+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/departments-page", parameters={}
+2026-05-07T02:51:44.897+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#departmentsPage(Model)
+2026-05-07T02:51:44.905+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:44.938+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:44.939+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:44.944+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:44.987+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:47.609+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:51:47.609+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:51:47.610+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:47.627+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:47.643+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:47.645+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:47.652+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:51.683+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/student/timetable", parameters={}
+2026-05-07T02:51:51.685+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentTimetable(Model, Principal)
+2026-05-07T02:51:51.697+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:51.791+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:51.793+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:51.795+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:51.799+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:54.721+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:51:54.722+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:51:54.745+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:54.781+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:54.787+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:54.794+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:54.816+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:57.676+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/student/enroll/4", parameters={masked}
+2026-05-07T02:51:57.677+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#enrollCourse(Long, Principal, RedirectAttributes)
+2026-05-07T02:51:57.994+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:51:57.998+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:51:58.005+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:51:58.010+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:51:58.076+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:58.128+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:58.129+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:58.131+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:58.142+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:59.331+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/student/enroll/2", parameters={masked}
+2026-05-07T02:51:59.331+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#enrollCourse(Long, Principal, RedirectAttributes)
+2026-05-07T02:51:59.721+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:51:59.722+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:51:59.728+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:51:59.729+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:51:59.784+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:51:59.846+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:51:59.847+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:51:59.850+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:51:59.874+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:00.985+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/student/enroll/3", parameters={masked}
+2026-05-07T02:52:00.987+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#enrollCourse(Long, Principal, RedirectAttributes)
+2026-05-07T02:52:01.136+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:52:01.138+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:52:01.143+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:52:01.143+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:52:01.161+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:01.202+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:01.205+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:01.208+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:01.219+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:02.616+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:52:02.617+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:52:02.635+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:02.667+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:02.671+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:02.675+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:02.687+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:04.124+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/student/profile", parameters={}
+2026-05-07T02:52:04.124+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentProfile(Model, Principal)
+2026-05-07T02:52:04.137+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:04.207+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:04.208+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:04.209+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:04.212+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:08.137+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/student/dashboard", parameters={}
+2026-05-07T02:52:08.137+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentDashboard(Model, Principal)
+2026-05-07T02:52:08.176+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:08.195+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:08.205+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:08.207+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:08.209+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:14.008+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/student/course/4/assignments", parameters={}
+2026-05-07T02:52:14.009+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentAssignments(Long, Model, Principal)
+2026-05-07T02:52:14.039+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:14.089+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:14.150+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:14.150+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:14.152+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:19.843+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:52:19.844+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:52:19.845+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:19.851+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:19.898+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:19.899+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:19.901+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:21.572+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/register", parameters={}
+2026-05-07T02:52:21.572+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#register()
+2026-05-07T02:52:21.575+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:21.614+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:21.614+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:21.616+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:21.619+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:22.930+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/register/lecturer", parameters={}
+2026-05-07T02:52:22.930+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#registerLecturer()
+2026-05-07T02:52:22.932+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:52:22.992+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:52:23.010+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:52:23.012+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:52:23.013+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:15.930+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register/lecturer", parameters={}
+2026-05-07T02:53:15.930+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.AuthController#registerLecturer(Map)
+2026-05-07T02:53:15.931+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [{name=Samah, email=samah@ceriativa.edu.eg, password=121212, title=Lecturer, department=Enginner, off (truncated)...]
+2026-05-07T02:53:16.101+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-05-07T02:53:16.101+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{role=LECTURER, name=Samah, userId=2, token=eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzYW1haEBjZXJpYXRpdmEuZWR (truncated)...]
+2026-05-07T02:53:16.102+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:16.215+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/dashboard", parameters={}
+2026-05-07T02:53:16.216+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerDashboard(Model, Principal)
+2026-05-07T02:53:16.228+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:16.292+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:16.310+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:16.314+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:16.317+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:27.312+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/dashboard", parameters={}
+2026-05-07T02:53:27.312+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerDashboard(Model, Principal)
+2026-05-07T02:53:27.323+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:27.360+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:27.362+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:27.362+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:27.369+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:31.015+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:53:31.015+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:53:31.033+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:31.065+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:31.065+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:31.066+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:31.070+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:32.999+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/course-detail/1", parameters={}
+2026-05-07T02:53:33.000+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#courseDetail(Long, Model, Principal)
+2026-05-07T02:53:33.115+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:33.167+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:33.173+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:33.174+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:33.177+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:37.102+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/course-detail/4", parameters={}
+2026-05-07T02:53:37.104+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#courseDetail(Long, Model, Principal)
+2026-05-07T02:53:37.137+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:37.152+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:37.167+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:37.167+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:37.173+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:44.894+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:53:44.895+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:53:44.896+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:44.902+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:44.926+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:44.926+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:44.929+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:46.385+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/register", parameters={}
+2026-05-07T02:53:46.386+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#register()
+2026-05-07T02:53:46.387+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:46.407+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:46.420+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:46.422+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:46.425+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:50.248+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/login", parameters={}
+2026-05-07T02:53:50.249+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#login()
+2026-05-07T02:53:50.250+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:50.263+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:50.283+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:50.283+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:50.284+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:53.754+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/admin/dashboard", parameters={}
+2026-05-07T02:53:53.755+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#adminDashboard(Model)
+2026-05-07T02:53:53.949+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:53:54.081+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:53:54.082+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:53:54.087+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:53:54.133+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:09.256+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:54:09.257+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:54:09.276+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:09.301+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:09.307+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:09.308+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:09.311+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:10.936+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/course-detail/1", parameters={}
+2026-05-07T02:54:10.937+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#courseDetail(Long, Model, Principal)
+2026-05-07T02:54:10.982+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:11.015+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:11.017+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:11.018+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:11.025+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:16.658+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/course-detail/2", parameters={}
+2026-05-07T02:54:16.658+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#courseDetail(Long, Model, Principal)
+2026-05-07T02:54:16.692+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:16.697+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:16.746+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:16.747+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:16.752+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:21.810+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/departments-page", parameters={}
+2026-05-07T02:54:21.812+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#departmentsPage(Model)
+2026-05-07T02:54:21.818+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:21.847+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:21.850+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:21.857+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:21.869+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:23.904+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/admin/dashboard", parameters={}
+2026-05-07T02:54:23.904+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#adminDashboard(Model)
+2026-05-07T02:54:23.954+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:23.986+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:23.986+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:23.990+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:24.003+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:49.632+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/admin/courses", parameters={masked}
+2026-05-07T02:54:49.632+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#addCourse(String, String, String, Long, Long, RedirectAttributes)
+2026-05-07T02:54:49.888+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:54:49.888+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:54:49.893+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/admin/dashboard", parameters={}
+2026-05-07T02:54:49.893+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#adminDashboard(Model)
+2026-05-07T02:54:49.939+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:49.983+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:49.983+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:49.988+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:50.023+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:53.661+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:54:53.664+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:54:53.666+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:53.672+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:53.696+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:53.697+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:53.700+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:55.054+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/register", parameters={}
+2026-05-07T02:54:55.054+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#register()
+2026-05-07T02:54:55.056+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:55.058+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:55.092+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:55.094+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:55.096+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:57.835+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/login", parameters={}
+2026-05-07T02:54:57.835+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#login()
+2026-05-07T02:54:57.836+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:54:57.855+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:54:57.870+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:54:57.871+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:54:57.872+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:00.954+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/dashboard", parameters={}
+2026-05-07T02:55:00.955+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerDashboard(Model, Principal)
+2026-05-07T02:55:00.981+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:01.016+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:01.016+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:01.017+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:01.019+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:06.456+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/grades", parameters={}
+2026-05-07T02:55:06.456+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerGrades(Long, Model, Principal)
+2026-05-07T02:55:06.472+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:06.520+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:06.579+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:06.581+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:06.583+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:10.915+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/assignments", parameters={}
+2026-05-07T02:55:10.916+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerAssignments(Long, Model)
+2026-05-07T02:55:10.924+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:11.005+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:11.022+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:11.023+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:11.026+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:33.314+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/lecturer/course/5/assignments", parameters={masked}
+2026-05-07T02:55:33.316+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#createAssignment(Long, String, String, String, int, RedirectAttributes)
+2026-05-07T02:55:33.388+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:55:33.389+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:55:33.393+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/assignments", parameters={}
+2026-05-07T02:55:33.393+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerAssignments(Long, Model)
+2026-05-07T02:55:33.420+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:33.457+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:33.457+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:33.459+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:33.483+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:36.967+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/assignment/1/submissions", parameters={}
+2026-05-07T02:55:36.968+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerSubmissions(Long, Model)
+2026-05-07T02:55:36.979+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:37.076+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:37.099+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:37.100+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:37.102+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:41.168+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/assignments", parameters={}
+2026-05-07T02:55:41.169+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerAssignments(Long, Model)
+2026-05-07T02:55:41.178+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:41.187+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:41.206+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:41.207+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:41.210+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:44.330+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/materials", parameters={}
+2026-05-07T02:55:44.331+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerMaterials(Long, Model)
+2026-05-07T02:55:44.339+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:44.407+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:44.420+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:44.422+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:44.425+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:53.864+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/lecturer/course/5/materials", parameters={multipart}
+2026-05-07T02:55:53.951+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#uploadMaterial(Long, String, String, MultipartFile, RedirectAttributes)
+2026-05-07T02:55:54.556+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:55:54.558+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:55:54.562+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/materials", parameters={}
+2026-05-07T02:55:54.562+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerMaterials(Long, Model)
+2026-05-07T02:55:54.570+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:55:54.577+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:55:54.598+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:55:54.600+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:55:54.601+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:12.733+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/lecturer/course/5/materials", parameters={multipart}
+2026-05-07T02:56:12.749+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#uploadMaterial(Long, String, String, MultipartFile, RedirectAttributes)
+2026-05-07T02:56:12.926+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:56:12.928+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:56:12.932+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/materials", parameters={}
+2026-05-07T02:56:12.933+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerMaterials(Long, Model)
+2026-05-07T02:56:13.123+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:13.138+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:13.157+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:13.159+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:13.160+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:16.025+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/materials", parameters={}
+2026-05-07T02:56:16.026+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerMaterials(Long, Model)
+2026-05-07T02:56:16.033+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:16.044+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:16.063+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:16.064+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:16.067+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:17.855+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/lecturer/course/5/materials", parameters={}
+2026-05-07T02:56:17.856+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#lecturerMaterials(Long, Model)
+2026-05-07T02:56:17.864+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:17.871+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:17.893+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:17.894+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:17.897+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:20.257+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/course-detail/5", parameters={}
+2026-05-07T02:56:20.257+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#courseDetail(Long, Model, Principal)
+2026-05-07T02:56:20.295+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:20.315+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:20.327+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:20.328+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:20.333+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:24.382+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:56:24.383+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:56:24.384+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:24.388+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:24.410+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:24.412+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:24.419+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:26.211+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/login", parameters={}
+2026-05-07T02:56:26.211+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#login()
+2026-05-07T02:56:26.212+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:26.219+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:26.254+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:26.255+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:26.257+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:31.191+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/student/dashboard", parameters={}
+2026-05-07T02:56:31.191+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentDashboard(Model, Principal)
+2026-05-07T02:56:31.202+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:31.231+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:31.236+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:31.236+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:31.238+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:34.752+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:56:34.753+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:56:34.773+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:34.805+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:34.810+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:34.811+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:34.812+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:38.812+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/student/enroll/5", parameters={masked}
+2026-05-07T02:56:38.812+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#enrollCourse(Long, Principal, RedirectAttributes)
+2026-05-07T02:56:39.003+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:56:39.004+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:56:39.008+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:56:39.009+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:56:39.048+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:39.084+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:39.086+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:39.086+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:39.088+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:41.983+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/student/dashboard", parameters={}
+2026-05-07T02:56:41.983+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentDashboard(Model, Principal)
+2026-05-07T02:56:42.000+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:42.012+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:42.027+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:42.027+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:42.034+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:44.607+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/course-detail/4", parameters={}
+2026-05-07T02:56:44.608+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#courseDetail(Long, Model, Principal)
+2026-05-07T02:56:44.639+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:44.650+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:44.674+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:44.675+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:44.677+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:49.522+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/student/course/4/assignments", parameters={}
+2026-05-07T02:56:49.524+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentAssignments(Long, Model, Principal)
+2026-05-07T02:56:49.537+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:56:49.542+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:56:49.568+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:56:49.570+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:56:49.577+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:04.275+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/student/course/5/assignments", parameters={}
+2026-05-07T02:57:04.276+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentAssignments(Long, Model, Principal)
+2026-05-07T02:57:04.341+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:04.368+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:04.375+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:04.376+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:04.378+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:22.467+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/student/assignment/1/submit", parameters={multipart}
+2026-05-07T02:57:22.485+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#submitAssignment(Long, String, MultipartFile, Principal, RedirectAttributes)
+2026-05-07T02:57:22.660+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.view.RedirectView        : View name [redirect:], model {}
+2026-05-07T02:57:22.662+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 302 FOUND
+2026-05-07T02:57:22.664+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/student/course/5/assignments", parameters={}
+2026-05-07T02:57:22.666+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentAssignments(Long, Model, Principal)
+2026-05-07T02:57:22.677+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:22.694+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:22.712+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:22.714+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:22.716+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:26.025+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/student/course/5/assignments", parameters={}
+2026-05-07T02:57:26.025+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentAssignments(Long, Model, Principal)
+2026-05-07T02:57:26.037+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:26.061+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:26.074+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:26.074+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:26.075+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:31.432+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/course-detail/5", parameters={}
+2026-05-07T02:57:31.434+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#courseDetail(Long, Model, Principal)
+2026-05-07T02:57:31.471+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:31.505+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:31.511+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:31.512+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:31.516+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:37.235+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/student/timetable", parameters={}
+2026-05-07T02:57:37.235+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentTimetable(Model, Principal)
+2026-05-07T02:57:37.296+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:37.302+03:00 DEBUG 10656 --- [http-nio-8083-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:37.325+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:37.326+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:37.328+03:00 DEBUG 10656 --- [http-nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:39.761+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/courses-page", parameters={}
+2026-05-07T02:57:39.762+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#coursesPage(Model, Principal)
+2026-05-07T02:57:39.777+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:39.808+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:39.810+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:39.813+03:00 DEBUG 10656 --- [http-nio-8083-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:39.818+03:00 DEBUG 10656 --- [http-nio-8083-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:49.906+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/student/profile", parameters={}
+2026-05-07T02:57:49.906+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentProfile(Model, Principal)
+2026-05-07T02:57:49.917+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:49.925+03:00 DEBUG 10656 --- [http-nio-8083-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:49.947+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:49.949+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:49.950+03:00 DEBUG 10656 --- [http-nio-8083-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:56.288+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/student/dashboard", parameters={}
+2026-05-07T02:57:56.288+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#studentDashboard(Model, Principal)
+2026-05-07T02:57:56.306+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:57:56.347+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:57:56.348+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:57:56.348+03:00 DEBUG 10656 --- [http-nio-8083-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:57:56.354+03:00 DEBUG 10656 --- [http-nio-8083-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:58:02.847+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/", parameters={}
+2026-05-07T02:58:02.847+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com._Person.university_system.controllers.WebController#home()
+2026-05-07T02:58:02.848+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8]
+2026-05-07T02:58:02.861+03:00 DEBUG 10656 --- [http-nio-8083-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-05-07T02:58:02.880+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/css/style.css", parameters={}
+2026-05-07T02:58:02.884+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-05-07T02:58:02.888+03:00 DEBUG 10656 --- [http-nio-8083-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

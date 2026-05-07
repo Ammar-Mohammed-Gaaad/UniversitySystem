@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ 
+<head th:replace="~{fragments :: head('Sign In – Creativa')}"></head>
+ 
+<body class="bg-background text-foreground min-h-screen flex flex-col">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+ 
+    <div class="flex-1 flex items-center justify-center px-4 pt-24 pb-16">
+        <div class="w-full max-w-md animate-fade-in-up">
+ 
+            <!-- Logo -->
+            <div class="text-center mb-10">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-600 to-teal-800 flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(15,118,110,0.4)]">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
+                </div>
+                <h1 class="text-3xl font-bold font-heading">Welcome back</h1>
+                <p class="text-muted mt-2 text-sm">Sign in to your Creativa account</p>
+            </div>
+ 
+            <!-- Error Message -->
+            <div th:if="${param.error}" class="mb-6 bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-2xl flex items-center gap-3">
+                <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+                <span class="text-sm font-medium">Invalid email or password. Please try again.</span>
+            </div>
+ 
+            <!-- Logout Message -->
+            <div th:if="${param.logout}" class="mb-6 bg-green-500/10 border border-green-500/30 text-green-400 p-4 rounded-2xl flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+                <span class="text-sm font-medium">You have been signed out successfully.</span>
+            </div>
+ 
+            <!-- Login Form -->
+            <div class="glass rounded-3xl border border-subtle p-8">
+                <form th:action="@{/login}" method="post" class="space-y-5">
+ 
+                    <div>
+                        <label class="block text-sm font-medium text-secondary mb-2">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i data-lucide="mail" class="w-4 h-4 text-muted-dark"></i>
+                            </div>
+                            <input type="email" name="username" required autofocus
+                                   placeholder="you@university.edu"
+                                   class="w-full pl-11 pr-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+                        </div>
+                    </div>
+ 
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-sm font-medium text-secondary">Password</label>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i data-lucide="lock" class="w-4 h-4 text-muted-dark"></i>
+                            </div>
+                            <input type="password" name="password" id="passwordInput" required
+                                   placeholder="••••••••"
+                                   class="w-full pl-11 pr-11 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+                            <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-muted-dark hover:text-secondary transition-colors">
+                                <i data-lucide="eye" class="w-4 h-4" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+ 
+                    <button type="submit"
+                            class="w-full py-3 bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-700 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(15,118,110,0.3)] flex items-center justify-center gap-2">
+                        <i data-lucide="log-in" class="w-4 h-4"></i> Sign In
+                    </button>
+ 
+                </form>
+ 
+                <!-- Divider -->
+                <div class="flex items-center gap-3 my-6">
+                    <div class="flex-1 h-px bg-subtle"></div>
+                    <span class="text-xs text-muted-dark">or</span>
+                    <div class="flex-1 h-px bg-subtle"></div>
+                </div>
+ 
+                <!-- Role Hints -->
+                <div class="space-y-2 text-xs text-muted-dark text-center">
+                    <p>Admin account: <span class="text-teal-400 font-mono">admin@creativa.edu</span></p>
+                    <p>Students and lecturers use their registered email.</p>
+                </div>
+            </div>
+ 
+            <!-- Register Links -->
+            <div class="mt-6 text-center space-y-2">
+                <p class="text-sm text-muted">
+                    No student account? <a th:href="@{/register}" class="text-teal-400 hover:text-teal-300 font-semibold transition-colors">Register as Student</a>
+                </p>
+                <p class="text-sm text-muted">
+                    Lecturer? <a th:href="@{/register/lecturer}" class="text-amber-400 hover:text-amber-300 font-semibold transition-colors">Register as Lecturer</a>
+                </p>
+            </div>
+        </div>
+    </div>
+ 
+    <footer th:replace="~{fragments :: footer}"></footer>
+ 
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
+ 
