@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments :: head('Courses â€” Creativa')}"></head>
@@ -80,9 +80,9 @@
 
                         <!-- Already-enrolled stripe -->
                         <div th:if="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
-                             class="h-1 w-full bg-gradient-to-r from-green-600 via-green-400 to-green-500"></div>
+                             class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-green-600 via-green-400 to-green-500"></div>
                         <div th:unless="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
-                             class="h-1 w-full bg-gradient-to-r from-teal-800 via-teal-600 to-teal-400 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+                             class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-teal-800 via-teal-600 to-teal-400 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                         <div class="p-6 relative z-10">
                             <!-- Header row: code + enrolled badge -->

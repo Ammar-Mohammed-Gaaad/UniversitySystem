@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('Messages — Creativa')}"></head>
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-5xl mx-auto">
+            <div th:if="${successMessage}" class="animate-fade-in-up bg-green-500/10 border border-green-500/30 text-green-400 p-4 rounded-2xl mb-8 flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-5 h-5"></i><span th:text="${successMessage}"></span>
+            </div>
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-pink-600 to-pink-800"><i data-lucide="mail" class="w-6 h-6 text-white"></i></div>
+                <div><h1 class="text-3xl font-bold font-heading">Messages</h1><p class="text-sm text-muted">Send and receive direct messages</p></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1">
+                    <div class="glass rounded-3xl p-6 border border-subtle sticky top-24">
+                        <h2 class="text-lg font-bold font-heading mb-6 flex items-center gap-2"><i data-lucide="pen-square" class="w-5 h-5 text-pink-400"></i> New Message</h2>
+                        <form th:action="@{/messages/send}" method="post" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-secondary mb-1.5 uppercase tracking-wider">To</label>
+                                <select name="receiverEmail" required class="w-full bg-card border border-subtle rounded-xl px-4 py-2.5 text-foreground focus:border-pink-500/50 outline-none">
+                                    <option value="" disabled selected>-- Select --</option>
+                                    <optgroup label="Students"><option th:each="s : ${students}" th:value="${s.email}" th:text="${s.name}"></option></optgroup>
+                                    <optgroup label="Lecturers"><option th:each="l : ${lecturers}" th:value="${l.email}" th:text="${l.name}"></option></optgroup>
+                                </select>
+                            </div>
+                            <div><textarea name="content" required rows="4" placeholder="Type your message..." class="w-full bg-card border border-subtle rounded-xl px-4 py-3 text-foreground placeholder-gray-600 focus:border-pink-500/50 outline-none resize-none"></textarea></div>
+                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-pink-600 to-pink-800 hover:from-pink-500 hover:to-pink-700 text-white rounded-xl font-bold transition-all flex justify-center items-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Send</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="glass rounded-3xl border border-subtle overflow-hidden">
+                        <div class="p-6 border-b border-subtle bg-glass-subtle"><h2 class="text-xl font-bold font-heading flex items-center gap-2"><i data-lucide="inbox" class="w-5 h-5 text-pink-400"></i> All Messages</h2></div>
+                        <div th:if="${messages == null || messages.isEmpty()}" class="p-12 text-center"><i data-lucide="mail-x" class="w-12 h-12 text-muted-dark mx-auto mb-4"></i><p class="text-muted">No messages yet.</p></div>
+                        <div th:if="${messages != null && !messages.isEmpty()}" class="divide-y divide-subtle">
+                            <div th:each="msg : ${messages}" class="p-5 hover:bg-glass transition-colors">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center" th:classappend="${msg.senderEmail == currentUserEmail ? 'bg-teal-600/20' : 'bg-pink-600/20'}">
+                                        <i data-lucide="user" class="w-5 h-5" th:classappend="${msg.senderEmail == currentUserEmail ? 'text-teal-400' : 'text-pink-400'}"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <div class="flex items-center gap-2"><span class="font-medium text-foreground text-sm" th:text="${msg.senderName}"></span><i data-lucide="arrow-right" class="w-3 h-3 text-muted-dark"></i><span class="text-sm text-muted" th:text="${msg.receiverName}"></span></div>
+                                            <span class="text-xs text-muted-dark" th:text="${#temporals.format(msg.sentAt, 'dd MMM, HH:mm')}"></span>
+                                        </div>
+                                        <p class="text-foreground text-sm" th:text="${msg.content}"></p>
+                                        <span th:if="${msg.senderEmail == currentUserEmail}" class="inline-block mt-2 px-2 py-0.5 rounded bg-teal-500/10 text-teal-400 text-[10px] font-bold uppercase border border-teal-500/20">Sent</span>
+                                        <span th:if="${msg.senderEmail != currentUserEmail}" class="inline-block mt-2 px-2 py-0.5 rounded bg-pink-500/10 text-pink-400 text-[10px] font-bold uppercase border border-pink-500/20">Received</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Manage Clubs — Creativa')}"></head>
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-5xl mx-auto">
+            <div th:if="${successMessage}" class="animate-fade-in-up bg-green-500/10 border border-green-500/30 text-green-400 p-4 rounded-2xl mb-8 flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-5 h-5"></i><span th:text="${successMessage}"></span>
+            </div>
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-orange-600 to-orange-800"><i data-lucide="trophy" class="w-6 h-6 text-white"></i></div>
+                <div><h1 class="text-3xl font-bold font-heading">Manage Clubs</h1><p class="text-sm text-muted">Create and manage student organizations</p></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1">
+                    <div class="glass rounded-3xl p-6 border border-subtle sticky top-24">
+                        <h2 class="text-lg font-bold font-heading mb-6 flex items-center gap-2"><i data-lucide="plus-circle" class="w-5 h-5 text-orange-400"></i> Create Club</h2>
+                        <form th:action="@{/admin/clubs/create}" method="post" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-secondary mb-1.5 uppercase tracking-wider">Club Name</label>
+                                <input type="text" name="name" required placeholder="e.g. Robotics Club" class="w-full bg-card border border-subtle rounded-xl px-4 py-2.5 text-foreground placeholder-gray-600 focus:border-orange-500/50 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-secondary mb-1.5 uppercase tracking-wider">Description</label>
+                                <textarea name="description" rows="3" required placeholder="What is this club about?" class="w-full bg-card border border-subtle rounded-xl px-4 py-2.5 text-foreground placeholder-gray-600 focus:border-orange-500/50 outline-none resize-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-secondary mb-1.5 uppercase tracking-wider">Category</label>
+                                <input type="text" name="category" required placeholder="e.g. Technology, Sports, Arts" class="w-full bg-card border border-subtle rounded-xl px-4 py-2.5 text-foreground placeholder-gray-600 focus:border-orange-500/50 outline-none">
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-orange-800 hover:from-orange-500 hover:to-orange-700 text-white rounded-xl font-bold transition-all flex justify-center items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Create Club</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="glass rounded-3xl p-6 border border-subtle">
+                        <h3 class="text-lg font-bold font-heading mb-4 flex items-center gap-2"><i data-lucide="list" class="w-5 h-5 text-orange-400"></i> All Clubs</h3>
+                        <div th:if="${#lists.isEmpty(clubs)}" class="p-8 text-center text-muted">No clubs created yet.</div>
+                        <div class="space-y-3" th:if="${!#lists.isEmpty(clubs)}">
+                            <a th:each="club : ${clubs}" th:href="@{/club/{id}(id=${club.id})}" class="flex items-center justify-between p-4 rounded-xl bg-glass border border-subtle hover:border-orange-500/30 transition-all group">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center"><i data-lucide="flag" class="w-6 h-6 text-orange-400"></i></div>
+                                    <div>
+                                        <h4 class="font-bold text-foreground group-hover:text-orange-400 transition-colors" th:text="${club.name}">Club</h4>
+                                        <p class="text-xs text-muted-dark" th:text="${club.category}">Category</p>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-muted" th:text="${club.members != null ? club.members.size() : 0} + ' members'">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

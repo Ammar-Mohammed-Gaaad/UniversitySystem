@@ -86,16 +86,78 @@ h1, h2, h3, h4, h5, h6, .font-heading {
                     linear-gradient(90deg, rgba(15, 118, 110, 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
 }
-.nav-scrolled {
-  background: rgba(10, 10, 15, 0.92) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), 0 0 40px rgba(15, 118, 110, 0.05);
+
+/* ===== No Scrollbar Utility ===== */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
 }
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ===== Sidebar & Layout Transitions ===== */
+aside {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.content-wrapper {
+    transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
 @media (min-width: 768px) {
-  .content-wrapper {
-    padding-left: 260px;
-    transition: padding-left 0.3s ease;
-  }
-  body.sidebar-collapsed .content-wrapper {
-    padding-left: 80px;
-  }
+    .content-wrapper {
+        padding-left: 260px !important;
+    }
+    
+    body.sidebar-collapsed .content-wrapper {
+        padding-left: 0 !important;
+    }
+    
+    body.sidebar-collapsed aside {
+        transform: translateX(-100%);
+    }
+}
+
+/* ===== Animated Hamburger Button ===== */
+.hamburger-box {
+    width: 24px;
+    height: 18px;
+    position: relative;
+    cursor: pointer;
+}
+
+.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-teal-primary, #2dd4bf);
+    position: absolute;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(45, 212, 191, 0.4);
+}
+
+.hamburger-inner { top: 50%; transform: translateY(-50%); }
+.hamburger-inner::before { content: ""; top: -8px; }
+.hamburger-inner::after { content: ""; top: 8px; }
+
+.active .hamburger-inner { background-color: transparent; box-shadow: none; }
+.active .hamburger-inner::before { transform: rotate(45deg); top: 0; }
+.active .hamburger-inner::after { transform: rotate(-45deg); top: 0; }
+
+/* ===== Neon Glow Effects ===== */
+.neon-border {
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    box-shadow: 0 0 15px rgba(45, 212, 191, 0.1), inset 0 0 10px rgba(45, 212, 191, 0.05);
+}
+
+.neon-text {
+    color: #2dd4bf;
+    text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+}
+
+.sidebar-link-active {
+    background: rgba(45, 212, 191, 0.1);
+    border-right: 3px solid #2dd4bf;
+    color: #2dd4bf !important;
 }

@@ -4,6 +4,8 @@ import com._Person.university_system.AcademicStructure.*;
 import com._Person.university_system.operations.*;
 import com._Person.university_system.repositories.*;
 import com._Person.university_system.users.*;
+import com._Person.university_system.operations.Attendance.AttendanceStatus;
+import com._Person.university_system.operations.Exam.ExamStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -33,6 +36,10 @@ public class WebController {
     private final CourseMaterialRepository materialRepository;
     private final ScheduleRepository scheduleRepository;
     private final NotificationRepository notificationRepository;
+    private final AttendanceRepository attendanceRepository;
+    private final ExamRepository examRepository;
+    private final QuestionRepository questionRepository;
+    private final ExamSubmissionRepository examSubmissionRepository;
     private final PasswordEncoder passwordEncoder;
 
     public WebController(CourseRepository courseRepository, DepartmentRepository departmentRepository,
@@ -40,6 +47,8 @@ public class WebController {
                          EnrollmentRepository enrollmentRepository, AssignmentRepository assignmentRepository,
                          AssignmentSubmissionRepository submissionRepository, CourseMaterialRepository materialRepository,
                          ScheduleRepository scheduleRepository, NotificationRepository notificationRepository,
+                         AttendanceRepository attendanceRepository, ExamRepository examRepository,
+                         QuestionRepository questionRepository, ExamSubmissionRepository examSubmissionRepository,
                          PasswordEncoder passwordEncoder) {
         this.courseRepository = courseRepository;
         this.departmentRepository = departmentRepository;
@@ -51,6 +60,10 @@ public class WebController {
         this.materialRepository = materialRepository;
         this.scheduleRepository = scheduleRepository;
         this.notificationRepository = notificationRepository;
+        this.attendanceRepository = attendanceRepository;
+        this.examRepository = examRepository;
+        this.questionRepository = questionRepository;
+        this.examSubmissionRepository = examSubmissionRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -391,6 +404,107 @@ public class WebController {
         return "redirect:/student/dashboard";
     }
 
+    @GetMapping("/student/course/{id}/attendance")
+    public String studentAttendance(@PathVariable Long id, Model model, Principal principal) {
+        courseRepository.findById(id).ifPresent(course -> {
+            model.addAttribute("course", course);
+            if (principal != null) {
+                studentRepository.findByEmail(principal.getName()).ifPresent(student -> {
+                    List<Schedule> schedules = scheduleRepository.findByCourseId(id);
+                    List<Attendance> myAttendance = new ArrayList<>();
+                    for (Schedule s : schedules) {
+                        myAttendance.addAll(attendanceRepository.findBySchedule(s).stream()
+                            .filter(a -> a.getStudent().getID().equals(student.getID()))
+                            .toList());
+                    }
+                    myAttendance.sort((a,b) -> b.getDate().compareTo(a.getDate()));
+                    model.addAttribute("myAttendance", myAttendance);
+                    
+                    long present = myAttendance.stream().filter(a -> a.getStatus() == AttendanceStatus.PRESENT).count();
+                    long absent = myAttendance.stream().filter(a -> a.getStatus() == AttendanceStatus.ABSENT).count();
+                    long excused = myAttendance.stream().filter(a -> a.getStatus() == AttendanceStatus.EXCUSED).count();
+                    long total = present + absent + excused;
+                    
+                    model.addAttribute("presentCount", present);
+                    model.addAttribute("absentCount", absent);
+                    model.addAttribute("excusedCount", excused);
+                    model.addAttribute("attendancePercentage", total > 0 ? (present * 100 / total) : 100);
+                });
+            }
+        });
+        return "student-attendance";
+    }
+
+    @GetMapping("/student/course/{id}/exams")
+    public String studentExams(@PathVariable Long id, Model model, Principal principal) {
+        courseRepository.findById(id).ifPresent(course -> {
+            model.addAttribute("course", course);
+            List<Exam> exams = examRepository.findByCourseId(id);
+            model.addAttribute("exams", exams);
+            if (principal != null) {
+                studentRepository.findByEmail(principal.getName()).ifPresent(student -> {
+                    Map<Long, ExamSubmission> submissionMap = new HashMap<>();
+                    for (Exam e : exams) {
+                        examSubmissionRepository.findByExamIdAndStudentId(e.getId(), student.getID())
+                                .ifPresent(sub -> submissionMap.put(e.getId(), sub));
+                    }
+                    model.addAttribute("submissionMap", submissionMap);
+                });
+            }
+        });
+        return "student-exams";
+    }
+
+    @GetMapping("/student/exam/{id}/take")
+    public String takeExam(@PathVariable Long id, Model model, Principal principal) {
+        if (principal != null) {
+            studentRepository.findByEmail(principal.getName()).ifPresent(student -> {
+                examRepository.findById(id).ifPresent(exam -> {
+                    if (exam.getStatus() == ExamStatus.PUBLISHED) {
+                        model.addAttribute("exam", exam);
+                        model.addAttribute("student", student);
+                        boolean submitted = examSubmissionRepository.findByExamIdAndStudentId(id, student.getID()).isPresent();
+                        model.addAttribute("alreadySubmitted", submitted);
+                    }
+                });
+            });
+        }
+        return "student-take-exam";
+    }
+
+    @PostMapping("/student/exam/{id}/submit")
+    public String submitExam(@PathVariable Long id, @RequestParam Map<String, String> answers, Principal principal, RedirectAttributes ra) {
+        if (principal != null) {
+            studentRepository.findByEmail(principal.getName()).ifPresent(student -> {
+                examRepository.findById(id).ifPresent(exam -> {
+                    if (examSubmissionRepository.findByExamIdAndStudentId(id, student.getID()).isEmpty()) {
+                        int score = 0;
+                        int total = 0;
+                        for (Question q : exam.getQuestions()) {
+                            total += q.getPoints();
+                            String studentAnswer = answers.get("question_" + q.getId());
+                            if (studentAnswer != null && studentAnswer.equals(q.getCorrectAnswer())) {
+                                score += q.getPoints();
+                            }
+                        }
+                        ExamSubmission sub = new ExamSubmission();
+                        sub.setExam(exam);
+                        sub.setStudent(student);
+                        sub.setSubmissionTime(LocalDateTime.now());
+                        sub.setScore(score);
+                        sub.setTotalPossibleScore(total);
+                        examSubmissionRepository.save(sub);
+                        ra.addFlashAttribute("successMessage", "Exam submitted successfully! Score: " + score + "/" + total);
+                    } else {
+                        ra.addFlashAttribute("errorMessage", "You have already submitted this exam.");
+                    }
+                });
+            });
+        }
+        Long courseId = examRepository.findById(id).map(e -> e.getCourse().getId()).orElse(0L);
+        return "redirect:/student/course/" + courseId + "/exams";
+    }
+
     // =========================================================
     // LECTURER ROUTES
     // =========================================================
@@ -545,6 +659,130 @@ public class WebController {
             });
         }
         return "lecturer-timetable";
+    }
+
+    @GetMapping("/lecturer/course/{id}/attendance")
+    public String lecturerAttendance(@PathVariable Long id, @RequestParam(required = false) Long scheduleId, @RequestParam(required = false) String date, Model model) {
+        courseRepository.findById(id).ifPresent(course -> {
+            model.addAttribute("course", course);
+            List<Schedule> schedules = scheduleRepository.findByCourseId(id);
+            model.addAttribute("schedules", schedules);
+            
+            if (scheduleId != null) {
+                scheduleRepository.findById(scheduleId).ifPresent(schedule -> {
+                    model.addAttribute("selectedSchedule", schedule);
+                    LocalDate parsedDate = (date != null && !date.isEmpty()) ? LocalDate.parse(date) : LocalDate.now();
+                    model.addAttribute("selectedDate", parsedDate);
+                    
+                    List<Enrollment> enrollments = enrollmentRepository.findByCourseId(id);
+                    List<Student> students = enrollments.stream().map(Enrollment::getStudent).toList();
+                    model.addAttribute("students", students);
+                    
+                    List<Attendance> existingAttendance = attendanceRepository.findByScheduleAndDate(schedule, parsedDate);
+                    Map<Long, String> attendanceMap = new HashMap<>();
+                    for (Attendance a : existingAttendance) {
+                        attendanceMap.put(a.getStudent().getID(), a.getStatus().name());
+                    }
+                    model.addAttribute("attendanceMap", attendanceMap);
+                });
+            }
+        });
+        return "lecturer-attendance";
+    }
+
+    @PostMapping("/lecturer/course/{id}/attendance/save")
+    public String saveAttendance(@PathVariable Long id, @RequestParam Long scheduleId, @RequestParam String date, @RequestParam Map<String, String> params, RedirectAttributes ra) {
+        scheduleRepository.findById(scheduleId).ifPresent(schedule -> {
+            LocalDate parsedDate = LocalDate.parse(date);
+            params.forEach((key, value) -> {
+                if (key.startsWith("status_")) {
+                    Long studentId = Long.parseLong(key.substring(7));
+                    studentRepository.findById(studentId).ifPresent(student -> {
+                        Attendance attendance = attendanceRepository.findByScheduleAndStudentAndDate(schedule, student, parsedDate)
+                                .orElse(new Attendance(schedule, student, parsedDate, AttendanceStatus.PRESENT));
+                        attendance.setStatus(AttendanceStatus.valueOf(value));
+                        attendanceRepository.save(attendance);
+                    });
+                }
+            });
+            ra.addFlashAttribute("successMessage", "Attendance saved successfully!");
+        });
+        return "redirect:/lecturer/course/" + id + "/attendance?scheduleId=" + scheduleId + "&date=" + date;
+    }
+
+    @GetMapping("/lecturer/course/{id}/exams")
+    public String lecturerExams(@PathVariable Long id, Model model) {
+        courseRepository.findById(id).ifPresent(course -> {
+            model.addAttribute("course", course);
+            List<Exam> exams = examRepository.findByCourseId(id);
+            model.addAttribute("exams", exams);
+            Map<Long, Long> subCounts = new HashMap<>();
+            for (Exam e : exams) {
+                subCounts.put(e.getId(), (long) examSubmissionRepository.findByExamId(e.getId()).size());
+            }
+            model.addAttribute("subCounts", subCounts);
+        });
+        return "lecturer-exams";
+    }
+
+    @PostMapping("/lecturer/course/{id}/exams")
+    public String createExam(@PathVariable Long id, @RequestParam String title, @RequestParam(required = false) String description, @RequestParam String startTime, @RequestParam int durationMinutes, RedirectAttributes ra) {
+        courseRepository.findById(id).ifPresent(course -> {
+            Exam exam = new Exam();
+            exam.setTitle(title);
+            exam.setDescription(description);
+            exam.setStartTime(LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
+            exam.setDurationMinutes(durationMinutes);
+            exam.setCourse(course);
+            exam.setStatus(ExamStatus.DRAFT);
+            examRepository.save(exam);
+            ra.addFlashAttribute("successMessage", "Exam created!");
+        });
+        return "redirect:/lecturer/course/" + id + "/exams";
+    }
+
+    @GetMapping("/lecturer/exam/{id}")
+    public String manageExam(@PathVariable Long id, Model model) {
+        examRepository.findById(id).ifPresent(exam -> {
+            model.addAttribute("exam", exam);
+            model.addAttribute("course", exam.getCourse());
+        });
+        return "lecturer-exam-detail";
+    }
+
+    @PostMapping("/lecturer/exam/{id}/questions")
+    public String addQuestion(@PathVariable Long id, @RequestParam String text, @RequestParam String options, @RequestParam String correctAnswer, @RequestParam int points, RedirectAttributes ra) {
+        examRepository.findById(id).ifPresent(exam -> {
+            Question q = new Question();
+            q.setText(text);
+            q.setOptions(options);
+            q.setCorrectAnswer(correctAnswer);
+            q.setPoints(points);
+            q.setExam(exam);
+            questionRepository.save(q);
+            ra.addFlashAttribute("successMessage", "Question added!");
+        });
+        return "redirect:/lecturer/exam/" + id;
+    }
+
+    @PostMapping("/lecturer/exam/{id}/publish")
+    public String publishExam(@PathVariable Long id, RedirectAttributes ra) {
+        examRepository.findById(id).ifPresent(exam -> {
+            exam.setStatus(ExamStatus.PUBLISHED);
+            examRepository.save(exam);
+            ra.addFlashAttribute("successMessage", "Exam published!");
+        });
+        return "redirect:/lecturer/course/" + examRepository.findById(id).map(e -> e.getCourse().getId()).orElse(0L) + "/exams";
+    }
+
+    @GetMapping("/lecturer/exam/{id}/submissions")
+    public String examSubmissions(@PathVariable Long id, Model model) {
+        examRepository.findById(id).ifPresent(exam -> {
+            model.addAttribute("exam", exam);
+            model.addAttribute("course", exam.getCourse());
+            model.addAttribute("submissions", examSubmissionRepository.findByExamId(id));
+        });
+        return "lecturer-exam-submissions";
     }
 
     // =========================================================

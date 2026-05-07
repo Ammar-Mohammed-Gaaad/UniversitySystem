@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments :: head('Forum — Creativa')}"></head>
+
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div th:replace="~{fragments :: toasts}"></div>
+
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-4xl mx-auto">
+
+            <div th:if="${successMessage}" data-toast class="animate-fade-in-up bg-green-500/10 border border-green-500/30 text-green-400 p-4 rounded-2xl mb-8 flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+                <span class="font-medium" th:text="${successMessage}">Success!</span>
+            </div>
+
+            <!-- Header -->
+            <div class="flex items-center gap-3 mb-8">
+                <a th:href="@{/course-detail/{id}(id=${course.id})}" class="p-2 rounded-xl hover:bg-glass text-muted hover:text-foreground transition-all">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </a>
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-violet-600 to-violet-800 shadow-[0_0_20px_rgba(124,58,237,0.3)]">
+                    <i data-lucide="messages-square" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold font-heading">Discussion Forum</h1>
+                    <p class="text-sm text-muted" th:text="${course.title}">Course Name</p>
+                </div>
+            </div>
+
+            <!-- New Thread Form -->
+            <div sec:authorize="isAuthenticated()" class="glass rounded-3xl p-6 border border-subtle mb-8">
+                <h2 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-violet-400"></i> Start a Discussion
+                </h2>
+                <form th:action="@{/course/{id}/forum/thread(id=${course.id})}" method="post" class="space-y-4">
+                    <div>
+                        <input type="text" name="title" required placeholder="Discussion title..." class="w-full bg-card border border-subtle rounded-xl px-4 py-3 text-foreground placeholder-gray-600 focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/50 outline-none text-lg font-medium">
+                    </div>
+                    <div>
+                        <textarea name="content" required rows="3" placeholder="What's on your mind?" class="w-full bg-card border border-subtle rounded-xl px-4 py-3 text-foreground placeholder-gray-600 focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/50 outline-none resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-violet-600 to-violet-800 hover:from-violet-500 hover:to-violet-700 text-white rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(124,58,237,0.3)] flex items-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i> Post Discussion
+                    </button>
+                </form>
+            </div>
+
+            <!-- Thread List -->
+            <div class="space-y-4">
+                <div th:each="t : ${threads}" class="glass rounded-2xl p-6 border border-subtle hover:border-violet-500/30 transition-all group">
+                    <a th:href="@{/forum/thread/{id}(id=${t.id})}" class="block">
+                        <h3 class="text-lg font-bold text-foreground group-hover:text-violet-400 transition-colors mb-2" th:text="${t.title}">Thread Title</h3>
+                        <p class="text-sm text-muted line-clamp-2 mb-4" th:text="${t.content}">Content preview...</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-violet-600/20 flex items-center justify-center">
+                                    <i data-lucide="user" class="w-4 h-4 text-violet-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-foreground" th:text="${t.authorName}">Author</p>
+                                    <p class="text-xs text-muted-dark" th:text="${#temporals.format(t.createdAt, 'dd MMM yyyy, HH:mm')}">Date</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-muted-dark">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                <span th:text="${t.replies != null ? t.replies.size() : 0}">0</span> replies
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div th:if="${#lists.isEmpty(threads)}" class="glass rounded-2xl p-12 text-center border border-subtle">
+                    <i data-lucide="message-circle-off" class="w-12 h-12 text-muted-dark mx-auto mb-4"></i>
+                    <h3 class="text-lg font-medium text-foreground">No discussions yet</h3>
+                    <p class="text-muted text-sm mt-1">Be the first to start a conversation!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

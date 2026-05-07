@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments :: head('Exam Submissions — Creativa')}"></head>
+
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div th:replace="~{fragments :: toasts}"></div>
+
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <a th:href="@{/lecturer/course/{id}/exams(id=${course.id})}" class="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors mb-2">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Exams
+                    </a>
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-3xl font-bold font-heading">Submissions: <span th:text="${exam.title}">Exam Title</span></h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submissions Table -->
+            <div class="glass rounded-2xl border border-subtle overflow-hidden">
+                <div class="p-6 border-b border-subtle flex items-center justify-between">
+                    <h2 class="text-xl font-bold font-heading flex items-center gap-2">
+                        <i data-lucide="users" class="w-5 h-5 text-teal-400"></i> Student Results
+                    </h2>
+                    <span class="px-3 py-1 rounded-full bg-glass text-xs font-semibold border border-subtle" th:text="${submissions.size()} + ' Submitted'">0 Submitted</span>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(submissions)}" class="p-12 text-center">
+                    <i data-lucide="file-x" class="w-12 h-12 text-muted-dark mx-auto mb-4"></i>
+                    <h3 class="text-lg font-medium text-foreground">No submissions yet</h3>
+                    <p class="text-muted text-sm mt-1">Students have not taken this exam yet.</p>
+                </div>
+
+                <div th:if="${!#lists.isEmpty(submissions)}" class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-glass-subtle border-b border-subtle">
+                                <th class="py-4 px-6 font-semibold text-secondary text-sm">Student ID</th>
+                                <th class="py-4 px-6 font-semibold text-secondary text-sm">Name</th>
+                                <th class="py-4 px-6 font-semibold text-secondary text-sm">Submitted At</th>
+                                <th class="py-4 px-6 font-semibold text-secondary text-sm text-right">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="sub : ${submissions}" class="border-b border-subtle/50 hover:bg-glass/50 transition-colors">
+                                <td class="py-4 px-6 text-sm text-foreground" th:text="${sub.student.studentId}">12345</td>
+                                <td class="py-4 px-6 text-sm text-foreground font-medium" th:text="${sub.student.name}">John Doe</td>
+                                <td class="py-4 px-6 text-sm text-muted" th:text="${#temporals.format(sub.submissionTime, 'dd MMM yyyy, HH:mm')}">Date</td>
+                                <td class="py-4 px-6 text-right">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold border"
+                                          th:classappend="${(sub.score * 1.0 / sub.totalPossibleScore) >= 0.5} ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-red-500/10 border-red-500/20 text-red-400'">
+                                        <span th:text="${sub.score} + ' / ' + ${sub.totalPossibleScore}">10 / 10</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

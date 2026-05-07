@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Student Life — Creativa')}"></head>
+<body class="bg-background text-foreground">
+    <nav th:replace="~{fragments :: navbar}"></nav>
+    <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Hero -->
+            <div class="glass rounded-3xl p-10 mb-10 relative overflow-hidden border border-subtle">
+                <div class="absolute top-0 right-0 w-80 h-80 bg-orange-600/15 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
+                <div class="relative z-10 text-center max-w-2xl mx-auto">
+                    <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-800 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+                        <i data-lucide="trophy" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4">Student Life</h1>
+                    <p class="text-lg text-muted">Discover clubs, join communities, and attend exciting events on campus.</p>
+                </div>
+            </div>
+
+            <!-- Clubs Grid -->
+            <h2 class="text-2xl font-bold font-heading mb-6 flex items-center gap-2"><i data-lucide="users" class="w-6 h-6 text-orange-400"></i> Clubs & Organizations</h2>
+            <div th:if="${#lists.isEmpty(clubs)}" class="glass rounded-2xl p-12 text-center border border-subtle mb-10">
+                <i data-lucide="users-x" class="w-12 h-12 text-muted-dark mx-auto mb-4"></i>
+                <h3 class="text-lg font-medium text-foreground">No clubs yet</h3>
+                <p class="text-muted text-sm mt-1">Check back soon for student organizations!</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" th:if="${!#lists.isEmpty(clubs)}">
+                <a th:each="club : ${clubs}" th:href="@{/club/{id}(id=${club.id})}" class="glass rounded-2xl p-6 border border-subtle hover:border-orange-500/30 transition-all hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(249,115,22,0.08)] group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="flag" class="w-7 h-7 text-orange-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-foreground group-hover:text-orange-400 transition-colors" th:text="${club.name}">Club</h3>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-glass-subtle border border-subtle text-secondary" th:text="${club.category}">Category</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted line-clamp-2" th:text="${club.description}">Description</p>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-muted-dark">
+                        <i data-lucide="users" class="w-4 h-4"></i>
+                        <span th:text="${club.members != null ? club.members.size() : 0}">0</span> members
+                    </div>
+                </a>
+            </div>
+
+            <!-- Upcoming Events -->
+            <h2 class="text-2xl font-bold font-heading mb-6 flex items-center gap-2"><i data-lucide="calendar-days" class="w-6 h-6 text-teal-400"></i> Upcoming Events</h2>
+            <div th:if="${#lists.isEmpty(events)}" class="glass rounded-2xl p-12 text-center border border-subtle">
+                <i data-lucide="calendar-x" class="w-12 h-12 text-muted-dark mx-auto mb-4"></i>
+                <p class="text-muted text-sm">No upcoming events scheduled.</p>
+            </div>
+            <div class="space-y-4" th:if="${!#lists.isEmpty(events)}">
+                <div th:each="ev : ${events}" class="glass rounded-2xl p-6 border border-subtle flex flex-col md:flex-row justify-between gap-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-teal-600/10 flex flex-col items-center justify-center flex-shrink-0 border border-teal-500/20">
+                            <span class="text-lg font-bold text-teal-400" th:text="${#temporals.format(ev.eventDate, 'dd')}">01</span>
+                            <span class="text-[10px] uppercase text-teal-500 font-bold" th:text="${#temporals.format(ev.eventDate, 'MMM')}">Jan</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-foreground" th:text="${ev.title}">Event</h3>
+                            <p class="text-sm text-muted" th:text="${ev.description}">Desc</p>
+                            <p class="text-xs text-muted-dark mt-2 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> <span th:text="${ev.location != null ? ev.location : 'TBD'}">Location</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="px-3 py-1.5 rounded-lg bg-orange-500/10 text-orange-400 text-xs font-bold border border-orange-500/20" th:text="${ev.club.name}">Club</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
