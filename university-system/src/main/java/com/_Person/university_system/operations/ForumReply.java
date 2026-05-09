@@ -41,4 +41,8 @@ public class ForumReply {
     public void setAuthorEmail(String authorEmail) { this.authorEmail = authorEmail; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    private String attachmentUrl;
+    public String getAttachmentUrl() { return attachmentUrl; }
+    public void setAttachmentUrl(String attachmentUrl) { this.attachmentUrl = attachmentUrl; }
 }

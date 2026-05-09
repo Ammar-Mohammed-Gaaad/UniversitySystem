@@ -51,27 +51,28 @@
                         </div>
 
                         <!-- Messages Area -->
-                        <div id="messageArea" class="flex-1 overflow-y-auto p-6 space-y-6 bg-glass/5 custom-scrollbar">
-                            <div th:each="msg : ${messages}" class="flex flex-col" th:classappend="${currentUserEmail == msg.senderEmail ? 'items-end' : 'items-start'}">
-                                <div class="flex items-end gap-2 max-w-[85%] group">
-                                    <div th:if="${currentUserEmail != msg.senderEmail}" class="w-8 h-8 rounded-full bg-pink-600/10 flex items-center justify-center shrink-0 border border-pink-500/20 text-[10px] font-bold text-pink-400" th:text="${#strings.substring(msg.senderName, 0, 1)}">S</div>
-                                    
-                                    <div class="flex flex-col" th:classappend="${currentUserEmail == msg.senderEmail ? 'items-end' : 'items-start'}">
-                                        <div class="flex items-center gap-2 mb-1 px-1">
-                                            <span class="text-[10px] font-bold text-muted-dark" th:text="${msg.senderName}">Name</span>
-                                            <span class="text-[9px] text-muted-dark opacity-60" th:text="${#temporals.format(msg.sentAt, 'HH:mm')}">Time</span>
-                                        </div>
-                                        <div class="px-4 py-2.5 rounded-2xl shadow-sm text-sm"
-                                             th:classappend="${currentUserEmail == msg.senderEmail ? 'bg-pink-600 text-white rounded-br-none' : 'bg-glass border border-subtle text-foreground rounded-bl-none'}">
-                                            <p th:text="${msg.content}">Message content</p>
-                                        </div>
+                        <div id="messageArea" class="flex-1 overflow-y-auto p-6 space-y-4">
+                            <div th:each="msg : ${messages}" 
+                                 th:classappend="${currentUserEmail == msg.senderEmail ? 
+                                                  'flex justify-end' : 'flex justify-start'}">
+                                <div class="max-w-[70%]">
+                                    <p class="text-[10px] text-muted-dark mb-1 px-1"
+                                       th:text="${msg.senderName}">Name</p>
+                                    <div class="px-4 py-3 rounded-2xl text-sm"
+                                         th:classappend="${currentUserEmail == msg.senderEmail ? 
+                                             'bg-teal-600 text-white rounded-br-none' : 
+                                             'bg-glass border border-subtle text-foreground rounded-bl-none'}">
+                                        <p th:text="${msg.content}">Message</p>
                                     </div>
+                                    <p class="text-[9px] text-muted-dark mt-1 px-1"
+                                       th:text="${#temporals.format(msg.sentAt, 'HH:mm')}">Time</p>
                                 </div>
                             </div>
-                            <div th:if="${#lists.isEmpty(messages)}" class="h-full flex flex-col items-center justify-center text-center opacity-30">
-                                <i data-lucide="messages-square" class="w-16 h-16 mb-4"></i>
-                                <p class="font-heading text-lg">No messages yet.</p>
-                                <p class="text-xs">Start the conversation using the form on the left!</p>
+                            
+                            <div th:if="${#lists.isEmpty(messages)}" 
+                                 class="h-full flex flex-col items-center justify-center text-center">
+                                <i data-lucide="messages-square" class="w-16 h-16 text-muted-dark mb-4"></i>
+                                <p class="text-muted">No messages yet. Start the conversation!</p>
                             </div>
                         </div>
                     </div>
@@ -82,10 +83,52 @@
 
     <footer th:replace="~{fragments :: footer}"></footer>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const area = document.getElementById('messageArea');
-            if (area) area.scrollTop = area.scrollHeight;
-        });
+    let lastMessageCount = document.querySelectorAll('.chat-bubble-sent, .chat-bubble-received').length;
+
+    function pollMessages() {
+        fetch(window.location.href, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(r => r.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newArea = doc.getElementById('messageArea');
+            const currentArea = document.getElementById('messageArea');
+            if (newArea && currentArea) {
+                const newCount = newArea.querySelectorAll('[class*="chat-bubble"]').length;
+                if (newCount !== lastMessageCount) {
+                    currentArea.innerHTML = newArea.innerHTML;
+                    currentArea.scrollTop = currentArea.scrollHeight;
+                    lastMessageCount = newCount;
+                    lucide.createIcons();
+                }
+            }
+        })
+        .catch(() => {});
+    }
+
+    // Poll every 3 seconds
+    setInterval(pollMessages, 3000);
+
+    // Auto scroll on load
+    document.addEventListener('DOMContentLoaded', () => {
+        const area = document.getElementById('messageArea');
+        if (area) area.scrollTop = area.scrollHeight;
+    });
+
+    // Send message with Enter key
+    document.addEventListener('DOMContentLoaded', () => {
+        const textarea = document.querySelector('textarea[name="content"]');
+        if (textarea) {
+            textarea.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    textarea.closest('form').submit();
+                }
+            });
+        }
+    });
     </script>
 </body>
 </html>

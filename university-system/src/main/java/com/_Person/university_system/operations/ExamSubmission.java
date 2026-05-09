@@ -23,7 +23,7 @@ public class ExamSubmission {
     @Column(nullable = false)
     private LocalDateTime submissionTime;
 
-    private int score;
+    private double score;
     private int totalPossibleScore;
 
     // Store student's answers as JSON or simple delimited string
@@ -40,8 +40,8 @@ public class ExamSubmission {
     public void setStudent(Student student) { this.student = student; }
     public LocalDateTime getSubmissionTime() { return submissionTime; }
     public void setSubmissionTime(LocalDateTime submissionTime) { this.submissionTime = submissionTime; }
-    public int getScore() { return score; }
-    public void setScore(int score) { this.score = score; }
+    public double getScore() { return score; }
+    public void setScore(double score) { this.score = score; }
     public int getTotalPossibleScore() { return totalPossibleScore; }
     public void setTotalPossibleScore(int totalPossibleScore) { this.totalPossibleScore = totalPossibleScore; }
     public String getStudentAnswers() { return studentAnswers; }

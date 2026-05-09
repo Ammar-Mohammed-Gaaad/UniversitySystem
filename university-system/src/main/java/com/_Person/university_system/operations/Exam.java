@@ -57,4 +57,12 @@ public class Exam {
     public void setQuestions(List<Question> questions) { this.questions = questions; }
     public ExamStatus getStatus() { return status; }
     public void setStatus(ExamStatus status) { this.status = status; }
+
+    private boolean randomizeQuestions = false;
+    private boolean negativeMarking = false;
+
+    public boolean isRandomizeQuestions() { return randomizeQuestions; }
+    public void setRandomizeQuestions(boolean randomizeQuestions) { this.randomizeQuestions = randomizeQuestions; }
+    public boolean isNegativeMarking() { return negativeMarking; }
+    public void setNegativeMarking(boolean negativeMarking) { this.negativeMarking = negativeMarking; }
 }

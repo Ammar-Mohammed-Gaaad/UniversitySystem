@@ -41,4 +41,15 @@ public class Question {
     public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
     public int getPoints() { return points; }
     public void setPoints(int points) { this.points = points; }
+
+    public enum QuestionType { MCQ, TRUE_FALSE, SHORT_ANSWER }
+
+    @Enumerated(EnumType.STRING)
+    private QuestionType questionType = QuestionType.MCQ;
+    private double negativeMark = 0.0;
+
+    public QuestionType getQuestionType() { return questionType; }
+    public void setQuestionType(QuestionType questionType) { this.questionType = questionType; }
+    public double getNegativeMark() { return negativeMark; }
+    public void setNegativeMark(double negativeMark) { this.negativeMark = negativeMark; }
 }

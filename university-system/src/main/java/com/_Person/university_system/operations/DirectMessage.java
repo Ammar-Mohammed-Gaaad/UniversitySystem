@@ -49,4 +49,8 @@ public class DirectMessage {
     public void setSentAt(LocalDateTime sentAt) { this.sentAt = sentAt; }
     public boolean isRead() { return isRead; }
     public void setRead(boolean read) { isRead = read; }
+
+    private String attachmentUrl;
+    public String getAttachmentUrl() { return attachmentUrl; }
+    public void setAttachmentUrl(String attachmentUrl) { this.attachmentUrl = attachmentUrl; }
 }

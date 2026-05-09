@@ -13,11 +13,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
  
-    private final CustomUserDetailsService userDetailsService;
     private final JwtAuthFilter jwtAuthFilter; // ✅ FIX: inject filter
  
-    public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthFilter jwtAuthFilter) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
     }
  
@@ -67,6 +65,7 @@ public class SecurityConfig {
     }
  
     @Bean
+    @SuppressWarnings("deprecation")
     public PasswordEncoder passwordEncoder() {
         java.util.Map<String, PasswordEncoder> encoders = new java.util.HashMap<>();
         encoders.put("bcrypt", new BCryptPasswordEncoder());

@@ -21,10 +21,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class WebController {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WebController.class);
 
     private final CourseRepository courseRepository;
     private final DepartmentRepository departmentRepository;
@@ -300,6 +301,27 @@ public class WebController {
         return "student-profile";
     }
 
+    @PostMapping("/student/profile/avatar")
+    public String uploadAvatar(@RequestParam MultipartFile avatar,
+                               Principal principal, RedirectAttributes ra) {
+        if (principal != null && avatar != null && !avatar.isEmpty()) {
+            studentRepository.findByEmail(principal.getName()).ifPresent(student -> {
+                try {
+                    String uploadDir = "uploads/avatars/";
+                    Files.createDirectories(Paths.get(uploadDir));
+                    String filename = "avatar_" + student.getID() + "_" 
+                                      + System.currentTimeMillis() 
+                                      + "_" + avatar.getOriginalFilename();
+                    avatar.transferTo(new File(uploadDir + filename));
+                    student.setAvatarUrl("/uploads/avatars/" + filename);
+                    studentRepository.save(student);
+                    ra.addFlashAttribute("successMessage", "Avatar updated!");
+                } catch (IOException e) { log.error("Error: ", e); }
+            });
+        }
+        return "redirect:/student/profile";
+    }
+
     @GetMapping("/student/timetable")
     public String studentTimetable(Model model, Principal principal) {
         if (principal != null) {
@@ -352,7 +374,7 @@ public class WebController {
                             String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
                             file.transferTo(new File(uploadDir + filename));
                             sub.setFileUrl("/uploads/submissions/" + filename);
-                        } catch (IOException e) { e.printStackTrace(); }
+                        } catch (IOException e) { log.error("Error: ", e); }
                     }
                     submissionRepository.save(sub);
                     ra.addFlashAttribute("successMessage", "Assignment submitted!");
@@ -478,15 +500,19 @@ public class WebController {
             studentRepository.findByEmail(principal.getName()).ifPresent(student -> {
                 examRepository.findById(id).ifPresent(exam -> {
                     if (examSubmissionRepository.findByExamIdAndStudentId(id, student.getID()).isEmpty()) {
-                        int score = 0;
+                        double score = 0;
                         int total = 0;
                         for (Question q : exam.getQuestions()) {
                             total += q.getPoints();
                             String studentAnswer = answers.get("question_" + q.getId());
                             if (studentAnswer != null && studentAnswer.equals(q.getCorrectAnswer())) {
                                 score += q.getPoints();
+                            } else if (studentAnswer != null && !studentAnswer.isBlank() 
+                                       && exam.isNegativeMarking()) {
+                                score -= q.getNegativeMark();
                             }
                         }
+                        score = Math.max(0, score);
                         ExamSubmission sub = new ExamSubmission();
                         sub.setExam(exam);
                         sub.setStudent(student);
@@ -642,7 +668,7 @@ public class WebController {
                     String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
                     file.transferTo(new File(uploadDir + filename));
                     mat.setFileUrl("/uploads/materials/" + filename);
-                } catch (IOException e) { e.printStackTrace(); }
+                } catch (IOException e) { log.error("Error: ", e); }
             }
             materialRepository.save(mat);
             ra.addFlashAttribute("successMessage", "Material uploaded!");

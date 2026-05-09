@@ -1,6 +1,5 @@
 package com._Person.university_system.operations;
 
-import com._Person.university_system.users.User;
 import com._Person.university_system.AcademicStructure.Course;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -55,4 +54,8 @@ public class ForumThread {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public List<ForumReply> getReplies() { return replies; }
     public void setReplies(List<ForumReply> replies) { this.replies = replies; }
+
+    private String attachmentUrl;
+    public String getAttachmentUrl() { return attachmentUrl; }
+    public void setAttachmentUrl(String attachmentUrl) { this.attachmentUrl = attachmentUrl; }
 }

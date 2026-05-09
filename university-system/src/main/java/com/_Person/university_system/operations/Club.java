@@ -2,7 +2,6 @@ package com._Person.university_system.operations;
 
 import com._Person.university_system.users.Student;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity

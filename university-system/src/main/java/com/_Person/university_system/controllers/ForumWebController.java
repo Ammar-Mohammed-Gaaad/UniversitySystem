@@ -2,7 +2,6 @@ package com._Person.university_system.controllers;
 
 import com._Person.university_system.operations.ForumThread;
 import com._Person.university_system.operations.ForumReply;
-import com._Person.university_system.AcademicStructure.Course;
 import com._Person.university_system.repositories.ForumThreadRepository;
 import com._Person.university_system.repositories.ForumReplyRepository;
 import com._Person.university_system.repositories.CourseRepository;

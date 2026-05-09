@@ -26,6 +26,9 @@ public abstract class User {
     @Column(nullable = false)
     private Role role;
 
+    private String avatarUrl;
+    private String preferredLanguage = "en";
+
     public User() {
     }
 
@@ -75,5 +78,21 @@ public abstract class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getPreferredLanguage() {
+        return preferredLanguage;
+    }
+
+    public void setPreferredLanguage(String preferredLanguage) {
+        this.preferredLanguage = preferredLanguage;
     }
 }
