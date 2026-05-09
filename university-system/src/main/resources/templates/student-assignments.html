@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head('Assignments â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Assignments — Creativa')}"></head>
 
 <body class="bg-background text-foreground">
     <nav th:replace="~{fragments :: navbar}"></nav>
@@ -50,18 +50,48 @@
                         <div class="flex flex-col sm:flex-row justify-between gap-4 mb-4">
                             <div>
                                 <h3 class="text-xl font-bold text-foreground mb-1" th:text="${assignment.title}">Title</h3>
-                                <div class="flex items-center gap-4 text-sm">
-                                    <span class="flex items-center gap-1.5 text-muted"><i data-lucide="calendar" class="w-4 h-4 text-teal-400"></i> Due: <span th:classappend="${assignment.dueDate.isBefore(#temporals.createNow()) ? 'text-red-400 font-medium' : 'text-secondary'}" th:text="${#temporals.format(assignment.dueDate, 'dd MMM yyyy HH:mm')}">Date</span></span>
+                                <div class="flex items-center gap-4 text-sm mt-2">
+                                    <span class="flex items-center gap-1.5 text-muted">
+                                        <i data-lucide="calendar" class="w-4 h-4 text-teal-400"></i> Due: 
+                                        <span class="due-date-display" th:data-due="${assignment.dueDate}" th:classappend="${assignment.dueDate.isBefore(#temporals.createNow()) ? 'text-red-400 font-medium' : 'text-secondary'}" th:text="${#temporals.format(assignment.dueDate, 'dd MMM yyyy HH:mm')}">Date</span>
+                                        <span class="countdown-badge ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-glass border border-subtle hidden"></span>
+                                    </span>
                                     <span class="flex items-center gap-1.5 text-muted"><i data-lucide="star" class="w-4 h-4 text-amber-400"></i> Score: <span class="text-secondary" th:text="${submissionMap.get(assignment.id) != null && submissionMap.get(assignment.id).grade != null ? submissionMap.get(assignment.id).grade + ' / ' + assignment.maxScore : 'Not Graded (/' + assignment.maxScore + ')'}"></span></span>
                                 </div>
                             </div>
                             <div class="flex-shrink-0">
-                                <span th:if="${submissionMap.containsKey(assignment.id)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600/15 border border-green-500/30 text-green-400 rounded-lg text-sm font-medium">
+                                <span th:if="${submissionMap.containsKey(assignment.id) and submissionMap.get(assignment.id).grade != null}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600/15 border border-blue-500/30 text-blue-400 rounded-lg text-sm font-medium">
+                                    <i data-lucide="award" class="w-4 h-4"></i> Graded
+                                </span>
+                                <span th:if="${submissionMap.containsKey(assignment.id) and submissionMap.get(assignment.id).grade == null}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600/15 border border-green-500/30 text-green-400 rounded-lg text-sm font-medium">
                                     <i data-lucide="check-circle-2" class="w-4 h-4"></i> Submitted
                                 </span>
                                 <span th:unless="${submissionMap.containsKey(assignment.id)}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-600/15 border border-amber-500/30 text-amber-400 rounded-lg text-sm font-medium">
                                     <i data-lucide="clock" class="w-4 h-4"></i> Pending
                                 </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline -->
+                        <div class="mb-6 relative pt-4 pb-2">
+                            <div class="absolute left-0 top-1/2 w-full h-1 bg-glass-subtle -z-10 rounded-full"></div>
+                            <div class="flex justify-between relative z-10">
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-6 h-6 rounded-full bg-teal-500 text-white flex items-center justify-center text-xs shadow-[0_0_10px_rgba(20,184,166,0.4)]"><i data-lucide="check" class="w-3 h-3"></i></div>
+                                    <span class="text-[10px] text-teal-400 font-medium">Assigned</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div th:class="${submissionMap.containsKey(assignment.id)} ? 'w-6 h-6 rounded-full bg-teal-500 text-white flex items-center justify-center text-xs shadow-[0_0_10px_rgba(20,184,166,0.4)]' : 'w-6 h-6 rounded-full bg-glass border border-subtle text-muted flex items-center justify-center text-xs'">
+                                        <i data-lucide="${submissionMap.containsKey(assignment.id) ? 'check' : 'circle'}" class="w-3 h-3"></i>
+                                    </div>
+                                    <span th:class="${submissionMap.containsKey(assignment.id)} ? 'text-[10px] text-teal-400 font-medium' : 'text-[10px] text-muted'">Submitted</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div th:class="${submissionMap.containsKey(assignment.id) and submissionMap.get(assignment.id).grade != null} ? 'w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs shadow-[0_0_10px_rgba(59,130,246,0.4)]' : 'w-6 h-6 rounded-full bg-glass border border-subtle text-muted flex items-center justify-center text-xs'">
+                                        <i data-lucide="${submissionMap.containsKey(assignment.id) and submissionMap.get(assignment.id).grade != null ? 'check' : 'circle'}" class="w-3 h-3"></i>
+                                    </div>
+                                    <span th:class="${submissionMap.containsKey(assignment.id) and submissionMap.get(assignment.id).grade != null} ? 'text-[10px] text-blue-400 font-medium' : 'text-[10px] text-muted'">Graded</span>
+                                </div>
                             </div>
                         </div>
                         <p class="text-secondary text-sm whitespace-pre-wrap" th:text="${assignment.description}">Description</p>
@@ -92,8 +122,18 @@
                                     <textarea name="content" rows="4" class="block w-full px-4 py-3 bg-card border border-subtle rounded-xl text-foreground text-sm focus:ring-2 focus:ring-teal-500/50 outline-none placeholder-gray-600" placeholder="Type your answer here..."></textarea>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-secondary mb-1">File Attachment (Optional)</label>
-                                    <input type="file" name="file" class="block w-full text-sm text-muted file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-teal-600/10 file:text-teal-400 hover:file:bg-teal-600/20 focus:outline-none">
+                                    <label class="block text-sm font-medium text-secondary mb-2">File Attachment (Optional)</label>
+                                    <div class="relative w-full border-2 border-dashed border-subtle hover:border-teal-500/50 rounded-2xl p-6 text-center transition-colors group drag-drop-zone bg-glass">
+                                        <input type="file" name="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 file-input">
+                                        <div class="flex flex-col items-center justify-center pointer-events-none">
+                                            <div class="w-12 h-12 rounded-full bg-teal-600/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                                <i data-lucide="upload-cloud" class="w-6 h-6 text-teal-400"></i>
+                                            </div>
+                                            <p class="text-sm font-medium text-foreground mb-1 file-name-display">Drag and drop your file here</p>
+                                            <p class="text-xs text-muted">or click to browse from your computer</p>
+                                            <p class="text-[10px] text-muted-dark mt-2">Max file size: 10MB</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="flex justify-end pt-2">
                                     <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-700 text-foreground font-semibold rounded-xl transition-all shadow-[0_0_15px_rgba(15,118,110,0.3)] flex items-center gap-2">
@@ -110,6 +150,53 @@
     </div>
 
     <footer th:replace="~{fragments :: footer}"></footer>
+
+    <script>
+        // File upload drag & drop visual update
+        document.querySelectorAll('.file-input').forEach(input => {
+            input.addEventListener('change', function(e) {
+                const fileName = e.target.files[0] ? e.target.files[0].name : 'Drag and drop your file here';
+                const display = this.parentElement.querySelector('.file-name-display');
+                if(display) display.textContent = fileName;
+                if(e.target.files[0]) {
+                    this.parentElement.classList.add('border-teal-500/50', 'bg-teal-600/5');
+                } else {
+                    this.parentElement.classList.remove('border-teal-500/50', 'bg-teal-600/5');
+                }
+            });
+        });
+
+        // Due date countdown
+        document.querySelectorAll('.due-date-display').forEach(el => {
+            const dueAttr = el.getAttribute('data-due');
+            if(!dueAttr) return;
+            const dueDate = new Date(dueAttr);
+            const now = new Date();
+            const diffMs = dueDate - now;
+            const badge = el.parentElement.querySelector('.countdown-badge');
+            
+            if(diffMs > 0 && badge) {
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                badge.classList.remove('hidden');
+                if(diffDays > 0) {
+                    badge.textContent = diffDays + 'd ' + diffHours + 'h left';
+                    if(diffDays <= 2) {
+                        badge.classList.add('text-amber-400', 'border-amber-500/30', 'bg-amber-500/10');
+                    } else {
+                        badge.classList.add('text-teal-400', 'border-teal-500/30', 'bg-teal-500/10');
+                    }
+                } else {
+                    badge.textContent = diffHours + 'h left';
+                    badge.classList.add('text-red-400', 'border-red-500/30', 'bg-red-500/10', 'animate-pulse');
+                }
+            } else if (diffMs < 0 && badge) {
+                badge.classList.remove('hidden');
+                badge.textContent = 'Overdue';
+                badge.classList.add('text-red-500', 'border-red-500/50', 'bg-red-500/20');
+            }
+        });
+    </script>
 </body>
 </html>
 

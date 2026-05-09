@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head('Assignments Management â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Assignments Management — Creativa')}"></head>
 
 <body class="bg-background text-foreground">
     <nav th:replace="~{fragments :: navbar}"></nav>
@@ -52,21 +52,37 @@
 
                     <div th:each="assignment : ${assignments}" class="glass rounded-2xl p-6 border border-subtle hover:border-amber-500/30 transition-colors">
                         <div class="flex flex-col sm:flex-row justify-between gap-4 mb-4">
-                            <div>
-                                <h3 class="text-lg font-bold text-foreground mb-1" th:text="${assignment.title}">Title</h3>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <h3 class="text-lg font-bold text-foreground" th:text="${assignment.title}">Title</h3>
+                                    <span th:if="${assignment.dueDate.isAfter(#temporals.createNow())}" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-green-500/10 text-green-400 border border-green-500/20">Active</span>
+                                    <span th:if="${assignment.dueDate.isBefore(#temporals.createNow())}" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">Past Due</span>
+                                </div>
                                 <div class="flex items-center gap-4 text-sm text-muted">
                                     <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-teal-400"></i> Due: <span th:text="${#temporals.format(assignment.dueDate, 'dd MMM yyyy HH:mm')}">Date</span></span>
                                     <span class="flex items-center gap-1.5"><i data-lucide="star" class="w-4 h-4 text-amber-400"></i> Max Score: <span th:text="${assignment.maxScore}">100</span></span>
                                 </div>
                             </div>
-                            <div class="flex-shrink-0">
+                            <div class="flex-shrink-0 flex flex-col items-end gap-2">
                                 <a th:href="@{/lecturer/assignment/{id}/submissions(id=${assignment.id})}" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-600/10 hover:bg-amber-600/20 text-amber-400 border border-amber-500/30 rounded-xl transition-colors text-sm font-medium">
                                     <i data-lucide="users" class="w-4 h-4"></i>
-                                    View Submissions (<span th:text="${subCounts.get(assignment.id)}">0</span>)
+                                    View Submissions
                                 </a>
                             </div>
                         </div>
-                        <p class="text-secondary text-sm whitespace-pre-wrap" th:text="${assignment.description}">Description</p>
+                        <p class="text-secondary text-sm whitespace-pre-wrap mb-4" th:text="${assignment.description}">Description</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="pt-4 border-t border-subtle">
+                            <div class="flex justify-between text-xs text-muted font-medium mb-1.5">
+                                <span>Submission Rate</span>
+                                <span><span th:text="${subCounts.get(assignment.id)}">0</span> submitted</span>
+                            </div>
+                            <div class="w-full h-2 bg-glass-subtle rounded-full overflow-hidden border border-subtle">
+                                <div class="h-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)] rounded-full transition-all duration-500"
+                                     th:style="'width: ' + (${course.enrollments != null && course.enrollments.size() > 0 ? (subCounts.get(assignment.id) * 100.0 / course.enrollments.size()) : 0}) + '%'"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

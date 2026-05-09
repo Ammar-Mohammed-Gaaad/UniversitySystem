@@ -48,8 +48,15 @@
                     <p class="text-muted text-sm mt-1">You have no invoices or pending balances.</p>
                 </div>
 
-                <div th:if="${!#lists.isEmpty(invoices)}" class="p-6 space-y-4">
-                    <div th:each="inv : ${invoices}" class="glass rounded-2xl p-6 border border-subtle flex flex-col md:flex-row justify-between gap-6 transition-all hover:border-teal-500/30">
+                <div th:if="${!#lists.isEmpty(invoices)}" class="p-6">
+                    <div class="relative border-l border-subtle/50 ml-6 space-y-8 pb-4">
+                        <div th:each="inv : ${invoices}" class="relative pl-8">
+                            <!-- Timeline Dot -->
+                            <div th:classappend="${inv.status.name() == 'PAID' ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.4)] border-green-500' : 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)] border-amber-500'}"
+                                 class="absolute -left-2.5 top-5 w-5 h-5 rounded-full border-4 border-background flex items-center justify-center">
+                            </div>
+                            
+                            <div class="glass rounded-2xl p-6 border border-subtle flex flex-col md:flex-row justify-between gap-6 transition-all hover:border-teal-500/30 group">
                         <div class="flex-1">
                             <div class="flex items-center gap-3 mb-2">
                                 <h3 class="font-bold text-foreground text-lg" th:text="${inv.description}">Tuition</h3>
@@ -61,21 +68,27 @@
                             </p>
                         </div>
                         
-                        <div class="flex items-center gap-6 justify-between md:justify-end border-t md:border-t-0 border-subtle pt-4 md:pt-0">
+                        <div class="flex flex-col md:flex-row items-center gap-6 justify-between md:justify-end border-t md:border-t-0 border-subtle pt-4 md:pt-0">
                             <div class="text-left md:text-right">
                                 <p class="text-xs text-muted mb-1">Amount</p>
                                 <p class="text-2xl font-bold font-mono text-foreground" th:text="${'$' + inv.amount}">$1500.00</p>
                             </div>
                             
-                            <div th:if="${inv.status.name() == 'PENDING'}">
-                                <!-- Dummy Payment Form -->
-                                <form th:action="@{/student/finances/pay}" method="post">
-                                    <input type="hidden" name="invoiceId" th:value="${inv.id}">
-                                    <input type="hidden" name="amount" th:value="${inv.amount}">
-                                    <button type="submit" class="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-medium transition-all shadow-[0_0_15px_rgba(15,118,110,0.3)] flex items-center gap-2">
-                                        <i data-lucide="credit-card" class="w-4 h-4"></i> Pay Now
-                                    </button>
-                                </form>
+                            <div class="flex items-center gap-2">
+                                <button onclick="window.print()" class="px-4 py-3 rounded-xl bg-glass hover:bg-glass-hover text-muted hover:text-foreground border border-subtle transition-all" title="Print Invoice">
+                                    <i data-lucide="printer" class="w-4 h-4"></i>
+                                </button>
+                                
+                                <div th:if="${inv.status.name() == 'PENDING'}">
+                                    <!-- Dummy Payment Form -->
+                                    <form th:action="@{/student/finances/pay}" method="post">
+                                        <input type="hidden" name="invoiceId" th:value="${inv.id}">
+                                        <input type="hidden" name="amount" th:value="${inv.amount}">
+                                        <button type="submit" class="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-medium transition-all shadow-[0_0_15px_rgba(15,118,110,0.3)] flex items-center gap-2">
+                                            <i data-lucide="credit-card" class="w-4 h-4"></i> Pay Now
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

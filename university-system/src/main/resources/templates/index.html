@@ -1,37 +1,60 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
- 
+
 <head th:replace="~{fragments :: head('Creativa — University Platform')}"></head>
- 
-<body class="relative overflow-hidden grid-overlay">
- 
-    <!-- ✅ FIX: was ~{fragments :: sidebar} which doesn't exist -->
+
+<body class="relative grid-overlay">
+
     <nav th:replace="~{fragments :: navbar}"></nav>
- 
+
     <!-- ===== Background Orbs ===== -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-teal-600/10 blur-[140px] animate-float"></div>
         <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-teal-400/10 blur-[120px] animate-float-delayed"></div>
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-teal-800/10 blur-[180px] animate-pulse-glow"></div>
     </div>
- 
+
     <!-- ===== Floating Particles ===== -->
     <style>
-        .particle { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #2dd4bf; animation: drift 10s ease-in-out infinite; opacity:0.5; }
-        @keyframes drift { 0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; } 25% { transform: translate(15px, -25px) scale(1.2); opacity: 0.6; } 50% { transform: translate(-10px, -40px) scale(0.8); opacity: 0.2; } 75% { transform: translate(20px, -15px) scale(1.1); opacity: 0.5; } }
+        .particle { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #2dd4bf; animation: drift 10s ease-in-out infinite; opacity:0.5; pointer-events:none; }
+        @keyframes drift { 0%,100%{transform:translate(0,0) scale(1);opacity:.3}25%{transform:translate(15px,-25px) scale(1.2);opacity:.6}50%{transform:translate(-10px,-40px) scale(.8);opacity:.2}75%{transform:translate(20px,-15px) scale(1.1);opacity:.5} }
+
+        /* Scroll indicator */
+        .scroll-indicator { animation: bounce 2s ease-in-out infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(8px)} }
+
+        /* Section reveal */
+        .reveal { opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        /* Counter animation */
+        .counter { display:inline-block; }
+
+        /* Progress bar */
+        .progress-bar { width:0; transition: width 1.5s ease; }
+
+        /* Scroll progress */
+        #scrollProgress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,#14b8a6,#2dd4bf); z-index:200; transition:width 0.1s; }
+
+        html { scroll-behavior: smooth; }
     </style>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgress" style="width:0%"></div>
+
     <div class="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div class="particle" style="top: 15%; left: 10%; animation-delay: 0s; animation-duration: 12s;"></div>
-        <div class="particle" style="top: 25%; left: 85%; animation-delay: 2s; animation-duration: 14s;"></div>
-        <div class="particle" style="top: 60%; left: 20%; animation-delay: 4s; animation-duration: 10s;"></div>
-        <div class="particle" style="top: 70%; left: 75%; animation-delay: 1s; animation-duration: 11s;"></div>
+        <div class="particle" style="top:15%;left:10%;animation-delay:0s;animation-duration:12s"></div>
+        <div class="particle" style="top:25%;left:85%;animation-delay:2s;animation-duration:14s"></div>
+        <div class="particle" style="top:60%;left:20%;animation-delay:4s;animation-duration:10s"></div>
+        <div class="particle" style="top:70%;left:75%;animation-delay:1s;animation-duration:11s"></div>
     </div>
- 
-    <!-- ===== Hero Section ===== -->
-    <section class="relative min-h-screen flex items-center justify-center px-4 pt-8 content-wrapper pb-10 md:pr-8">
+
+    <!-- ============================= -->
+    <!-- SECTION 1 — HERO             -->
+    <!-- ============================= -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center px-4 pt-8 content-wrapper pb-10 md:pr-8">
         <div class="max-w-5xl mx-auto text-center">
- 
-            <!-- Badge -->
+
             <div class="animate-fade-in-up inline-flex items-center gap-2 px-5 py-2.5 rounded-full mb-8 glass border border-teal-500/30">
                 <i data-lucide="sparkles" class="w-4 h-4 text-teal-400"></i>
                 <span class="text-sm text-teal-300 font-medium tracking-wide">Open for Guest Exploration</span>
@@ -40,38 +63,36 @@
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
                 </span>
             </div>
- 
-            <!-- Main Heading -->
+
             <h1 class="animate-fade-in-up delay-100 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] mb-8 font-heading">
                 <span class="text-foreground">Discover Your</span><br />
-                <span class="bg-gradient-to-r from-teal-400 via-teal-300 to-teal-600 bg-clip-text text-transparent text-glow">
+                <span class="bg-gradient-to-r from-teal-400 via-teal-300 to-teal-600 bg-clip-text text-transparent text-glow" id="typewriter">
                     Academic Universe
-                </span>
+                </span><span class="typing-cursor"></span>
             </h1>
- 
-            <!-- Subtitle -->
+
             <p class="animate-fade-in-up delay-200 text-lg sm:text-xl md:text-2xl text-muted max-w-2xl mx-auto mb-12 leading-relaxed">
-                Explore courses, departments, and academic programs — no account needed. Begin your journey with <span class="text-teal-300 font-semibold">Creativa</span>.
+                Explore courses, departments, and academic programs — no account needed. Begin your journey with
+                <span class="text-teal-300 font-semibold">Creativa</span>.
             </p>
- 
-            <!-- CTA Buttons -->
+
             <div class="animate-fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 mb-16">
-                <a th:href="@{/courses-page}" class="group relative flex items-center gap-3 px-9 py-4 rounded-2xl font-bold text-foreground text-lg bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-600 transition-all duration-300 glow-teal hover:glow-teal-intense hover:-translate-y-1 hover:scale-105 overflow-hidden">
+                <a th:href="@{/courses-page}" class="group relative flex items-center gap-3 px-9 py-4 rounded-2xl font-bold text-foreground text-lg bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-600 transition-all duration-300 glow-teal hover:glow-teal-intense hover:-translate-y-1 hover:scale-105">
                     <i data-lucide="book-open" class="w-5 h-5"></i> Explore Courses
                 </a>
                 <a th:href="@{/departments-page}" class="group flex items-center gap-3 px-9 py-4 rounded-2xl font-bold text-lg text-teal-300 border-2 border-teal-500/40 hover:bg-teal-600/15 hover:border-teal-500/80 transition-all duration-300 hover:-translate-y-1 hover:scale-105">
                     <i data-lucide="building-2" class="w-5 h-5"></i> Explore Departments
                 </a>
             </div>
- 
-            <!-- Stats Row -->
-            <div class="animate-fade-in-up delay-300 flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
+
+            <!-- Live Stats Row -->
+            <div class="animate-fade-in-up delay-300 flex items-center justify-center gap-8 sm:gap-12 flex-wrap mb-16">
                 <div class="flex items-center gap-3 group">
                     <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-teal-600/10 border border-teal-500/20 group-hover:border-teal-500/50 transition-colors">
                         <i data-lucide="book-open" class="w-5 h-5 text-teal-400"></i>
                     </div>
                     <div class="text-left">
-                        <div class="text-xl font-bold text-foreground font-heading">50+</div>
+                        <div class="text-xl font-bold text-foreground font-heading counter" th:data-target="${totalCourses ?: 50}">0</div>
                         <div class="text-xs text-muted-dark">Courses</div>
                     </div>
                 </div>
@@ -80,7 +101,7 @@
                         <i data-lucide="building-2" class="w-5 h-5 text-teal-400"></i>
                     </div>
                     <div class="text-left">
-                        <div class="text-xl font-bold text-foreground font-heading">12</div>
+                        <div class="text-xl font-bold text-foreground font-heading counter" th:data-target="${totalDepartments ?: 12}">0</div>
                         <div class="text-xs text-muted-dark">Departments</div>
                     </div>
                 </div>
@@ -89,60 +110,530 @@
                         <i data-lucide="users" class="w-5 h-5 text-teal-400"></i>
                     </div>
                     <div class="text-left">
-                        <div class="text-xl font-bold text-foreground font-heading">500+</div>
+                        <div class="text-xl font-bold text-foreground font-heading counter" th:data-target="${totalStudents ?: 500}">0</div>
                         <div class="text-xs text-muted-dark">Students</div>
                     </div>
                 </div>
             </div>
+
+            <!-- Scroll Down Arrow -->
+            <div class="scroll-indicator flex flex-col items-center gap-2 text-muted-dark cursor-pointer" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+                <span class="text-xs uppercase tracking-widest">Scroll to explore</span>
+                <i data-lucide="chevrons-down" class="w-6 h-6 text-teal-400"></i>
+            </div>
         </div>
     </section>
- 
-    <!-- ===== Features Section ===== -->
-    <section class="relative py-28 px-4 content-wrapper md:pr-8 bg-black/40">
+
+    <!-- ============================= -->
+    <!-- SECTION 2 — ABOUT / MISSION  -->
+    <!-- ============================= -->
+    <section id="about" class="relative py-28 px-4 content-wrapper md:pr-8">
         <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-5 font-heading">
-                    Why Explore with <span class="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">Creativa</span>?
-                </h2>
-                <p class="text-muted max-w-xl mx-auto text-lg">Everything you need to explore university offerings — instantly accessible.</p>
-            </div>
- 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <div class="group relative p-8 lg:p-10 rounded-2xl bg-bgCard border border-subtle hover:border-teal-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(15,118,110,0.12)] hover:-translate-y-1">
-                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <div class="relative">
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-teal-600/20 border border-teal-500/30 group-hover:shadow-[0_0_20px_rgba(15,118,110,0.2)] transition-all">
-                            <i data-lucide="graduation-cap" class="w-7 h-7 text-teal-400"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-teal-300 transition-colors">Full Course Catalog</h3>
-                        <p class="text-muted leading-relaxed">Browse every course with details on credit hours, lecturers, and department info.</p>
+            <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-widest mb-6">
+                        <i data-lucide="info" class="w-3.5 h-3.5"></i> About Creativa
+                    </span>
+                    <h2 class="text-4xl sm:text-5xl font-bold font-heading mb-6 leading-tight">
+                        A Modern University <span class="text-teal-400">Management</span> Platform
+                    </h2>
+                    <p class="text-muted text-lg leading-relaxed mb-6">
+                        Creativa is a comprehensive academic platform built to streamline every aspect of university life — from enrollment and grading to clubs, library access, and direct messaging.
+                    </p>
+                    <p class="text-muted leading-relaxed mb-8">
+                        Whether you're a <span class="text-teal-300 font-semibold">student</span> tracking your progress, a <span class="text-amber-300 font-semibold">lecturer</span> managing your courses, or an <span class="text-red-300 font-semibold">admin</span> overseeing the entire institution — Creativa has you covered.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a th:href="@{/register}" class="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold transition-all">
+                            <i data-lucide="user-plus" class="w-4 h-4"></i> Join as Student
+                        </a>
+                        <a th:href="@{/register/lecturer}" class="inline-flex items-center gap-2 px-6 py-3 bg-amber-600/20 hover:bg-amber-600/30 text-amber-400 border border-amber-500/30 rounded-xl font-bold transition-all">
+                            <i data-lucide="user-check" class="w-4 h-4"></i> Join as Lecturer
+                        </a>
                     </div>
                 </div>
-                <div class="group relative p-8 lg:p-10 rounded-2xl bg-bgCard border border-subtle hover:border-teal-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(15,118,110,0.12)] hover:-translate-y-1">
-                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <div class="relative">
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-teal-600/20 border border-teal-500/30 group-hover:shadow-[0_0_20px_rgba(15,118,110,0.2)] transition-all">
-                            <i data-lucide="building-2" class="w-7 h-7 text-teal-400"></i>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass rounded-2xl p-6 border border-subtle text-center hover:border-teal-500/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-teal-600/20 flex items-center justify-center mx-auto mb-3">
+                            <i data-lucide="graduation-cap" class="w-6 h-6 text-teal-400"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-teal-300 transition-colors">Department Directory</h3>
-                        <p class="text-muted leading-relaxed">Explore academic departments and discover the courses they offer.</p>
+                        <p class="text-2xl font-bold font-heading text-teal-300 counter" th:data-target="${totalStudents ?: 500}">0</p>
+                        <p class="text-xs text-muted mt-1">Students Enrolled</p>
                     </div>
-                </div>
-                <div class="group relative p-8 lg:p-10 rounded-2xl bg-bgCard border border-subtle hover:border-teal-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(15,118,110,0.12)] hover:-translate-y-1">
-                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <div class="relative">
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-teal-600/20 border border-teal-500/30 group-hover:shadow-[0_0_20px_rgba(15,118,110,0.2)] transition-all">
-                            <i data-lucide="zap" class="w-7 h-7 text-teal-400"></i>
+                    <div class="glass rounded-2xl p-6 border border-subtle text-center hover:border-amber-500/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-amber-600/20 flex items-center justify-center mx-auto mb-3">
+                            <i data-lucide="user-check" class="w-6 h-6 text-amber-400"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-teal-300 transition-colors">Instant Access</h3>
-                        <p class="text-muted leading-relaxed">No registration required. Jump in as a guest and start exploring immediately.</p>
+                        <p class="text-2xl font-bold font-heading text-amber-300 counter" th:data-target="${totalLecturers ?: 40}">0</p>
+                        <p class="text-xs text-muted mt-1">Expert Lecturers</p>
+                    </div>
+                    <div class="glass rounded-2xl p-6 border border-subtle text-center hover:border-blue-500/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center mx-auto mb-3">
+                            <i data-lucide="book-open" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <p class="text-2xl font-bold font-heading text-blue-300 counter" th:data-target="${totalCourses ?: 50}">0</p>
+                        <p class="text-xs text-muted mt-1">Courses Available</p>
+                    </div>
+                    <div class="glass rounded-2xl p-6 border border-subtle text-center hover:border-green-500/30 transition-all hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-green-600/20 flex items-center justify-center mx-auto mb-3">
+                            <i data-lucide="building-2" class="w-6 h-6 text-green-400"></i>
+                        </div>
+                        <p class="text-2xl font-bold font-heading text-green-300 counter" th:data-target="${totalDepartments ?: 12}">0</p>
+                        <p class="text-xs text-muted mt-1">Departments</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
- 
+
+    <!-- ============================= -->
+    <!-- SECTION 3 — FEATURES         -->
+    <!-- ============================= -->
+    <section id="features" class="relative py-28 px-4 content-wrapper md:pr-8 bg-black/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal text-center mb-20">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i> Platform Features
+                </span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-5 font-heading">
+                    Everything You Need, <span class="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">All in One Place</span>
+                </h2>
+                <p class="text-muted max-w-xl mx-auto text-lg">A full-stack academic ecosystem built for students, lecturers, and administrators.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature cards -->
+                <div class="reveal group relative p-8 rounded-2xl bg-card border border-subtle hover:border-teal-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(15,118,110,0.12)] hover:-translate-y-1" style="transition-delay:0ms">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-teal-600/20 border border-teal-500/30">
+                        <i data-lucide="graduation-cap" class="w-7 h-7 text-teal-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-teal-300 transition-colors">Course Management</h3>
+                    <p class="text-muted leading-relaxed">Browse, enroll, and track courses. Lecturers can publish materials, assignments, and exams.</p>
+                </div>
+
+                <div class="reveal group relative p-8 rounded-2xl bg-card border border-subtle hover:border-amber-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(217,119,6,0.12)] hover:-translate-y-1" style="transition-delay:80ms">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-amber-600/20 border border-amber-500/30">
+                        <i data-lucide="clipboard-list" class="w-7 h-7 text-amber-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-amber-300 transition-colors">Assignments & Exams</h3>
+                    <p class="text-muted leading-relaxed">Submit assignments with file uploads. Take online exams and receive instant graded results.</p>
+                </div>
+
+                <div class="reveal group relative p-8 rounded-2xl bg-card border border-subtle hover:border-green-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(34,197,94,0.12)] hover:-translate-y-1" style="transition-delay:160ms">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-green-600/20 border border-green-500/30">
+                        <i data-lucide="bar-chart-2" class="w-7 h-7 text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-green-300 transition-colors">GPA & Grade Tracking</h3>
+                    <p class="text-muted leading-relaxed">Automatic GPA calculation based on your enrollment history and grades across all semesters.</p>
+                </div>
+
+                <div class="reveal group relative p-8 rounded-2xl bg-card border border-subtle hover:border-purple-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(139,92,246,0.12)] hover:-translate-y-1" style="transition-delay:0ms">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-purple-600/20 border border-purple-500/30">
+                        <i data-lucide="check-square" class="w-7 h-7 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-purple-300 transition-colors">Attendance System</h3>
+                    <p class="text-muted leading-relaxed">Lecturers mark attendance per schedule. Students track their attendance rate and history.</p>
+                </div>
+
+                <div class="reveal group relative p-8 rounded-2xl bg-card border border-subtle hover:border-indigo-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(79,70,229,0.12)] hover:-translate-y-1" style="transition-delay:80ms">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-indigo-600/20 border border-indigo-500/30">
+                        <i data-lucide="library" class="w-7 h-7 text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-indigo-300 transition-colors">Library System</h3>
+                    <p class="text-muted leading-relaxed">Browse and borrow books from the university catalog. Track your active loans and return dates.</p>
+                </div>
+
+                <div class="reveal group relative p-8 rounded-2xl bg-card border border-subtle hover:border-orange-500/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(249,115,22,0.12)] hover:-translate-y-1" style="transition-delay:160ms">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-orange-600/20 border border-orange-500/30">
+                        <i data-lucide="trophy" class="w-7 h-7 text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-foreground mb-3 font-heading group-hover:text-orange-300 transition-colors">Clubs & Student Life</h3>
+                    <p class="text-muted leading-relaxed">Join student clubs, attend events, and engage with campus communities through our student life hub.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================= -->
+    <!-- SECTION 4 — ROLES            -->
+    <!-- ============================= -->
+    <section id="roles" class="relative py-28 px-4 content-wrapper md:pr-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal text-center mb-16">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <i data-lucide="users" class="w-3.5 h-3.5"></i> User Roles
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading mb-4">Built for <span class="text-teal-400">Everyone</span></h2>
+                <p class="text-muted max-w-lg mx-auto">Three distinct roles, each with a tailored dashboard and set of tools.</p>
+            </div>
+
+            <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Student -->
+                <div class="glass rounded-3xl p-8 border border-teal-500/20 hover:border-teal-500/50 transition-all hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(15,118,110,0.15)] group">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-600 to-teal-800 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-teal-600/20">
+                        <i data-lucide="graduation-cap" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading text-center mb-4 group-hover:text-teal-300 transition-colors">Student</h3>
+                    <ul class="space-y-2.5 text-sm text-muted">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-400 flex-shrink-0"></i> Enroll in courses</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-400 flex-shrink-0"></i> Submit assignments & take exams</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-400 flex-shrink-0"></i> Track GPA & attendance</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-400 flex-shrink-0"></i> Borrow library books</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-400 flex-shrink-0"></i> Join clubs & view events</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-400 flex-shrink-0"></i> Pay invoices online</li>
+                    </ul>
+                    <a th:href="@{/register}" class="mt-6 w-full block text-center py-2.5 rounded-xl bg-teal-600/20 hover:bg-teal-600 text-teal-400 hover:text-white border border-teal-500/30 font-bold text-sm transition-all">
+                        Register as Student
+                    </a>
+                </div>
+
+                <!-- Lecturer -->
+                <div class="glass rounded-3xl p-8 border border-amber-500/20 hover:border-amber-500/50 transition-all hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(217,119,6,0.15)] group">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-amber-600/20">
+                        <i data-lucide="user-check" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading text-center mb-4 group-hover:text-amber-300 transition-colors">Lecturer</h3>
+                    <ul class="space-y-2.5 text-sm text-muted">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 flex-shrink-0"></i> Manage assigned courses</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 flex-shrink-0"></i> Create & grade assignments</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 flex-shrink-0"></i> Publish & review exams</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 flex-shrink-0"></i> Mark student attendance</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 flex-shrink-0"></i> Upload course materials</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 flex-shrink-0"></i> Assign final grades</li>
+                    </ul>
+                    <a th:href="@{/register/lecturer}" class="mt-6 w-full block text-center py-2.5 rounded-xl bg-amber-600/20 hover:bg-amber-600 text-amber-400 hover:text-white border border-amber-500/30 font-bold text-sm transition-all">
+                        Register as Lecturer
+                    </a>
+                </div>
+
+                <!-- Admin -->
+                <div class="glass rounded-3xl p-8 border border-red-500/20 hover:border-red-500/50 transition-all hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)] group">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-600/20">
+                        <i data-lucide="shield-alert" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-heading text-center mb-4 group-hover:text-red-300 transition-colors">Admin</h3>
+                    <ul class="space-y-2.5 text-sm text-muted">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-red-400 flex-shrink-0"></i> Manage courses & departments</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-red-400 flex-shrink-0"></i> Register & remove lecturers</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-red-400 flex-shrink-0"></i> Generate student invoices</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-red-400 flex-shrink-0"></i> Manage library catalog</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-red-400 flex-shrink-0"></i> Create student clubs</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-red-400 flex-shrink-0"></i> Full system dashboard</li>
+                    </ul>
+                    <a th:href="@{/login}" class="mt-6 w-full block text-center py-2.5 rounded-xl bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 font-bold text-sm transition-all">
+                        Admin Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================= -->
+    <!-- SECTION 5 — HOW IT WORKS     -->
+    <!-- ============================= -->
+    <section id="how" class="relative py-28 px-4 content-wrapper md:pr-8 bg-black/30">
+        <div class="max-w-4xl mx-auto">
+            <div class="reveal text-center mb-16">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <i data-lucide="map" class="w-3.5 h-3.5"></i> How It Works
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading mb-4">Get Started in <span class="text-teal-400">3 Easy Steps</span></h2>
+            </div>
+
+            <div class="reveal space-y-6">
+                <div class="glass rounded-2xl p-6 border border-subtle flex items-center gap-6 hover:border-teal-500/30 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-600 to-teal-800 flex items-center justify-center flex-shrink-0 text-2xl font-black text-white font-heading shadow-lg shadow-teal-600/20">1</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-foreground mb-1 group-hover:text-teal-300 transition-colors">Create Your Account</h3>
+                        <p class="text-muted text-sm">Register as a student or lecturer using your university email. The process takes under a minute.</p>
+                    </div>
+                    <i data-lucide="user-plus" class="w-8 h-8 text-teal-400/30 ml-auto flex-shrink-0 group-hover:text-teal-400 transition-colors"></i>
+                </div>
+                <div class="glass rounded-2xl p-6 border border-subtle flex items-center gap-6 hover:border-teal-500/30 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-600 to-teal-800 flex items-center justify-center flex-shrink-0 text-2xl font-black text-white font-heading shadow-lg shadow-teal-600/20">2</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-foreground mb-1 group-hover:text-teal-300 transition-colors">Explore & Enroll</h3>
+                        <p class="text-muted text-sm">Browse the course catalog, view department details, and enroll in the courses that match your curriculum.</p>
+                    </div>
+                    <i data-lucide="search" class="w-8 h-8 text-teal-400/30 ml-auto flex-shrink-0 group-hover:text-teal-400 transition-colors"></i>
+                </div>
+                <div class="glass rounded-2xl p-6 border border-subtle flex items-center gap-6 hover:border-teal-500/30 transition-all group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-600 to-teal-800 flex items-center justify-center flex-shrink-0 text-2xl font-black text-white font-heading shadow-lg shadow-teal-600/20">3</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-foreground mb-1 group-hover:text-teal-300 transition-colors">Learn & Grow</h3>
+                        <p class="text-muted text-sm">Submit assignments, take exams, attend sessions, and track your GPA — all from your personalized dashboard.</p>
+                    </div>
+                    <i data-lucide="trending-up" class="w-8 h-8 text-teal-400/30 ml-auto flex-shrink-0 group-hover:text-teal-400 transition-colors"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================= -->
+    <!-- SECTION 5.5 — TESTIMONIALS   -->
+    <!-- ============================= -->
+    <section id="testimonials" class="relative py-28 px-4 content-wrapper md:pr-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="reveal text-center mb-16">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Success Stories
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading mb-4">What Our <span class="text-teal-400">Community</span> Says</h2>
+            </div>
+            
+            <div class="reveal relative overflow-hidden" id="testimonialCarousel">
+                <div class="flex transition-transform duration-500 ease-in-out" id="testimonialTrack">
+                    <!-- Testimonial 1 -->
+                    <div class="w-full flex-shrink-0 px-3 md:w-1/2 lg:w-1/3">
+                        <div class="glass p-8 rounded-3xl border border-subtle relative card-hover group h-full">
+                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-teal-500/20 rounded-full blur-xl group-hover:bg-teal-500/40 transition-colors"></div>
+                            <i data-lucide="quote" class="w-8 h-8 text-teal-400/30 mb-6 group-hover:text-teal-400 transition-colors"></i>
+                            <p class="text-muted mb-6 leading-relaxed">"Creativa transformed my academic journey. The seamless integration of my timetable, assignments, and grades all in one place is incredible."</p>
+                            <div class="flex items-center gap-4 mt-auto">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center text-white font-bold text-lg">A</div>
+                                <div>
+                                    <h4 class="font-bold text-foreground">Ahmed Hassan</h4>
+                                    <p class="text-xs text-muted-dark">Computer Science Student</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="w-full flex-shrink-0 px-3 md:w-1/2 lg:w-1/3">
+                        <div class="glass p-8 rounded-3xl border border-subtle relative card-hover group h-full">
+                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-amber-500/20 rounded-full blur-xl group-hover:bg-amber-500/40 transition-colors"></div>
+                            <i data-lucide="quote" class="w-8 h-8 text-amber-400/30 mb-6 group-hover:text-amber-400 transition-colors"></i>
+                            <p class="text-muted mb-6 leading-relaxed">"Managing courses and grading has never been easier. The platform's intuitive design saves me hours of administrative work every week."</p>
+                            <div class="flex items-center gap-4 mt-auto">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white font-bold text-lg">S</div>
+                                <div>
+                                    <h4 class="font-bold text-foreground">Dr. Sarah Mansour</h4>
+                                    <p class="text-xs text-muted-dark">Engineering Lecturer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="w-full flex-shrink-0 px-3 md:w-1/2 lg:w-1/3">
+                        <div class="glass p-8 rounded-3xl border border-subtle relative card-hover group h-full">
+                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-blue-500/20 rounded-full blur-xl group-hover:bg-blue-500/40 transition-colors"></div>
+                            <i data-lucide="quote" class="w-8 h-8 text-blue-400/30 mb-6 group-hover:text-blue-400 transition-colors"></i>
+                            <p class="text-muted mb-6 leading-relaxed">"I love how easy it is to find and join student clubs. The campus life section makes staying connected with events effortless."</p>
+                            <div class="flex items-center gap-4 mt-auto">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold text-lg">M</div>
+                                <div>
+                                    <h4 class="font-bold text-foreground">Mona Ali</h4>
+                                    <p class="text-xs text-muted-dark">Business Administration</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Carousel Controls -->
+                <div class="flex justify-center gap-4 mt-10">
+                    <button class="w-12 h-12 rounded-full bg-glass border border-subtle flex items-center justify-center hover:bg-teal-600/20 hover:text-teal-400 hover:border-teal-500/40 transition-all" onclick="moveCarousel(-1)">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                    <button class="w-12 h-12 rounded-full bg-glass border border-subtle flex items-center justify-center hover:bg-teal-600/20 hover:text-teal-400 hover:border-teal-500/40 transition-all" onclick="moveCarousel(1)">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================= -->
+    <!-- SECTION 5.6 — FAQ            -->
+    <!-- ============================= -->
+    <section id="faq" class="relative py-28 px-4 content-wrapper md:pr-8 bg-black/30">
+        <div class="max-w-4xl mx-auto">
+            <div class="reveal text-center mb-16">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> FAQ
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-heading mb-4">Frequently Asked <span class="text-teal-400">Questions</span></h2>
+            </div>
+            
+            <div class="reveal space-y-4">
+                <!-- FAQ 1 -->
+                <div class="glass rounded-2xl border border-subtle overflow-hidden">
+                    <button class="w-full px-6 py-5 flex items-center justify-between font-bold text-left focus:outline-none hover:bg-glass-subtle transition-colors" onclick="this.nextElementSibling.classList.toggle('open'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <span>How do I enroll in a course?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-teal-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-glass-subtle border-t border-subtle">
+                        <p class="py-5 text-muted text-sm leading-relaxed">Once you register and log in as a student, navigate to the Courses page. Browse the catalog, find the course you want, and click "Enroll". It will instantly appear in your dashboard and timetable.</p>
+                    </div>
+                </div>
+                <!-- FAQ 2 -->
+                <div class="glass rounded-2xl border border-subtle overflow-hidden">
+                    <button class="w-full px-6 py-5 flex items-center justify-between font-bold text-left focus:outline-none hover:bg-glass-subtle transition-colors" onclick="this.nextElementSibling.classList.toggle('open'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <span>Can I access the library catalog as a guest?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-teal-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-glass-subtle border-t border-subtle">
+                        <p class="py-5 text-muted text-sm leading-relaxed">Yes, guests can browse the library catalog, view available books, and check stock levels. However, you must log in as a student or lecturer to actually borrow materials.</p>
+                    </div>
+                </div>
+                <!-- FAQ 3 -->
+                <div class="glass rounded-2xl border border-subtle overflow-hidden">
+                    <button class="w-full px-6 py-5 flex items-center justify-between font-bold text-left focus:outline-none hover:bg-glass-subtle transition-colors" onclick="this.nextElementSibling.classList.toggle('open'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <span>How is my GPA calculated?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-teal-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content px-6 bg-glass-subtle border-t border-subtle">
+                        <p class="py-5 text-muted text-sm leading-relaxed">Your GPA is automatically calculated in real-time based on the grades assigned by your lecturers for completed courses, weighted by the credit hours of each course.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================= -->
+    <!-- SECTION 6 — CTA              -->
+    <!-- ============================= -->
+    <section id="cta" class="relative py-28 px-4 content-wrapper md:pr-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="reveal glass rounded-3xl p-12 border border-teal-500/20 text-center relative overflow-hidden shadow-[0_0_60px_rgba(15,118,110,0.12)]">
+                <div class="absolute inset-0 bg-gradient-to-br from-teal-600/10 via-transparent to-teal-400/5 pointer-events-none"></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-teal-600/15 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-teal-600 to-teal-800 flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(15,118,110,0.4)]">
+                        <i data-lucide="rocket" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading mb-6">
+                        Ready to Start Your <span class="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">Journey?</span>
+                    </h2>
+                    <p class="text-muted text-lg max-w-xl mx-auto mb-10">Join hundreds of students and lecturers already using Creativa. Your academic future starts here.</p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a th:href="@{/register}" class="flex items-center gap-3 px-9 py-4 rounded-2xl font-bold text-white text-lg bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-600 transition-all duration-300 glow-teal hover:-translate-y-1 hover:scale-105">
+                            <i data-lucide="user-plus" class="w-5 h-5"></i> Get Started Free
+                        </a>
+                        <a th:href="@{/courses-page}" class="flex items-center gap-3 px-9 py-4 rounded-2xl font-bold text-lg text-teal-300 border-2 border-teal-500/40 hover:bg-teal-600/15 hover:border-teal-500/80 transition-all duration-300 hover:-translate-y-1 hover:scale-105">
+                            <i data-lucide="eye" class="w-5 h-5"></i> Browse as Guest
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Nav Dots (Section Indicator) -->
+    <nav id="sectionDots" class="fixed right-5 top-1/2 -translate-y-1/2 z-[150] hidden lg:flex flex-col gap-3">
+        <button onclick="scrollTo('hero')"   class="dot w-2.5 h-2.5 rounded-full bg-teal-400/30 hover:bg-teal-400 transition-all" title="Hero"></button>
+        <button onclick="scrollTo('about')"  class="dot w-2.5 h-2.5 rounded-full bg-teal-400/30 hover:bg-teal-400 transition-all" title="About"></button>
+        <button onclick="scrollTo('features')" class="dot w-2.5 h-2.5 rounded-full bg-teal-400/30 hover:bg-teal-400 transition-all" title="Features"></button>
+        <button onclick="scrollTo('roles')"  class="dot w-2.5 h-2.5 rounded-full bg-teal-400/30 hover:bg-teal-400 transition-all" title="Roles"></button>
+        <button onclick="scrollTo('how')"    class="dot w-2.5 h-2.5 rounded-full bg-teal-400/30 hover:bg-teal-400 transition-all" title="How it works"></button>
+        <button onclick="scrollTo('cta')"    class="dot w-2.5 h-2.5 rounded-full bg-teal-400/30 hover:bg-teal-400 transition-all" title="Get Started"></button>
+    </nav>
+
     <footer th:replace="~{fragments :: footer}"></footer>
+
+    <script>
+        // ── Scroll Progress ──
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // ── Section Reveal on Scroll ──
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ── Counter Animation ──
+        const counterObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                const el = e.target;
+                const target = +el.dataset.target;
+                let count = 0;
+                const step = Math.ceil(target / 60);
+                const timer = setInterval(() => {
+                    count = Math.min(count + step, target);
+                    el.textContent = count + (target >= 100 ? '+' : '');
+                    if (count >= target) clearInterval(timer);
+                }, 20);
+                counterObs.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+        // ── Typing Effect ──
+        const phrases = ["Academic Universe", "Learning Journey", "Campus Experience", "Future Career"];
+        let phraseIndex = 0;
+        let letterIndex = 0;
+        let isDeleting = false;
+        const typeTarget = document.getElementById('typewriter');
+        
+        function type() {
+            if (!typeTarget) return;
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typeTarget.textContent = currentPhrase.substring(0, letterIndex - 1);
+                letterIndex--;
+            } else {
+                typeTarget.textContent = currentPhrase.substring(0, letterIndex + 1);
+                letterIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 50 : 100;
+            
+            if (!isDeleting && letterIndex === currentPhrase.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && letterIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; // Pause before new word
+            }
+            
+            setTimeout(type, typeSpeed);
+        }
+        
+        if (typeTarget) setTimeout(type, 1000);
+
+        // ── Nav Dots ──
+        const sections = ['hero','about','features','roles','how','testimonials','faq','cta'];
+        function scrollTo(id) { document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+        const dotObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                const idx = sections.indexOf(e.target.id);
+                document.querySelectorAll('.dot').forEach((d, i) => {
+                    if(d) {
+                        d.style.background = i === idx ? '#2dd4bf' : 'rgba(45,212,191,0.3)';
+                        d.style.transform = i === idx ? 'scale(1.4)' : 'scale(1)';
+                    }
+                });
+            });
+        }, { threshold: 0.5 });
+        sections.forEach(id => { const el = document.getElementById(id); if(el) dotObs.observe(el); });
+
+        // ── Carousel Controls ──
+        let currentCarouselIndex = 0;
+        window.moveCarousel = function(dir) {
+            const track = document.getElementById('testimonialTrack');
+            if (!track) return;
+            const items = track.children;
+            if (items.length === 0) return;
+            
+            const itemsPerView = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+            const maxIndex = Math.max(0, items.length - itemsPerView);
+            
+            currentCarouselIndex += dir;
+            if (currentCarouselIndex < 0) currentCarouselIndex = 0;
+            if (currentCarouselIndex > maxIndex) currentCarouselIndex = maxIndex;
+            
+            // Percentage based transform ensures it scales well
+            const percentage = (100 / items.length) * currentCarouselIndex;
+            track.style.transform = `translateX(-${percentage}%)`;
+        };
+        window.addEventListener('resize', () => window.moveCarousel(0));
+    </script>
 </body>
 </html>
- 

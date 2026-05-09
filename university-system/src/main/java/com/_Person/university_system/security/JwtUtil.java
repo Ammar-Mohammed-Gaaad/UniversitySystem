@@ -11,7 +11,7 @@ import java.util.Date;
 public class JwtUtil {
 
     private final SecretKey key = Keys.hmacShaKeyFor(
-            "Creativa4PersonUniversitySecretKey2026SecureJWT!".getBytes());
+            "CreativaTripleAMUniversitySecretKey2026SecureJWT!".getBytes());
 
     private final long EXPIRATION = 86400000; // 24 hours
 

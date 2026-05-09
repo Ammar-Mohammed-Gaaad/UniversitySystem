@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head('Notifications â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Notifications — Creativa')}"></head>
 
 <body class="bg-background text-foreground">
     <nav th:replace="~{fragments :: navbar}"></nav>
@@ -10,38 +10,35 @@
         <div class="max-w-4xl mx-auto">
 
             <!-- Header -->
-            <div class="mb-8 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-teal-600/20 rounded-xl flex items-center justify-center border border-teal-500/30">
-                        <i data-lucide="bell" class="w-6 h-6 text-teal-400"></i>
+            <div class="flex items-center justify-between gap-6 mb-10 animate-fade-in-up">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-pink-600 to-pink-800 shadow-[0_0_20px_rgba(219,39,119,0.3)]">
+                        <i data-lucide="bell" class="w-6 h-6 text-white"></i>
                     </div>
                     <div>
                         <h1 class="text-3xl font-bold font-heading">Notifications</h1>
-                        <p class="text-muted text-sm mt-1">Updates and alerts for your account.</p>
+                        <p class="text-sm text-muted mt-0.5">Stay updated with the latest university news</p>
                     </div>
                 </div>
+                <form th:action="@{/notifications/read-all}" method="post">
+                    <button type="submit" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-glass border border-subtle hover:border-pink-500/30 text-xs font-bold text-muted hover:text-foreground transition-all">
+                        <i data-lucide="check-check" class="w-4 h-4"></i>
+                        Mark All as Read
+                    </button>
+                </form>
             </div>
 
-            <div class="glass rounded-3xl border border-subtle overflow-hidden">
-                <div th:if="${#lists.isEmpty(notifications)}" class="p-16 text-center">
-                    <div class="w-20 h-20 bg-glass rounded-3xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="bell-off" class="w-10 h-10 text-muted-dark"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-foreground mb-2">No Notifications</h3>
-                    <p class="text-muted">You're all caught up! There are no new notifications.</p>
+            <!-- Notification List -->
+            <div class="glass rounded-3xl border border-subtle overflow-hidden animate-fade-in-up delay-100">
+                <div th:if="${#lists.isEmpty(notifications)}" class="p-24 text-center">
+                    <i data-lucide="bell-off" class="w-16 h-16 text-muted-dark mx-auto mb-4 opacity-20"></i>
+                    <h3 class="text-xl font-bold font-heading text-foreground mb-2">Inbox Clean!</h3>
+                    <p class="text-muted">You're all caught up with your notifications.</p>
                 </div>
 
-                <div th:if="${!#lists.isEmpty(notifications)}" class="divide-y divide-white/5">
-                    <div th:each="notif : ${notifications}" class="p-6 transition-colors" th:classappend="${!notif.read ? 'bg-teal-600/[0.05] hover:bg-teal-600/[0.08]' : 'hover:bg-glass-subtle'}">
+                <div th:if="${!#lists.isEmpty(notifications)}" class="divide-y divide-subtle">
+                    <div th:each="n : ${notifications}" class="p-6 hover:bg-glass transition-colors group">
                         <div class="flex gap-4">
-                            <!-- Icon -->
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                                 th:classappend="${notif.type == 'SUCCESS' ? 'bg-green-500/20 text-green-400' : (notif.type == 'ERROR' ? 'bg-red-500/20 text-red-400' : (notif.type == 'WARNING' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400'))}">
-                                <i data-lucide="info" th:if="${notif.type == 'INFO' || notif.type == null}" class="w-5 h-5"></i>
-                                <i data-lucide="check-circle" th:if="${notif.type == 'SUCCESS'}" class="w-5 h-5"></i>
-                                <i data-lucide="alert-triangle" th:if="${notif.type == 'WARNING'}" class="w-5 h-5"></i>
-                                <i data-lucide="x-circle" th:if="${notif.type == 'ERROR'}" class="w-5 h-5"></i>
-                            </div>
 
                             <!-- Content -->
                             <div class="flex-1">

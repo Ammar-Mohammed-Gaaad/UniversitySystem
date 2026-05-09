@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head('Lecturer Timetable â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Lecturer Timetable — Creativa')}"></head>
 
 <body class="bg-background text-foreground">
     <nav th:replace="~{fragments :: navbar}"></nav>
@@ -54,7 +54,7 @@
                                         <div class="font-bold text-foreground text-sm" th:text="${schedule.course.title}">Course Title</div>
                                         <div class="text-xs text-muted-dark" th:text="${schedule.course.coursecode}">CODE</div>
                                     </div>
-                                    <span th:if="${schedule.course == null}" class="text-muted-dark">â€”</span>
+                                    <span th:if="${schedule.course == null}" class="text-muted-dark">—</span>
                                 </td>
                                 <td class="px-6 py-4 text-muted text-sm flex items-center gap-1.5">
                                     <i data-lucide="map-pin" class="w-3.5 h-3.5 text-blue-400"></i>

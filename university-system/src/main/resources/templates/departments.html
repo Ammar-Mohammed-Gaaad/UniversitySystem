@@ -1,7 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head('Departments â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Departments — Creativa')}"></head>
 
 <body class="bg-background text-foreground">
     <nav th:replace="~{fragments :: navbar}"></nav>
@@ -9,9 +9,9 @@
     <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
         <div class="max-w-7xl mx-auto">
             
-            <!-- Header -->
-            <div class="mb-10 animate-fade-in-up">
-                <div class="flex items-center gap-3 mb-4">
+            <!-- Header + Search -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 animate-fade-in-up">
+                <div class="flex items-center gap-3">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-teal-600 to-teal-800 glow-teal">
                         <i data-lucide="building-2" class="w-6 h-6 text-foreground"></i>
                     </div>
@@ -19,6 +19,10 @@
                         <h1 class="text-3xl sm:text-4xl font-bold font-heading">Departments</h1>
                         <p class="text-sm text-muted mt-0.5">Explore academic departments and their courses</p>
                     </div>
+                </div>
+                <div class="relative">
+                    <input type="text" id="deptSearch" placeholder="Search departments..." class="bg-glass border border-subtle rounded-xl px-4 py-2.5 pl-10 text-sm text-foreground focus:border-teal-500/50 outline-none w-full sm:w-72">
+                    <i data-lucide="search" class="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2"></i>
                 </div>
             </div>
 
@@ -30,6 +34,7 @@
                 <h3 class="text-2xl font-bold mb-3 font-heading">No Departments Available</h3>
                 <p class="text-muted max-w-md text-lg">There are no departments in the system yet. Check back later.</p>
             </div>
+
 
             <!-- Departments Grid -->
             <div th:if="${!#lists.isEmpty(departments)}" class="animate-fade-in-up delay-100">
@@ -62,25 +67,45 @@
                                 <span th:text="'Head: ' + ${dept.headOfDepartment.name}">Head Name</span>
                             </div>
 
-                            <!-- Course List Preview -->
-                            <div th:if="${!#lists.isEmpty(dept.courses)}" class="mt-4 pt-4 border-t border-subtle space-y-2">
-                                <div th:each="course : ${dept.courses}" class="flex items-center justify-between p-2 rounded-lg hover:bg-glass transition-colors">
-                                    <div class="flex items-center gap-3">
-                                        <span class="text-xs font-mono font-bold text-teal-400 bg-teal-600/15 px-2 py-1 rounded" th:text="${course.coursecode}">CODE</span>
-                                        <span class="text-sm font-medium truncate max-w-[120px]" th:text="${course.title}">Title</span>
-                                    </div>
-                                    <span class="text-xs text-muted-dark font-medium" th:text="${course.creditHours} + ' hrs'">3 hrs</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                             <!-- Course List Preview -->
+                             <div th:if="${!#lists.isEmpty(dept.courses)}" class="mt-4 pt-4 border-t border-subtle">
+                                 <button class="w-full flex items-center justify-between text-xs font-bold text-secondary hover:text-teal-400 transition-colors uppercase tracking-widest mb-3" 
+                                         onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
+                                     <span>Course Preview</span>
+                                     <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform"></i>
+                                 </button>
+                                 <div class="space-y-2 hidden">
+                                     <div th:each="course : ${dept.courses}" class="flex items-center justify-between p-2 rounded-lg hover:bg-glass transition-colors">
+                                         <div class="flex items-center gap-3">
+                                             <span class="text-[10px] font-mono font-bold text-teal-400 bg-teal-600/15 px-1.5 py-0.5 rounded" th:text="${course.coursecode}">CODE</span>
+                                             <span class="text-sm font-medium truncate max-w-[120px]" th:text="${course.title}">Title</span>
+                                         </div>
+                                         <span class="text-[10px] text-muted-dark font-medium" th:text="${course.creditHours} + ' hrs'">3 hrs</span>
+                                     </div>
+                                     <a th:href="@{/courses(department=${dept.id})}" class="block text-center py-2 text-[10px] font-bold text-teal-400 hover:underline mt-2">View All in Catalog</a>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
 
-    <footer th:replace="~{fragments :: footer}"></footer>
-</body>
+     <footer th:replace="~{fragments :: footer}"></footer>
+     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const s = document.getElementById('deptSearch');
+            if (s) s.addEventListener('input', () => {
+                const term = s.value.toLowerCase();
+                document.querySelectorAll('.group.rounded-2xl').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(term) ? '' : 'none';
+                });
+            });
+        });
+     </script>
+ </body>
 
 </html>
 

@@ -37,32 +37,49 @@
             </div>
 
             <!-- Replies -->
-            <h2 class="text-xl font-bold font-heading mb-4 flex items-center gap-2">
-                <i data-lucide="message-circle" class="w-5 h-5 text-violet-400"></i>
-                Replies <span class="text-sm font-normal text-muted" th:text="'(' + ${thread.replies != null ? thread.replies.size() : 0} + ')'"></span>
-            </h2>
+            <div class="mt-12 space-y-8">
+                <h3 class="text-xl font-bold font-heading flex items-center gap-2 mb-8">
+                    <i data-lucide="messages-square" class="w-5 h-5 text-teal-400"></i>
+                    <span th:text="${#lists.size(thread.replies)} + ' Replies'">0 Replies</span>
+                </h3>
 
-            <div class="space-y-4 mb-8">
-                <div th:each="reply : ${thread.replies}" class="glass rounded-2xl p-6 border border-subtle">
-                    <p class="text-foreground whitespace-pre-wrap mb-4" th:text="${reply.content}">Reply content</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-teal-600/20 flex items-center justify-center">
-                            <i data-lucide="user" class="w-4 h-4 text-teal-400"></i>
+                <div th:each="reply : ${thread.replies}" class="relative pl-8 animate-fade-in">
+                    <!-- Connector Line -->
+                    <div class="absolute left-3 top-0 bottom-0 w-px bg-teal-500/20 group-hover:bg-teal-500/40 transition-colors"></div>
+                    <div class="absolute left-3 top-6 w-5 h-px bg-teal-500/20 group-hover:bg-teal-500/40 transition-colors"></div>
+                    
+                    <div class="glass p-6 rounded-3xl border border-subtle hover:border-teal-500/30 transition-all group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-teal-600/15 flex items-center justify-center border border-teal-500/20 text-teal-400 font-bold" th:text="${#strings.substring(reply.author.name, 0, 1)}">A</div>
+                                <div>
+                                    <p class="font-bold text-foreground text-sm" th:text="${reply.author.name}">Author Name</p>
+                                    <p class="text-[10px] text-muted-dark uppercase tracking-widest font-bold" th:text="${reply.author.role}">Role</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-muted-dark font-bold uppercase tracking-widest" th:text="${#temporals.format(reply.createdAt, 'dd MMM, HH:mm')}">Time</span>
                         </div>
-                        <div>
-                            <p class="font-medium text-sm text-foreground" th:text="${reply.authorName}">Author</p>
-                            <p class="text-xs text-muted-dark" th:text="${#temporals.format(reply.createdAt, 'dd MMM yyyy, HH:mm')}">Date</p>
+                        <div class="text-muted leading-relaxed text-sm prose prose-invert max-w-none" th:text="${reply.content}">
+                            Reply content goes here...
+                        </div>
+                        <div class="mt-4 flex items-center gap-4">
+                            <button class="flex items-center gap-1.5 text-[10px] font-bold text-muted hover:text-teal-400 transition-colors">
+                                <i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i> Like
+                            </button>
+                            <button class="flex items-center gap-1.5 text-[10px] font-bold text-muted hover:text-teal-400 transition-colors">
+                                <i data-lucide="reply" class="w-3.5 h-3.5"></i> Reply
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div th:if="${thread.replies == null || thread.replies.isEmpty()}" class="glass rounded-2xl p-8 text-center border border-subtle">
-                    <p class="text-muted text-sm">No replies yet. Be the first to respond!</p>
+                <div th:if="${#lists.isEmpty(thread.replies)}" class="p-12 text-center glass rounded-3xl border border-subtle border-dashed">
+                    <p class="text-muted italic">No replies yet. Be the first to join the discussion!</p>
                 </div>
             </div>
 
             <!-- Reply Form -->
-            <div sec:authorize="isAuthenticated()" class="glass rounded-3xl p-6 border border-subtle">
+            <div sec:authorize="isAuthenticated()" class="glass rounded-3xl p-6 border border-subtle mt-8">
                 <h3 class="font-bold font-heading mb-4 flex items-center gap-2">
                     <i data-lucide="reply" class="w-5 h-5 text-teal-400"></i> Write a Reply
                 </h3>

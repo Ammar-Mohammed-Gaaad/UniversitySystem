@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="~{fragments :: head('Courses â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Courses — Creativa')}"></head>
 
 <body class="bg-background text-foreground">
     <nav th:replace="~{fragments :: navbar}"></nav>
@@ -10,17 +10,42 @@
     <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
         <div class="max-w-7xl mx-auto">
 
-            <!-- Header -->
-            <div class="mb-10 animate-fade-in-up">
-                <div class="flex items-center gap-3 mb-4">
+            <!-- Header + Controls -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 animate-fade-in-up">
+                <div class="flex items-center gap-3">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br from-teal-600 to-teal-800 glow-teal">
                         <i data-lucide="book-open" class="w-6 h-6 text-foreground"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl sm:text-4xl font-bold font-heading">Course Catalog</h1>
-                        <p class="text-sm text-muted mt-0.5">Browse all available courses</p>
+                        <h1 class="text-3xl sm:text-4xl font-bold font-heading">Available Courses</h1>
+                        <p class="text-sm text-muted mt-0.5">Browse and discover our academic offerings</p>
                     </div>
                 </div>
+                
+                <div class="flex items-center gap-3 self-end md:self-auto">
+                    <div class="flex bg-glass p-1 rounded-xl border border-subtle">
+                        <button id="gridViewBtn" class="p-2 rounded-lg bg-teal-500/10 text-teal-400 transition-all" title="Grid View">
+                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        </button>
+                        <button id="listViewBtn" class="p-2 rounded-lg text-muted hover:text-foreground transition-all" title="List View">
+                            <i data-lucide="list" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <select id="courseSort" class="bg-glass border border-subtle rounded-xl px-4 py-2 text-xs font-bold text-foreground focus:border-teal-500/50 outline-none appearance-none cursor-pointer">
+                        <option value="title">Sort by Title</option>
+                        <option value="credits">Sort by Credits</option>
+                        <option value="dept">Sort by Department</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 mb-6 animate-fade-in-up">
+                <span class="text-sm text-muted-dark">Showing</span>
+                <span id="courseCountDisplay" class="text-sm font-bold text-teal-400" th:text="${#lists.size(courses)}">0</span>
+                <span class="text-sm text-muted-dark">courses total</span>
+                <span sec:authorize="hasRole('STUDENT')" class="ml-auto text-xs text-muted-dark flex items-center gap-1">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-400"></i> Green = already enrolled
+                </span>
             </div>
 
             <!-- Search and Filter Bar -->
@@ -127,12 +152,12 @@
 
                         <!-- Action Buttons -->
                         <div class="px-6 pb-6 pt-2 relative z-10 flex gap-2">
-                            <!-- View Details â€” always visible -->
+                            <!-- View Details — always visible -->
                             <a th:href="@{/course-detail/{id}(id=${course.id})}" class="flex-1 py-2.5 bg-glass hover:bg-glass-hover text-secondary hover:text-foreground border border-subtle rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 text-sm">
                                 <i data-lucide="eye" class="w-3.5 h-3.5"></i> Details
                             </a>
 
-                            <!-- Already Enrolled â€” student only -->
+                            <!-- Already Enrolled — student only -->
                             <div sec:authorize="hasRole('STUDENT')"
                                  th:if="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
                                  class="flex-1">
@@ -145,7 +170,7 @@
                                 </form>
                             </div>
 
-                            <!-- Enroll Now â€” student not yet enrolled -->
+                            <!-- Enroll Now — student not yet enrolled -->
                             <div sec:authorize="hasRole('STUDENT')"
                                  th:unless="${enrolledIds != null and #lists.contains(enrolledIds, course.id)}"
                                  class="flex-1">
@@ -157,7 +182,7 @@
                                 </form>
                             </div>
 
-                            <!-- Guest â€” sign in to enroll -->
+                            <!-- Guest — sign in to enroll -->
                             <div sec:authorize="!isAuthenticated()" class="flex-1">
                                 <a th:href="@{/login}"
                                    class="block py-2.5 bg-teal-600/10 hover:bg-teal-600/20 text-teal-400 border border-teal-500/20 rounded-xl font-semibold transition-all text-center text-sm">
@@ -225,6 +250,51 @@
     </script>
 
     <footer th:replace="~{fragments :: footer}"></footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            const gridContainer = document.querySelector('.grid-cols-1');
+            
+            gridBtn?.addEventListener('click', () => {
+                gridBtn.classList.add('bg-teal-500/10', 'text-teal-400');
+                listBtn.classList.remove('bg-teal-500/10', 'text-teal-400');
+                listBtn.classList.add('text-muted');
+                gridContainer.classList.remove('lg:grid-cols-1');
+                gridContainer.classList.add('md:grid-cols-2', 'lg:grid-cols-3');
+                document.querySelectorAll('.course-card').forEach(card => card.classList.remove('flex-row', 'items-center', 'gap-6'));
+            });
+
+            listBtn?.addEventListener('click', () => {
+                listBtn.classList.add('bg-teal-500/10', 'text-teal-400');
+                gridBtn.classList.remove('bg-teal-500/10', 'text-teal-400');
+                gridBtn.classList.add('text-muted');
+                gridContainer.classList.remove('md:grid-cols-2', 'lg:grid-cols-3');
+                gridContainer.classList.add('lg:grid-cols-1');
+                document.querySelectorAll('.course-card').forEach(card => card.classList.add('flex-row', 'items-center', 'gap-6'));
+            });
+
+            // Sorting logic
+            const sortSelect = document.getElementById('courseSort');
+            sortSelect?.addEventListener('change', () => {
+                const sortBy = sortSelect.value;
+                const container = document.getElementById('coursesContainer');
+                const cards = Array.from(container.querySelectorAll('.course-item'));
+
+                cards.sort((a, b) => {
+                    if (sortBy === 'title') {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    } else if (sortBy === 'credits') {
+                        return parseInt(b.dataset.credits) - parseInt(a.dataset.credits);
+                    } else {
+                        return a.dataset.dept.localeCompare(b.dataset.dept);
+                    }
+                });
+
+                cards.forEach(card => container.appendChild(card));
+            });
+        });
+    </script>
 </body>
 </html>
 

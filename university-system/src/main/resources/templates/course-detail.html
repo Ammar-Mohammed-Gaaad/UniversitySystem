@@ -200,5 +200,26 @@
     </div>
  
     <footer th:replace="~{fragments :: footer}"></footer>
+    <script>
+        function switchTab(tabId) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-teal-500', 'text-teal-400');
+                btn.classList.add('border-transparent', 'text-muted');
+                if (btn.innerText.toLowerCase() === tabId) {
+                    btn.classList.add('active', 'border-teal-500', 'text-teal-400');
+                    btn.classList.remove('border-transparent', 'text-muted');
+                }
+            });
+
+            // Update panes
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.add('hidden');
+                if (pane.id === tabId + '-tab') {
+                    pane.classList.remove('hidden');
+                }
+            });
+        }
+    </script>
 </body>
 </html>

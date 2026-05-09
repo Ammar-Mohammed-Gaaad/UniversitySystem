@@ -72,6 +72,12 @@
 <body>
     <!-- Navbar Fragment -->
     <nav th:fragment="navbar" id="navbar">
+        <!-- Prevent Sidebar Flicker by loading state immediately -->
+        <script>
+            if (localStorage.getItem('sidebarCollapsed') === 'true' && window.innerWidth >= 768) {
+                document.body.classList.add('sidebar-collapsed');
+            }
+        </script>
         <!-- Sidebar Toggle Button (Fixed at top-left) -->
         <button id="sidebarToggle" class="fixed top-5 left-5 z-[110] w-12 h-12 flex items-center justify-center bg-card/80 backdrop-blur-md border border-subtle rounded-2xl shadow-lg hover:shadow-teal-500/20 hover:scale-110 active:scale-95 transition-all group active-toggle" onclick="toggleSidebar()">
             <div class="hamburger-box">
@@ -155,8 +161,10 @@
                         <a th:href="@{/student-life}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted hover:text-foreground hover:bg-teal-600/10 hover:translate-x-1 transition-all group">
                             <i data-lucide="rocket" class="w-4 h-4 group-hover:text-teal-400 transition-colors"></i> Student Life
                         </a>
-                        <a th:href="@{/messages}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted hover:text-foreground hover:bg-teal-600/10 hover:translate-x-1 transition-all group">
+                        <a th:href="@{/messages}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted hover:text-foreground hover:bg-teal-600/10 hover:translate-x-1 transition-all group relative">
                             <i data-lucide="message-square" class="w-4 h-4 group-hover:text-teal-400 transition-colors"></i> Messages
+                            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
+                            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
                         </a>
                     </div>
                 </div>
@@ -176,8 +184,10 @@
                         <a th:href="@{/student-life}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted hover:text-foreground hover:bg-amber-600/10 hover:translate-x-1 transition-all group">
                             <i data-lucide="users" class="w-4 h-4 group-hover:text-amber-400 transition-colors"></i> Campus Life
                         </a>
-                        <a th:href="@{/messages}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted hover:text-foreground hover:bg-amber-600/10 hover:translate-x-1 transition-all group">
+                        <a th:href="@{/messages}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted hover:text-foreground hover:bg-amber-600/10 hover:translate-x-1 transition-all group relative">
                             <i data-lucide="message-circle" class="w-4 h-4 group-hover:text-amber-400 transition-colors"></i> Messages
+                            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-ping opacity-75"></span>
+                            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
                         </a>
                     </div>
                 </div>
@@ -245,21 +255,59 @@
         <!-- Mobile Slide-Out Menu -->
         <div id="mobileMenu" class="md:hidden fixed inset-0 z-[100] hidden">
             <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleSidebar()"></div>
-            <div class="absolute right-0 top-0 h-full w-[260px] bg-card border-l border-subtle p-0 transform transition-transform duration-300 overflow-y-auto flex flex-col">
+            <div class="absolute right-0 top-0 h-full w-[280px] bg-card border-l border-subtle p-0 transform transition-transform duration-300 overflow-y-auto flex flex-col">
                 <div class="flex items-center justify-between p-6 border-b border-subtle">
-                    <span class="text-lg font-bold font-heading text-teal-400">Menu</span>
+                    <span class="text-lg font-bold font-heading bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">Menu</span>
                     <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-glass text-muted">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
-                <!-- ... mobile links same as desktop links ... -->
-                <div class="flex-1 overflow-y-auto p-4 space-y-4">
-                    <!-- Links removed for brevity but they follow the same structure as desktop -->
+                <div class="flex-1 overflow-y-auto p-4 space-y-6">
+                    <!-- General Links -->
                     <div class="space-y-1">
+                        <p class="px-3 text-[10px] font-bold tracking-widest text-muted-dark uppercase mb-2 opacity-60">General</p>
                         <a th:href="@{/}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-glass transition-all"><i data-lucide="home" class="w-4 h-4 text-teal-400"></i> Home</a>
                         <a th:href="@{/courses-page}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-glass transition-all"><i data-lucide="book-open" class="w-4 h-4 text-teal-400"></i> Courses</a>
                         <a th:href="@{/departments-page}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-glass transition-all"><i data-lucide="building-2" class="w-4 h-4 text-teal-400"></i> Departments</a>
                         <a th:href="@{/library}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-glass transition-all"><i data-lucide="library" class="w-4 h-4 text-teal-400"></i> Library</a>
+                    </div>
+                    <!-- Admin -->
+                    <div sec:authorize="hasRole('ADMIN')" class="space-y-1">
+                        <p class="px-3 text-[10px] font-bold tracking-widest text-red-400/60 uppercase mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-3 h-3"></i> Administration</p>
+                        <a th:href="@{/admin/dashboard}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-red-600/10 transition-all"><i data-lucide="layout-dashboard" class="w-4 h-4 text-red-400"></i> Dashboard</a>
+                        <a th:href="@{/admin/finances}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-red-600/10 transition-all"><i data-lucide="dollar-sign" class="w-4 h-4 text-red-400"></i> Finances</a>
+                        <a th:href="@{/admin/library}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-red-600/10 transition-all"><i data-lucide="book" class="w-4 h-4 text-red-400"></i> Library</a>
+                        <a th:href="@{/admin/clubs}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-red-600/10 transition-all"><i data-lucide="users" class="w-4 h-4 text-red-400"></i> Clubs</a>
+                    </div>
+                    <!-- Student -->
+                    <div sec:authorize="hasRole('STUDENT')" class="space-y-1">
+                        <p class="px-3 text-[10px] font-bold tracking-widest text-teal-400/60 uppercase mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-3 h-3"></i> Student</p>
+                        <a th:href="@{/student/dashboard}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-teal-600/10 transition-all"><i data-lucide="layout-dashboard" class="w-4 h-4 text-teal-400"></i> Dashboard</a>
+                        <a th:href="@{/student/timetable}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-teal-600/10 transition-all"><i data-lucide="calendar" class="w-4 h-4 text-teal-400"></i> Timetable</a>
+                        <a th:href="@{/student/finances}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-teal-600/10 transition-all"><i data-lucide="credit-card" class="w-4 h-4 text-teal-400"></i> Finances</a>
+                        <a th:href="@{/student-life}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-teal-600/10 transition-all"><i data-lucide="rocket" class="w-4 h-4 text-teal-400"></i> Student Life</a>
+                        <a th:href="@{/messages}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-teal-600/10 transition-all"><i data-lucide="message-square" class="w-4 h-4 text-teal-400"></i> Messages</a>
+                    </div>
+                    <!-- Lecturer -->
+                    <div sec:authorize="hasRole('LECTURER')" class="space-y-1">
+                        <p class="px-3 text-[10px] font-bold tracking-widest text-amber-400/60 uppercase mb-2 flex items-center gap-2"><i data-lucide="user-check" class="w-3 h-3"></i> Lecturer</p>
+                        <a th:href="@{/lecturer/dashboard}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-amber-600/10 transition-all"><i data-lucide="layout-dashboard" class="w-4 h-4 text-amber-400"></i> Dashboard</a>
+                        <a th:href="@{/lecturer/timetable}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-amber-600/10 transition-all"><i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i> Timetable</a>
+                        <a th:href="@{/student-life}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-amber-600/10 transition-all"><i data-lucide="users" class="w-4 h-4 text-amber-400"></i> Campus Life</a>
+                        <a th:href="@{/messages}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-secondary hover:bg-amber-600/10 transition-all"><i data-lucide="message-circle" class="w-4 h-4 text-amber-400"></i> Messages</a>
+                    </div>
+                </div>
+                <!-- Mobile Bottom Auth -->
+                <div class="p-4 border-t border-subtle bg-glass-subtle space-y-2">
+                    <div sec:authorize="!isAuthenticated()" class="flex flex-col gap-2">
+                        <a th:href="@{/login}" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold text-foreground bg-glass border border-subtle">Sign In</a>
+                        <a th:href="@{/register}" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-teal-600 to-teal-800">Register</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated()" class="flex gap-2">
+                        <button class="themeToggleBtn flex-1 py-2.5 rounded-xl bg-glass border border-subtle text-foreground">🌙</button>
+                        <form th:action="@{/logout}" method="post" class="m-0 flex-1">
+                            <button type="submit" class="w-full py-2.5 rounded-xl text-sm font-semibold text-red-400 bg-red-600/10 border border-red-500/20">Logout</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -271,25 +319,55 @@
                 const body = document.body;
                 const toggleBtn = document.getElementById('sidebarToggle');
                 const mobileMenu = document.getElementById('mobileMenu');
-
                 if (isMobile) {
                     mobileMenu.classList.toggle('hidden');
                 } else {
                     body.classList.toggle('sidebar-collapsed');
                     toggleBtn.classList.toggle('active');
+                    localStorage.setItem('sidebarCollapsed', body.classList.contains('sidebar-collapsed'));
                 }
                 lucide.createIcons();
             }
 
-            // Sync hamburger state on load
+            // Keyboard shortcut: Ctrl+B to toggle sidebar
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'b') { e.preventDefault(); toggleSidebar(); }
+            });
+
+            // Active link highlighting
             window.addEventListener('DOMContentLoaded', () => {
-                if (document.body.classList.contains('sidebar-collapsed')) {
-                    document.getElementById('sidebarToggle').classList.remove('active');
-                } else {
-                    document.getElementById('sidebarToggle').classList.add('active');
+                const path = window.location.pathname;
+                const sidebar = document.getElementById('sidebar');
+                if (!sidebar) return;
+                sidebar.querySelectorAll('a[href]').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (!href || href === '#') return;
+                    const isActive = (href === '/' && path === '/') || (href !== '/' && path.startsWith(href));
+                    if (isActive) {
+                        link.classList.add('sidebar-link-active');
+                        // Check for admin/lecturer color variants
+                        const parent = link.closest('[class*="red-"]') || link.closest('div');
+                        if (link.href.includes('/admin/')) {
+                            link.classList.remove('sidebar-link-active');
+                            link.classList.add('sidebar-link-admin-active');
+                        } else if (link.href.includes('/lecturer/')) {
+                            link.classList.remove('sidebar-link-active');
+                            link.classList.add('sidebar-link-amber-active');
+                        }
+                    }
+                });
+                // Sync hamburger
+                const toggleBtn = document.getElementById('sidebarToggle');
+                if (toggleBtn) {
+                    if (document.body.classList.contains('sidebar-collapsed')) {
+                        toggleBtn.classList.remove('active');
+                    } else {
+                        toggleBtn.classList.add('active');
+                    }
                 }
             });
 
+            // Theme toggle in sidebar
             const toggleBtns = document.querySelectorAll(".themeToggleBtn");
             if (toggleBtns.length > 0) {
                 if (document.documentElement.classList.contains("dark") || localStorage.getItem("theme") === "dark") {
@@ -309,6 +387,24 @@
                     });
                 });
             }
+
+            // Confirmation dialog for delete actions
+            function confirmDelete(formEl, itemName) {
+                const overlay = document.createElement('div');
+                overlay.className = 'modal-overlay active';
+                overlay.innerHTML = `<div class="modal-box text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-red-500/15 flex items-center justify-center mx-auto mb-4"><i data-lucide="alert-triangle" class="w-7 h-7 text-red-400"></i></div>
+                    <h3 class="text-lg font-bold text-foreground mb-2 font-heading">Confirm Delete</h3>
+                    <p class="text-sm text-muted mb-6">Are you sure you want to delete <strong class="text-foreground">${itemName || 'this item'}</strong>? This cannot be undone.</p>
+                    <div class="flex gap-3">
+                        <button onclick="this.closest('.modal-overlay').remove()" class="flex-1 py-2.5 rounded-xl bg-glass border border-subtle text-secondary font-semibold hover:bg-glass-hover transition-all">Cancel</button>
+                        <button id="confirmDeleteBtn" class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition-all">Delete</button>
+                    </div></div>`;
+                document.body.appendChild(overlay);
+                lucide.createIcons();
+                overlay.querySelector('#confirmDeleteBtn').addEventListener('click', () => { overlay.remove(); formEl.submit(); });
+                overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+            }
         </script>
     </nav>
 
@@ -319,6 +415,13 @@
     <button th:fragment="theme-toggle" class="themeToggleBtn fixed bottom-6 left-6 z-[150] px-4 py-3 text-lg rounded-full bg-teal-600 text-white hover:bg-teal-700 shadow-xl hover:shadow-[0_0_20px_rgba(15,118,110,0.3)] hover:-translate-y-1 transition-all duration-300" title="Switch Theme">
         🌙
     </button>
+
+    <!-- Breadcrumb Fragment -->
+    <nav th:fragment="breadcrumb(pageName)" class="flex items-center gap-2 text-sm text-muted-dark mb-8 animate-fade-in-up">
+        <a th:href="@{/}" class="hover:text-secondary transition-colors"><i data-lucide="home" class="w-4 h-4"></i></a>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        <span class="text-teal-400 font-medium" th:text="${pageName}">Page Name</span>
+    </nav>
 
     <!-- Footer Fragment -->
     <footer th:fragment="footer" class="border-t border-subtle bg-card py-8">
@@ -331,7 +434,7 @@
                     </span>
                 </div>
                 <p class="text-xs text-muted-dark flex items-center gap-1">
-                    Built with <i data-lucide="heart" class="w-3 h-3 text-teal-500"></i> by 4Person Team
+                    Built with <i data-lucide="heart" class="w-3 h-3 text-teal-500"></i> by TripleAM Team
                 </p>
                 <span class="text-xs text-muted-darker">© 2026 Creativa</span>
             </div>

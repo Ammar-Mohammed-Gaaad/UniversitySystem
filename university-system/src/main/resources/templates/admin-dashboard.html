@@ -1,10 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments :: head('Admin Dashboard â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Admin Dashboard — Creativa')}"></head>
 
-<body class="bg-background text-foreground">
+<body class="bg-background text-foreground relative">
     <nav th:replace="~{fragments :: navbar}"></nav>
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-red-600/5 blur-[120px] animate-float"></div>
+        <div class="absolute bottom-1/3 left-1/3 w-[350px] h-[350px] rounded-full bg-teal-600/5 blur-[100px] animate-float-delayed"></div>
+    </div>
 
     <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
         <div class="max-w-7xl mx-auto">
@@ -28,45 +34,45 @@
                         <i data-lucide="shield-alert" class="w-6 h-6 text-foreground"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl sm:text-4xl font-bold font-heading">Admin Dashboard</h1>
+                        <h1 class="text-3xl sm:text-4xl font-bold font-heading"><span id="greetingText">Welcome</span>, Admin</h1>
                         <p class="text-sm text-muted mt-0.5">Full control of courses, departments, students and staff</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Stats Row â€” 4 cards -->
+            <!-- Stats Row — 4 cards -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10 animate-fade-in-up delay-100">
-                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between">
+                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between card-hover hover:border-teal-500/30">
                     <div>
                         <p class="text-xs text-muted mb-1 uppercase tracking-wider">Courses</p>
-                        <p class="text-3xl font-bold font-heading" th:text="${courseCount}">0</p>
+                        <p class="text-3xl font-bold font-heading counter-animate" th:text="${courseCount}">0</p>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-teal-600/20 flex items-center justify-center">
                         <i data-lucide="book-open" class="w-5 h-5 text-teal-400"></i>
                     </div>
                 </div>
-                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between">
+                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between card-hover hover:border-blue-500/30">
                     <div>
                         <p class="text-xs text-muted mb-1 uppercase tracking-wider">Departments</p>
-                        <p class="text-3xl font-bold font-heading" th:text="${departmentCount}">0</p>
+                        <p class="text-3xl font-bold font-heading counter-animate" th:text="${departmentCount}">0</p>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-blue-600/20 flex items-center justify-center">
                         <i data-lucide="building-2" class="w-5 h-5 text-blue-400"></i>
                     </div>
                 </div>
-                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between">
+                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between card-hover hover:border-green-500/30">
                     <div>
                         <p class="text-xs text-muted mb-1 uppercase tracking-wider">Students</p>
-                        <p class="text-3xl font-bold font-heading" th:text="${studentCount}">0</p>
+                        <p class="text-3xl font-bold font-heading counter-animate" th:text="${studentCount}">0</p>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-green-600/20 flex items-center justify-center">
                         <i data-lucide="graduation-cap" class="w-5 h-5 text-green-400"></i>
                     </div>
                 </div>
-                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between">
+                <div class="glass p-5 rounded-2xl border border-subtle flex items-center justify-between card-hover hover:border-amber-500/30">
                     <div>
                         <p class="text-xs text-muted mb-1 uppercase tracking-wider">Lecturers</p>
-                        <p class="text-3xl font-bold font-heading" th:text="${lecturerCount}">0</p>
+                        <p class="text-3xl font-bold font-heading counter-animate" th:text="${lecturerCount}">0</p>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-amber-600/20 flex items-center justify-center">
                         <i data-lucide="user-check" class="w-5 h-5 text-amber-400"></i>
@@ -145,9 +151,13 @@
 
                 <!-- Courses Table -->
                 <div class="glass rounded-3xl p-6 border border-subtle overflow-hidden">
-                    <h3 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
+                    <h3 class="text-lg font-bold font-heading mb-3 flex items-center gap-2">
                         <i data-lucide="book-open" class="w-4 h-4 text-teal-400"></i> Course List
                     </h3>
+                    <div class="mb-5 relative">
+                        <input type="text" id="courseSearch" placeholder="Search courses..." class="w-full bg-background border border-subtle rounded-xl px-4 py-2.5 pl-10 text-sm text-foreground placeholder-muted-dark focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition">
+                        <i data-lucide="search" class="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-muted">
                             <thead class="text-xs uppercase bg-glass text-secondary">
@@ -163,18 +173,27 @@
                                     <td class="px-4 py-3 font-bold text-teal-400" th:text="${c.coursecode}">CS101</td>
                                     <td class="px-4 py-3 text-foreground max-w-[140px] truncate" th:text="${c.title}">Title</td>
                                     <td class="px-4 py-3 text-muted-dark text-xs">
-                                        <div th:text="${c.department != null ? c.department.name : 'â€”'}">Dept</div>
+                                        <div th:text="${c.department != null ? c.department.name : '—'}">Dept</div>
                                         <div th:if="${c.lecturer != null}" class="text-amber-500/70" th:text="${c.lecturer.name}">Lecturer</div>
                                     </td>
-                                    <td class="px-4 py-3 text-right flex items-center justify-end gap-2">
-                                        <a th:href="@{/course-detail/{id}(id=${c.id})}" class="p-1.5 bg-teal-500/10 text-teal-400 hover:bg-teal-500/20 rounded-lg transition-colors" title="View">
-                                            <i data-lucide="eye" class="w-4 h-4"></i>
-                                        </a>
-                                        <form th:action="@{/admin/courses/delete/{id}(id=${c.id})}" method="post" class="inline m-0">
-                                            <button type="submit" class="p-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors" title="Delete">
-                                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                            </button>
-                                        </form>
+                                    <td class="px-4 py-3 text-right">
+                                        <div class="flex items-center justify-end gap-2 relative">
+                                            <div class="dropdown" data-dropdown>
+                                                <button type="button" class="dropdown-btn w-8 h-8 rounded-lg bg-glass border border-subtle flex items-center justify-center text-muted hover:text-foreground hover:border-teal-500/30 transition-all">
+                                                    <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                                                </button>
+                                                <div class="dropdown-menu hidden absolute right-0 top-10 w-36 bg-background border border-subtle rounded-xl shadow-xl z-20 py-2">
+                                                    <a th:href="@{/course-detail/{id}(id=${c.id})}" class="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-glass-subtle transition-colors">
+                                                        <i data-lucide="eye" class="w-4 h-4 text-teal-400"></i> View
+                                                    </a>
+                                                    <form th:action="@{/admin/courses/delete/{id}(id=${c.id})}" method="post" class="m-0 w-full" onsubmit="event.preventDefault(); confirmDelete(this, this.closest('tr').querySelector('.text-teal-400').textContent)">
+                                                        <button type="submit" class="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors text-left">
+                                                            <i data-lucide="trash-2" class="w-4 h-4"></i> Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(courses)}">
@@ -204,15 +223,21 @@
                                     <td class="px-4 py-3 font-medium text-foreground" th:text="${d.name}">Dept</td>
                                     <td class="px-4 py-3 text-muted-dark" th:text="${d.courses != null ? d.courses.size() : 0}">0</td>
                                     <td class="px-4 py-3 text-right">
-                                        <form th:action="@{/admin/departments/delete/{id}(id=${d.id})}" method="post" class="inline m-0">
-                                            <button type="submit" class="p-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors" title="Delete">
+                                        <form th:action="@{/admin/departments/delete/{id}(id=${d.id})}" method="post" class="inline m-0" onsubmit="event.preventDefault(); confirmDelete(this, this.closest('tr').querySelector('.text-foreground').textContent)">
+                                            <button type="submit" class="p-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors" data-tooltip="Delete">
                                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                                             </button>
                                         </form>
                                     </td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(departments)}">
-                                    <td colspan="3" class="px-4 py-8 text-center text-muted-dark">No departments yet.</td>
+                                    <td colspan="3" class="px-8 py-12 text-center">
+                                        <div class="w-16 h-16 bg-glass rounded-2xl flex items-center justify-center mx-auto mb-4 border border-subtle">
+                                            <i data-lucide="building-2" class="w-8 h-8 text-muted-dark"></i>
+                                        </div>
+                                        <h3 class="text-foreground font-medium mb-1">No Departments</h3>
+                                        <p class="text-sm text-muted">Add a department using the form to get started.</p>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -223,33 +248,47 @@
             <!-- Students + Lecturers Tables (NEW) -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in-up delay-400">
 
+            <!-- Students + Lecturers Tables -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10 animate-fade-in-up delay-400">
+
                 <!-- Students Table -->
                 <div class="glass rounded-3xl p-6 border border-subtle overflow-hidden">
-                    <h3 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
-                        <i data-lucide="graduation-cap" class="w-4 h-4 text-green-400"></i> Registered Students
-                    </h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold font-heading flex items-center gap-2">
+                            <i data-lucide="graduation-cap" class="w-4 h-4 text-green-400"></i> Registered Students
+                        </h3>
+                        <a href="#" class="text-xs font-bold text-teal-400 hover:underline">View All</a>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-muted">
                             <thead class="text-xs uppercase bg-glass text-secondary">
                                 <tr>
                                     <th class="px-4 py-3 rounded-tl-lg">Name</th>
                                     <th class="px-4 py-3">Email</th>
-                                    <th class="px-4 py-3">Major</th>
                                     <th class="px-4 py-3 rounded-tr-lg">Courses</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="s : ${students}" class="border-b border-subtle hover:bg-glass transition-colors">
-                                    <td class="px-4 py-3 font-medium text-foreground" th:text="${s.name}">Name</td>
-                                    <td class="px-4 py-3 text-muted text-xs" th:text="${s.email}">email</td>
-                                    <td class="px-4 py-3 text-muted-dark text-xs" th:text="${s.major != null ? s.major : 'â€”'}">â€”</td>
+                                    <td class="px-4 py-3 font-medium text-foreground">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[10px] border"
+                                                 th:classappend="${s.iD % 3 == 0 ? 'bg-green-500/20 text-green-400 border-green-500/30' : (s.iD % 3 == 1 ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-purple-500/20 text-purple-400 border-purple-500/30')}"
+                                                 th:text="${#strings.substring(s.name, 0, 1)}">S</div>
+                                            <div>
+                                                <div th:text="${s.name}">Name</div>
+                                                <div class="text-[10px] text-muted-dark font-normal" th:text="${s.major != null ? s.major : 'Undeclared'}">Major</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-muted text-xs font-mono" th:text="${s.email}">email</td>
                                     <td class="px-4 py-3">
-                                        <span class="text-xs font-bold text-green-400 bg-green-600/15 px-2 py-0.5 rounded-full"
-                                              th:text="${s.enrolledCourses != null ? s.enrolledCourses.size() : 0} + ' enrolled'">0 enrolled</span>
+                                        <span class="text-[10px] font-bold text-green-400 bg-green-600/15 px-2 py-0.5 rounded-full border border-green-500/20"
+                                              th:text="${s.enrolledCourses != null ? s.enrolledCourses.size() : 0} + ' Courses'">0 Courses</span>
                                     </td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(students)}">
-                                    <td colspan="4" class="px-4 py-8 text-center text-muted-dark">No students registered yet.</td>
+                                    <td colspan="3" class="px-4 py-8 text-center text-muted-dark">No students registered yet.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -258,30 +297,41 @@
 
                 <!-- Lecturers Table -->
                 <div class="glass rounded-3xl p-6 border border-subtle overflow-hidden">
-                    <h3 class="text-lg font-bold font-heading mb-4 flex items-center gap-2">
-                        <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i> Lecturers
-                    </h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold font-heading flex items-center gap-2">
+                            <i data-lucide="user-check" class="w-4 h-4 text-amber-400"></i> Lecturers
+                        </h3>
+                        <a href="#" class="text-xs font-bold text-amber-400 hover:underline">Manage Staff</a>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-muted">
                             <thead class="text-xs uppercase bg-glass text-secondary">
                                 <tr>
                                     <th class="px-4 py-3 rounded-tl-lg">Name</th>
                                     <th class="px-4 py-3">Email</th>
-                                    <th class="px-4 py-3">Department</th>
-                                    <th class="px-4 py-3 rounded-tr-lg">Title</th>
+                                    <th class="px-4 py-3 rounded-tr-lg">Role</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="l : ${lecturers}" class="border-b border-subtle hover:bg-glass transition-colors">
-                                    <td class="px-4 py-3 font-medium text-foreground" th:text="${l.name}">Name</td>
-                                    <td class="px-4 py-3 text-muted text-xs" th:text="${l.email}">email</td>
-                                    <td class="px-4 py-3 text-muted-dark text-xs" th:text="${l.department != null ? l.department : 'â€”'}">â€”</td>
+                                    <td class="px-4 py-3 font-medium text-foreground">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-[10px] border"
+                                                 th:classappend="${l.iD % 2 == 0 ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' : 'bg-red-500/20 text-red-400 border-red-500/30'}"
+                                                 th:text="${#strings.substring(l.name, 0, 1)}">L</div>
+                                            <div>
+                                                <div th:text="${l.name}">Name</div>
+                                                <div class="text-[10px] text-muted-dark font-normal" th:text="${l.department != null ? l.department : 'Faculty'}">Dept</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-muted text-xs font-mono" th:text="${l.email}">email</td>
                                     <td class="px-4 py-3">
-                                        <span class="text-xs font-medium text-amber-400" th:text="${l.title != null ? l.title : 'Lecturer'}">Lecturer</span>
+                                        <span class="text-[10px] font-bold text-amber-400 border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 rounded-full" th:text="${l.title != null ? l.title : 'Lecturer'}">Lecturer</span>
                                     </td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(lecturers)}">
-                                    <td colspan="4" class="px-4 py-8 text-center text-muted-dark">No lecturers registered yet.</td>
+                                    <td colspan="3" class="px-4 py-8 text-center text-muted-dark">No lecturers registered yet.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -289,11 +339,147 @@
                 </div>
             </div>
 
+            <!-- Recent Activity Feed (NEW) -->
+            <div class="animate-fade-in-up delay-500">
+                <div class="glass rounded-3xl p-8 border border-subtle">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-xl font-bold font-heading flex items-center gap-2">
+                            <i data-lucide="activity" class="w-5 h-5 text-teal-400"></i> Recent Activity Log
+                        </h3>
+                        <span class="px-3 py-1 rounded-full bg-teal-500/10 text-teal-400 text-[10px] font-bold uppercase tracking-widest border border-teal-500/20">Live System Feed</span>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4 relative">
+                            <div class="absolute left-4 top-10 bottom-0 w-px bg-subtle"></div>
+                            <div class="w-8 h-8 rounded-full bg-teal-600/20 flex items-center justify-center shrink-0 border border-teal-500/30 z-10">
+                                <i data-lucide="plus" class="w-4 h-4 text-teal-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-foreground">New course <span class="text-teal-400">CS302 - Network Security</span> created</p>
+                                <p class="text-xs text-muted mt-1">Just now â€¢ Admin User</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 relative">
+                            <div class="absolute left-4 top-10 bottom-0 w-px bg-subtle"></div>
+                            <div class="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center shrink-0 border border-blue-500/30 z-10">
+                                <i data-lucide="user-plus" class="w-4 h-4 text-blue-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-foreground">New student <span class="text-blue-400">Sarah Johnson</span> registered</p>
+                                <p class="text-xs text-muted mt-1">14 minutes ago â€¢ Automated System</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 relative">
+                            <div class="absolute left-4 top-10 bottom-0 w-px bg-subtle"></div>
+                            <div class="w-8 h-8 rounded-full bg-amber-600/20 flex items-center justify-center shrink-0 border border-amber-500/30 z-10">
+                                <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-foreground">Financial invoice generated for <span class="text-amber-400">ID: 2024001</span></p>
+                                <p class="text-xs text-muted mt-1">2 hours ago â€¢ Billing Department</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-red-600/20 flex items-center justify-center shrink-0 border border-red-500/30 z-10">
+                                <i data-lucide="trash-2" class="w-4 h-4 text-red-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-foreground">Outdated department <span class="text-red-400">Archived Studies</span> removed</p>
+                                <p class="text-xs text-muted mt-1">5 hours ago â€¢ Root Admin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 
     <footer th:replace="~{fragments :: footer}"></footer>
+
+    <script>
+        // Time-based greeting
+        const hour = new Date().getHours();
+        let greeting = 'Good evening';
+        if (hour >= 5 && hour < 12) greeting = 'Good morning';
+        else if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+        document.getElementById('greetingText').textContent = greeting;
+
+        // Counter Animation
+        document.querySelectorAll('.counter-animate').forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('th:text') || +counter.innerText;
+                if(isNaN(target)) return;
+                
+                const count = +counter.innerText;
+                const speed = 200; // lower is slower
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 15);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            
+            // Initial reset then animate
+            const targetVal = counter.innerText;
+            counter.innerText = '0';
+            counter.setAttribute('data-target', targetVal);
+            
+            // Only animate if in view (simple check)
+            setTimeout(() => {
+                const target = +counter.getAttribute('data-target');
+                if(!isNaN(target)) {
+                    counter.innerText = '0';
+                    const inc = target / 50;
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += inc;
+                        if(current >= target) {
+                            counter.innerText = target;
+                            clearInterval(timer);
+                        } else {
+                            counter.innerText = Math.ceil(current);
+                        }
+                    }, 20);
+                }
+            }, 100);
+        });
+
+        // Course search filter
+        document.addEventListener('DOMContentLoaded', () => {
+            const search = document.getElementById('courseSearch');
+            if (search) {
+                search.addEventListener('input', () => {
+                    const term = search.value.toLowerCase();
+                    document.querySelectorAll('table')[0]?.querySelectorAll('tbody tr').forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(term) ? '' : 'none';
+                    });
+                });
+            }
+
+            // Dropdown logic
+            document.querySelectorAll('.dropdown-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = btn.nextElementSibling;
+                    const isHidden = menu.classList.contains('hidden');
+                    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+                    if (isHidden) menu.classList.remove('hidden');
+                });
+            });
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+            });
+        });
+    </script>
 </body>
 </html>
-
-

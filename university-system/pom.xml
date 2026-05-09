@@ -8,7 +8,7 @@
 		<version>4.0.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.4Person</groupId>
+	<groupId>com.TripleAM</groupId>
 	<artifactId>university-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>

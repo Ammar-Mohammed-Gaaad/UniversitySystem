@@ -1,10 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
  
 <head th:replace="~{fragments :: head('Register – Creativa')}"></head>
  
-<body class="bg-background text-foreground min-h-screen flex flex-col">
+<body class="bg-background text-foreground min-h-screen flex flex-col relative">
     <nav th:replace="~{fragments :: navbar}"></nav>
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-teal-600/8 blur-[150px] animate-float"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-blue-600/5 blur-[120px] animate-float-delayed"></div>
+    </div>
  
     <div class="flex-1 flex items-center justify-center px-4 pt-24 pb-16">
         <div class="w-full max-w-md animate-fade-in-up">
@@ -22,22 +28,50 @@
                 <span class="text-sm font-medium" id="errorMsg">Registration failed.</span>
             </div>
  
-            <div class="glass rounded-3xl border border-subtle p-8">
-                <div class="space-y-4" id="regForm">
- 
-                    <div>
-                        <label class="block text-sm font-medium text-secondary mb-2">Full Name</label>
-                        <input type="text" id="name" required placeholder="e.g. Ahmed Hassan"
-                               class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+            <!-- Stepper UI -->
+            <div class="flex justify-between items-center mb-8 relative px-4">
+                <div class="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-1 bg-glass-subtle -z-10 rounded-full overflow-hidden">
+                    <div class="h-full bg-teal-500 transition-all duration-500" id="stepProgress" style="width: 0%"></div>
+                </div>
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors bg-teal-500 text-white shadow-[0_0_15px_rgba(20,184,166,0.4)]" id="step1Dot">1</div>
+                    <span class="text-xs font-semibold text-teal-400 transition-colors" id="step1Label">Personal</span>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors bg-glass border border-subtle text-muted" id="step2Dot">2</div>
+                    <span class="text-xs font-semibold text-muted transition-colors" id="step2Label">Academic</span>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors bg-glass border border-subtle text-muted" id="step3Dot">3</div>
+                    <span class="text-xs font-semibold text-muted transition-colors" id="step3Label">Password</span>
+                </div>
+            </div>
+
+            <div class="glass rounded-3xl border border-subtle p-8 overflow-hidden relative">
+                <div class="flex transition-transform duration-500 ease-in-out w-[300%]" id="formWrapper">
+                    
+                    <!-- Step 1: Personal -->
+                    <div class="w-1/3 px-2 flex flex-col gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-secondary mb-2">Full Name</label>
+                            <input type="text" id="name" required placeholder="e.g. Ahmed Hassan"
+                                   class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-secondary mb-2">Email Address</label>
+                            <input type="email" id="email" required placeholder="you@university.edu"
+                                   class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+                        </div>
+                        <button type="button" onclick="nextStep(2)" class="w-full py-3 mt-2 bg-teal-600/20 text-teal-400 hover:bg-teal-600 hover:text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+                            Next Step <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
                     </div>
- 
-                    <div>
-                        <label class="block text-sm font-medium text-secondary mb-2">Email Address</label>
-                        <input type="email" id="email" required placeholder="you@university.edu"
-                               class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
-                    </div>
- 
-                    <div class="grid grid-cols-2 gap-4">
+
+                    <!-- Step 2: Academic -->
+                    <div class="w-1/3 px-2 flex flex-col gap-4">
                         <div>
                             <label class="block text-sm font-medium text-secondary mb-2">Major</label>
                             <input type="text" id="major" placeholder="e.g. Computer Science"
@@ -48,18 +82,46 @@
                             <input type="number" id="enrollmentYear" value="2026" min="2000" max="2030"
                                    class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
                         </div>
+                        <div class="flex gap-3 mt-2">
+                            <button type="button" onclick="nextStep(1)" class="w-1/3 py-3 bg-glass hover:bg-glass-hover text-secondary rounded-xl transition-all flex justify-center items-center">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            </button>
+                            <button type="button" onclick="nextStep(3)" class="w-2/3 py-3 bg-teal-600/20 text-teal-400 hover:bg-teal-600 hover:text-white rounded-xl font-bold transition-all flex justify-center items-center gap-2">
+                                Next Step <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
                     </div>
- 
-                    <div>
-                        <label class="block text-sm font-medium text-secondary mb-2">Password</label>
-                        <input type="password" id="password" required placeholder="Min 6 characters"
-                               class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+
+                    <!-- Step 3: Password -->
+                    <div class="w-1/3 px-2 flex flex-col gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-secondary mb-2">Password</label>
+                            <input type="password" id="password" required placeholder="Min 6 characters" oninput="checkPwStrength(this.value)"
+                                   class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+                            <div class="mt-2 flex gap-1">
+                                <div id="pw-bar-1" class="h-1 flex-1 rounded-full bg-glass-subtle transition-all"></div>
+                                <div id="pw-bar-2" class="h-1 flex-1 rounded-full bg-glass-subtle transition-all"></div>
+                                <div id="pw-bar-3" class="h-1 flex-1 rounded-full bg-glass-subtle transition-all"></div>
+                                <div id="pw-bar-4" class="h-1 flex-1 rounded-full bg-glass-subtle transition-all"></div>
+                            </div>
+                            <p id="pw-label" class="text-[10px] text-muted-dark mt-1"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-secondary mb-2">Confirm Password</label>
+                            <input type="password" id="confirmPassword" required placeholder="Re-enter password" oninput="checkMatch()"
+                                   class="w-full px-4 py-3 bg-glass border border-subtle rounded-xl text-foreground placeholder-gray-600 focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 outline-none transition text-sm">
+                            <p id="pwMatchLabel" class="text-[10px] text-red-400 mt-1 hidden">Passwords do not match.</p>
+                        </div>
+                        <div class="flex gap-3 mt-2">
+                            <button type="button" onclick="nextStep(2)" class="w-1/3 py-3 bg-glass hover:bg-glass-hover text-secondary rounded-xl transition-all flex justify-center items-center">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="register()" id="regBtn" class="w-2/3 py-3 bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-700 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(15,118,110,0.3)] flex items-center justify-center gap-2">
+                                <i data-lucide="user-plus" class="w-4 h-4"></i> Complete
+                            </button>
+                        </div>
                     </div>
- 
-                    <button onclick="register()" id="regBtn"
-                            class="w-full py-3 bg-gradient-to-r from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-700 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(15,118,110,0.3)] flex items-center justify-center gap-2">
-                        <i data-lucide="user-plus" class="w-4 h-4"></i> Create Account
-                    </button>
+
                 </div>
             </div>
  
@@ -77,15 +139,80 @@
     <footer th:replace="~{fragments :: footer}"></footer>
  
     <script th:inline="javascript">
+        function checkPwStrength(pw) {
+            let score = 0;
+            if (pw.length >= 6) score++;
+            if (pw.length >= 10) score++;
+            if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+            if (/[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw)) score++;
+            const colors = ['bg-red-500','bg-amber-500','bg-yellow-400','bg-green-500'];
+            const labels = ['Weak','Fair','Good','Strong'];
+            for (let i = 1; i <= 4; i++) {
+                const bar = document.getElementById('pw-bar-' + i);
+                bar.className = 'h-1 flex-1 rounded-full transition-all ' + (i <= score ? colors[score-1] : 'bg-glass-subtle');
+            }
+            document.getElementById('pw-label').textContent = pw.length > 0 ? labels[Math.max(0,score-1)] : '';
+            checkMatch();
+        }
+
+        function checkMatch() {
+            const pw = document.getElementById('password').value;
+            const cpw = document.getElementById('confirmPassword').value;
+            const label = document.getElementById('pwMatchLabel');
+            if (cpw.length > 0 && pw !== cpw) {
+                label.classList.remove('hidden');
+                return false;
+            } else {
+                label.classList.add('hidden');
+                return pw === cpw && pw.length > 0;
+            }
+        }
+
+        function nextStep(step) {
+            const wrapper = document.getElementById('formWrapper');
+            const progress = document.getElementById('stepProgress');
+            
+            // Transform form wrapper
+            wrapper.style.transform = `translateX(-${(step - 1) * 33.333}%)`;
+            
+            // Update Progress Bar
+            progress.style.width = step === 1 ? '0%' : (step === 2 ? '50%' : '100%');
+            
+            // Update Dots & Labels
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById(`step${i}Dot`);
+                const label = document.getElementById(`step${i}Label`);
+                if (i <= step) {
+                    dot.className = "w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors bg-teal-500 text-white shadow-[0_0_15px_rgba(20,184,166,0.4)]";
+                    label.className = "text-xs font-semibold text-teal-400 transition-colors";
+                } else {
+                    dot.className = "w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors bg-glass border border-subtle text-muted";
+                    label.className = "text-xs font-semibold text-muted transition-colors";
+                }
+            }
+        }
+
         async function register() {
+            if (!checkMatch()) {
+                showError("Passwords do not match.");
+                return;
+            }
+            const nameField = document.getElementById('name').value;
+            const emailField = document.getElementById('email').value;
+            if (!nameField || !emailField) {
+                showError("Please fill in Personal details.");
+                nextStep(1);
+                return;
+            }
+
             const btn = document.getElementById('regBtn');
             btn.disabled = true;
             btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Creating...';
             lucide.createIcons();
  
             const body = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
+                name: nameField,
+                email: emailField,
                 password: document.getElementById('password').value,
                 major: document.getElementById('major').value || 'Undeclared',
                 enrollmentYear: document.getElementById('enrollmentYear').value || '2026'
@@ -99,9 +226,7 @@
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    // Store JWT and redirect
                     localStorage.setItem('jwtToken', data.token);
-                    // Use form login for session-based auth
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = '/login';
@@ -115,7 +240,7 @@
                 } else {
                     showError(data.error || 'Registration failed. Try a different email.');
                     btn.disabled = false;
-                    btn.innerHTML = '<i data-lucide="user-plus" class="w-4 h-4"></i> Create Account';
+                    btn.innerHTML = '<i data-lucide="user-plus" class="w-4 h-4"></i> Complete';
                     lucide.createIcons();
                 }
             } catch (e) {

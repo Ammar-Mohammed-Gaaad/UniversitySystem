@@ -21,34 +21,56 @@
             </div>
 
             <div th:if="${exam != null && !alreadySubmitted}">
-                <!-- Exam Header -->
-                <div class="glass rounded-3xl p-8 mb-8 border border-subtle shadow-[0_0_30px_rgba(15,118,110,0.1)] relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-teal-600/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
-                    <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div>
-                            <span class="inline-block px-3 py-1 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-wider mb-3" th:text="${exam.course.coursecode}">COURSE</span>
-                            <h1 class="text-3xl font-bold font-heading mb-2" th:text="${exam.title}">Exam Title</h1>
-                            <p class="text-secondary" th:text="${exam.description}">Description</p>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="text-center p-4 rounded-2xl bg-glass-subtle border border-subtle">
-                                <i data-lucide="clock" class="w-6 h-6 text-teal-400 mx-auto mb-1"></i>
-                                <p class="text-2xl font-bold font-heading text-foreground" th:text="${exam.durationMinutes}">60</p>
-                                <p class="text-xs text-muted">Minutes</p>
+                <!-- Exam Header & Sticky Nav -->
+                <div class="sticky top-[72px] z-50 mb-8 pt-4 bg-background/80 backdrop-blur-xl pb-4 border-b border-subtle" id="examStickyHeader">
+                    <div class="glass rounded-3xl p-6 border border-subtle shadow-[0_0_30px_rgba(15,118,110,0.1)] relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-teal-600/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                            <div class="flex-1 w-full text-center md:text-left">
+                                <span class="inline-block px-3 py-1 rounded-full bg-teal-600/10 border border-teal-500/20 text-teal-400 text-xs font-bold uppercase tracking-wider mb-2" th:text="${exam.course.coursecode}">COURSE</span>
+                                <h1 class="text-2xl font-bold font-heading mb-1" th:text="${exam.title}">Exam Title</h1>
+                                <p class="text-secondary text-sm hidden md:block" th:text="${exam.description}">Description</p>
                             </div>
-                            <div class="text-center p-4 rounded-2xl bg-glass-subtle border border-subtle">
-                                <i data-lucide="list-checks" class="w-6 h-6 text-amber-400 mx-auto mb-1"></i>
-                                <p class="text-2xl font-bold font-heading text-foreground" th:text="${exam.questions.size()}">10</p>
-                                <p class="text-xs text-muted">Questions</p>
+                            <div class="flex items-center gap-4 w-full md:w-auto justify-center">
+                                <div class="text-center p-3 rounded-2xl bg-glass border border-subtle min-w-[120px] transition-all duration-500" id="timerBox">
+                                    <i data-lucide="clock" class="w-5 h-5 text-teal-400 mx-auto mb-1" id="timerIcon"></i>
+                                    <p class="text-xl font-bold font-heading text-foreground" id="timeRemainingDisplay" th:data-duration="${exam.durationMinutes}">--:--</p>
+                                    <p class="text-[10px] text-muted">Remaining</p>
+                                </div>
+                                <div class="text-center p-3 rounded-2xl bg-glass border border-subtle min-w-[120px]">
+                                    <i data-lucide="list-checks" class="w-5 h-5 text-amber-400 mx-auto mb-1"></i>
+                                    <p class="text-xl font-bold font-heading text-foreground"><span id="answeredCount">0</span> / <span th:text="${exam.questions.size()}">10</span></p>
+                                    <p class="text-[10px] text-muted">Answered</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress & Dots -->
+                        <div class="mt-6 border-t border-subtle/50 pt-4 relative z-10">
+                            <div class="flex justify-between items-center gap-4">
+                                <div class="flex-1 h-1.5 bg-glass-subtle rounded-full overflow-hidden">
+                                    <div id="examProgressBar" class="h-full bg-teal-500 transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-teal-400" id="progressPercentage">0%</span>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
+                                <a th:each="q, stat : ${exam.questions}" 
+                                   th:href="'#question-' + ${stat.count}" 
+                                   th:id="'dot-' + ${q.id}"
+                                   class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border border-subtle text-muted hover:border-teal-500/50 hover:text-teal-400 transition-colors"
+                                   th:text="${stat.count}">1</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Questions Form -->
-                <form th:action="@{/student/exam/{id}/submit(id=${exam.id})}" method="post" id="examForm" class="space-y-6">
+                <form th:action="@{/student/exam/{id}/submit(id=${exam.id})}" method="post" id="examForm" class="space-y-8">
                     
-                    <div th:each="q, stat : ${exam.questions}" class="glass rounded-2xl p-6 border border-subtle">
+                    <div th:each="q, stat : ${exam.questions}" th:id="'question-' + ${stat.count}" class="glass rounded-2xl p-6 border border-subtle scroll-mt-64 relative group">
+                        <!-- Active Indicator Line -->
+                        <div class="absolute left-0 top-6 bottom-6 w-1 bg-teal-500 rounded-r-md opacity-0 transition-opacity" th:id="'indicator-' + ${q.id}"></div>
                         <div class="flex items-start gap-4 mb-6">
                             <div class="w-8 h-8 rounded-full bg-teal-600/20 text-teal-400 flex items-center justify-center font-bold flex-shrink-0 mt-0.5">
                                 <span th:text="${stat.count}">1</span>
@@ -61,8 +83,8 @@
                         
                         <div class="space-y-3 pl-12">
                             <label th:each="opt, optStat : ${#strings.arraySplit(q.options, '||')}" 
-                                   class="flex items-center gap-3 p-4 rounded-xl border border-subtle bg-glass-subtle hover:bg-glass hover:border-teal-500/30 cursor-pointer transition-all">
-                                <input type="radio" th:name="'question_' + ${q.id}" th:value="${opt}" required class="w-4 h-4 text-teal-600 bg-glass border-subtle focus:ring-teal-500 mt-0.5">
+                                   class="flex items-center gap-3 p-4 rounded-xl border border-subtle bg-glass-subtle hover:bg-glass hover:border-teal-500/30 cursor-pointer transition-all has-[:checked]:bg-teal-600/10 has-[:checked]:border-teal-500/50">
+                                <input type="radio" th:name="'question_' + ${q.id}" th:value="${opt}" required class="w-4 h-4 text-teal-600 bg-glass border-subtle focus:ring-teal-500 mt-0.5 question-radio" th:data-qid="${q.id}">
                                 <span class="text-foreground" th:text="${opt}">Option Text</span>
                             </label>
                         </div>
@@ -103,14 +125,90 @@
         </div>
     </div>
 
-    <script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const totalQuestions = /*[[${exam != null ? exam.questions.size() : 0}]]*/ 0;
+        /*]]>*/
+
+        // Progress Tracking
+        function updateProgress() {
+            if (totalQuestions === 0) return;
+            const checkedRadios = document.querySelectorAll('.question-radio:checked');
+            const answeredCount = checkedRadios.length;
+            
+            document.getElementById('answeredCount').textContent = answeredCount;
+            const percentage = Math.round((answeredCount / totalQuestions) * 100);
+            document.getElementById('examProgressBar').style.width = percentage + '%';
+            document.getElementById('progressPercentage').textContent = percentage + '%';
+            
+            // Update dots
+            checkedRadios.forEach(radio => {
+                const qid = radio.getAttribute('data-qid');
+                const dot = document.getElementById('dot-' + qid);
+                if(dot) {
+                    dot.classList.remove('border-subtle', 'text-muted');
+                    dot.classList.add('bg-teal-500', 'text-white', 'border-teal-500', 'shadow-[0_0_10px_rgba(20,184,166,0.3)]');
+                }
+                const indicator = document.getElementById('indicator-' + qid);
+                if(indicator) indicator.classList.remove('opacity-0');
+            });
+        }
+
+        document.querySelectorAll('.question-radio').forEach(radio => {
+            radio.addEventListener('change', updateProgress);
+        });
+
+        // Timer Logic
+        const timeDisplay = document.getElementById('timeRemainingDisplay');
+        const timerBox = document.getElementById('timerBox');
+        const timerIcon = document.getElementById('timerIcon');
+        
+        if (timeDisplay) {
+            let durationMins = parseInt(timeDisplay.getAttribute('data-duration'));
+            if (!isNaN(durationMins)) {
+                // Initialize end time (current time + duration)
+                // In a real app, this should be synced with server start time
+                let endTime = new Date().getTime() + durationMins * 60 * 1000;
+                
+                const timerInterval = setInterval(function() {
+                    let now = new Date().getTime();
+                    let distance = endTime - now;
+                    
+                    if (distance <= 0) {
+                        clearInterval(timerInterval);
+                        timeDisplay.textContent = "00:00";
+                        // Auto submit
+                        document.getElementById('examForm').submit();
+                        return;
+                    }
+                    
+                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    // Formatting
+                    let minStr = minutes < 10 ? "0" + minutes : minutes;
+                    let secStr = seconds < 10 ? "0" + seconds : seconds;
+                    
+                    timeDisplay.textContent = minStr + ":" + secStr;
+                    
+                    // Warning when < 5 mins
+                    if (minutes < 5) {
+                        timerBox.classList.add('border-red-500/50', 'bg-red-500/10', 'animate-pulse');
+                        timerBox.classList.remove('border-subtle', 'bg-glass');
+                        timeDisplay.classList.add('text-red-400');
+                        timeDisplay.classList.remove('text-foreground');
+                        timerIcon.classList.add('text-red-400');
+                        timerIcon.classList.remove('text-teal-400');
+                    }
+                }, 1000);
+            }
+        }
+
         function confirmSubmit() {
-            // Check if form is valid
             if (document.getElementById('examForm').checkValidity()) {
                 document.getElementById('confirmModal').classList.remove('hidden');
                 lucide.createIcons();
             } else {
-                // Trigger native HTML5 validation
                 document.getElementById('examForm').reportValidity();
             }
         }

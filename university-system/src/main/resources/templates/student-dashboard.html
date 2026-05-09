@@ -3,10 +3,16 @@
  
 <head th:replace="~{fragments :: head('Student Dashboard – Creativa')}"></head>
  
-<body class="bg-background text-foreground">
+<body class="bg-background text-foreground relative">
     <nav th:replace="~{fragments :: navbar}"></nav>
     <div th:replace="~{fragments :: toasts}"></div>
- 
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-teal-600/5 blur-[120px] animate-float"></div>
+        <div class="absolute bottom-1/3 right-1/3 w-[350px] h-[350px] rounded-full bg-blue-600/5 blur-[100px] animate-float-delayed"></div>
+    </div>
+
     <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
         <div class="max-w-7xl mx-auto">
  
@@ -32,16 +38,25 @@
                             <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-teal-400"></i>
                             <span class="text-xs font-bold text-teal-400 uppercase tracking-wider">Student</span>
                         </div>
-                        <h1 class="text-3xl font-bold font-heading mb-1">Welcome back, <span th:text="${student.name}">Student</span>!</h1>
+                        <h1 class="text-3xl font-bold font-heading mb-1"><span id="timeGreeting">Welcome back</span>, <span th:text="${student.name}">Student</span>!</h1>
                         <p class="text-muted text-sm flex flex-wrap items-center justify-center sm:justify-start gap-3">
                             <span class="flex items-center gap-1.5"><i data-lucide="hash" class="w-3.5 h-3.5 text-teal-400"></i> <span th:text="${student.studentId}">STU-001</span></span>
                             <span class="flex items-center gap-1.5"><i data-lucide="book" class="w-3.5 h-3.5 text-teal-400"></i> <span th:text="${student.major}">Major</span></span>
                             <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-teal-400"></i> Class of <span th:text="${student.enrollmentYear}">2024</span></span>
                         </p>
                     </div>
-                    <div class="text-center glass rounded-2xl p-4 border border-teal-500/20 flex-shrink-0">
-                        <p class="text-3xl font-bold font-heading text-teal-300" th:text="${student.gpa > 0 ? student.gpa : 'N/A'}">3.8</p>
-                        <p class="text-xs text-muted mt-1">Current GPA</p>
+                    <!-- GPA Progress Ring -->
+                    <div class="text-center flex-shrink-0 relative">
+                        <svg width="90" height="90" viewBox="0 0 90 90" class="mx-auto">
+                            <circle cx="45" cy="45" r="38" fill="none" stroke="var(--border-subtle)" stroke-width="6"/>
+                            <circle cx="45" cy="45" r="38" fill="none" stroke="#14b8a6" stroke-width="6" stroke-linecap="round"
+                                    class="progress-ring-circle" th:attr="stroke-dasharray=${student.gpa > 0 ? (student.gpa / 4.0 * 238.76) + ' 238.76' : '0 238.76'}"
+                                    style="stroke-dashoffset: 0"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <p class="text-xl font-bold font-heading text-teal-300" th:text="${student.gpa > 0 ? student.gpa : 'N/A'}">3.8</p>
+                            <p class="text-[9px] text-muted">GPA</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -208,5 +223,10 @@
     </div>
  
     <footer th:replace="~{fragments :: footer}"></footer>
+    <script>
+        const h = new Date().getHours();
+        const g = document.getElementById('timeGreeting');
+        if (g) g.textContent = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+    </script>
 </body>
 </html>

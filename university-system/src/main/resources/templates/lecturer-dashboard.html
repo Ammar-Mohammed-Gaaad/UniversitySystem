@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="~{fragments :: head('Lecturer Dashboard â€” Creativa')}"></head>
+<head th:replace="~{fragments :: head('Lecturer Dashboard — Creativa')}"></head>
 
-<body class="bg-background text-foreground">
+<body class="bg-background text-foreground relative">
     <nav th:replace="~{fragments :: navbar}"></nav>
     <div th:replace="~{fragments :: toasts}"></div>
+
+    <!-- Background Orbs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-amber-600/5 blur-[120px] animate-float"></div>
+        <div class="absolute bottom-1/3 left-1/3 w-[350px] h-[350px] rounded-full bg-teal-600/5 blur-[100px] animate-float-delayed"></div>
+    </div>
 
     <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
         <div class="max-w-7xl mx-auto">
@@ -27,7 +33,7 @@
                             <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i>
                             <span class="text-xs font-bold text-amber-400 uppercase tracking-wider" th:text="${lecturer.title}">Lecturer</span>
                         </div>
-                        <h1 class="text-3xl font-bold font-heading mb-2">Welcome back, <span th:text="${lecturer.name}">Name</span>!</h1>
+                        <h1 class="text-3xl font-bold font-heading mb-2"><span id="timeGreeting">Welcome back</span>, <span th:text="${lecturer.name}">Name</span>!</h1>
                         <p class="text-muted text-sm flex items-center justify-center sm:justify-start gap-2">
                             <i data-lucide="building-2" class="w-4 h-4 text-teal-400"></i>
                             <span th:text="${lecturer.department}">Department</span> Department
@@ -43,7 +49,7 @@
                         <i data-lucide="book-open" class="w-6 h-6 text-teal-400"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold font-heading text-foreground" th:text="${#lists.size(courses)}">0</p>
+                        <p class="text-2xl font-bold font-heading text-foreground stat-counter" th:text="${#lists.size(courses)}">0</p>
                         <p class="text-xs text-muted mt-0.5">Assigned Courses</p>
                     </div>
                 </div>
@@ -53,7 +59,7 @@
                         <i data-lucide="users" class="w-6 h-6 text-blue-400"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold font-heading text-foreground" th:text="${totalStudents}">0</p>
+                        <p class="text-2xl font-bold font-heading text-foreground stat-counter" th:text="${totalStudents}">0</p>
                         <p class="text-xs text-muted mt-0.5">Total Students</p>
                     </div>
                 </div>
@@ -63,7 +69,7 @@
                         <i data-lucide="file-check" class="w-6 h-6 text-amber-400"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold font-heading text-foreground" th:text="${pendingSubmissions}">0</p>
+                        <p class="text-2xl font-bold font-heading text-foreground stat-counter" th:text="${pendingSubmissions}">0</p>
                         <p class="text-xs text-muted mt-0.5">Pending Grading</p>
                     </div>
                 </div>
@@ -129,7 +135,31 @@
     </div>
 
     <footer th:replace="~{fragments :: footer}"></footer>
+    <script>
+        // Time greeting
+        const h = new Date().getHours();
+        const g = document.getElementById('timeGreeting');
+        if (g) g.textContent = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+
+        // Animate stats
+        document.querySelectorAll('.stat-counter').forEach(counter => {
+            const target = +counter.innerText;
+            if (target === 0) return;
+            const duration = 1500;
+            const increment = target / (duration / 16);
+            let current = 0;
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.innerText = Math.ceil(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            counter.innerText = '0';
+            updateCounter();
+        });
+    </script>
 </body>
 </html>
-
-

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
  
 <head th:replace="~{fragments :: head('My Profile – Creativa')}"></head>
@@ -7,6 +7,11 @@
     <nav th:replace="~{fragments :: navbar}"></nav>
     <div th:replace="~{fragments :: toasts}"></div>
  
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-teal-600/5 blur-[120px] animate-float"></div>
+        <div class="absolute bottom-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-blue-600/5 blur-[100px] animate-float-delayed"></div>
+    </div>
+
     <div class="min-h-screen pt-24 content-wrapper pb-16 px-4 md:pr-8">
         <div class="max-w-4xl mx-auto">
  
@@ -28,16 +33,22 @@
                             <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-teal-400"></i>
                             <span class="text-xs font-bold text-teal-400">Student</span>
                         </div>
-                        <h1 class="text-3xl font-bold font-heading" th:text="${student.name}">Student Name</h1>
-                        <p class="text-muted mt-1 flex flex-wrap items-center gap-3 justify-center sm:justify-start text-sm">
+                        <h1 class="text-3xl font-bold font-heading group flex items-center gap-2 justify-center sm:justify-start">
+                            <span th:text="${student.name}">Student Name</span>
+                            <button class="text-teal-400 opacity-0 group-hover:opacity-100 transition-opacity hover:text-teal-300" title="Edit Name">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i>
+                            </button>
+                        </h1>
+                        <p class="text-muted mt-1 flex flex-wrap items-center gap-3 justify-center sm:justify-start text-sm group">
                             <span th:text="${student.email}">email@uni.edu</span>
                             <span class="text-muted-dark">·</span>
                             <span th:text="'ID: ' + ${student.studentId}">STU-001</span>
                         </p>
                     </div>
-                    <div class="text-center glass rounded-2xl px-6 py-4 border border-teal-500/20">
-                        <p class="text-2xl font-bold text-teal-300" th:text="${student.gpa > 0 ? student.gpa : 'N/A'}">3.8</p>
-                        <p class="text-xs text-muted">GPA</p>
+                    <div class="text-center glass rounded-2xl px-6 py-4 border border-teal-500/20 relative group overflow-hidden">
+                        <div class="absolute inset-0 bg-teal-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                        <p class="text-2xl font-bold text-teal-300 relative z-10" th:text="${student.gpa > 0 ? student.gpa : 'N/A'}">3.8</p>
+                        <p class="text-xs text-muted relative z-10">GPA</p>
                     </div>
                 </div>
             </div>
@@ -50,9 +61,12 @@
                         <i data-lucide="award" class="w-5 h-5 text-teal-400"></i> Academic Info
                     </h2>
                     <div class="space-y-4">
-                        <div class="p-4 rounded-xl bg-white/[0.03] border border-subtle">
-                            <p class="text-xs text-muted-dark uppercase tracking-wider mb-1">Major</p>
-                            <p class="font-semibold text-foreground" th:text="${student.major}">Computer Science</p>
+                        <div class="p-4 rounded-xl bg-white/[0.03] border border-subtle group flex justify-between items-center transition-colors hover:bg-white/[0.05]">
+                            <div>
+                                <p class="text-xs text-muted-dark uppercase tracking-wider mb-1">Major</p>
+                                <p class="font-semibold text-foreground" th:text="${student.major}">Computer Science</p>
+                            </div>
+                            <button class="text-muted-dark hover:text-teal-400 opacity-0 group-hover:opacity-100 transition-all"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
                         </div>
                         <div class="p-4 rounded-xl bg-white/[0.03] border border-subtle">
                             <p class="text-xs text-muted-dark uppercase tracking-wider mb-1">Enrollment Year</p>
@@ -80,8 +94,8 @@
                         <p class="text-sm text-muted">No enrollment records yet.</p>
                     </div>
  
-                    <div class="space-y-3 max-h-80 overflow-y-auto pr-1">
-                        <div th:each="e : ${enrollments}" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-subtle">
+                    <div class="space-y-3 max-h-80 overflow-y-auto pr-1 mt-4">
+                        <div th:each="e : ${enrollments}" class="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-subtle card-hover">
                             <div class="min-w-0 flex-1">
                                 <p class="text-sm font-medium text-foreground truncate" th:text="${e.course.title}">Course</p>
                                 <p class="text-xs text-muted-dark" th:text="${e.course.coursecode} + ' · Sem ' + ${e.semester}">CODE · Sem 1</p>
@@ -94,7 +108,74 @@
                         </div>
                     </div>
                 </div>
- 
+
+                <!-- GPA History Chart & Achievements -->
+                <div class="glass rounded-3xl p-6 border border-subtle animate-fade-in-up delay-300 lg:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Chart -->
+                        <div>
+                            <h2 class="text-lg font-bold font-heading mb-5 flex items-center gap-2">
+                                <i data-lucide="trending-up" class="w-5 h-5 text-teal-400"></i> GPA Progression
+                            </h2>
+                            <div class="h-48 flex items-end justify-between gap-2 px-2 pb-6 border-b border-l border-subtle relative">
+                                <!-- Y Axis Labels -->
+                                <div class="absolute -left-6 bottom-4 text-[10px] text-muted-dark">0.0</div>
+                                <div class="absolute -left-6 top-1/2 text-[10px] text-muted-dark">2.0</div>
+                                <div class="absolute -left-6 top-0 text-[10px] text-muted-dark">4.0</div>
+                                
+                                <!-- Bars (Static Placeholder) -->
+                                <div class="w-1/4 bg-teal-500/20 hover:bg-teal-500/40 transition-colors rounded-t-md relative group flex justify-center" style="height: 70%">
+                                    <span class="absolute -top-6 text-xs text-teal-300 opacity-0 group-hover:opacity-100 transition-opacity font-bold">2.8</span>
+                                    <span class="absolute -bottom-6 text-[10px] text-muted whitespace-nowrap">Sem 1</span>
+                                </div>
+                                <div class="w-1/4 bg-teal-500/40 hover:bg-teal-500/60 transition-colors rounded-t-md relative group flex justify-center" style="height: 80%">
+                                    <span class="absolute -top-6 text-xs text-teal-300 opacity-0 group-hover:opacity-100 transition-opacity font-bold">3.2</span>
+                                    <span class="absolute -bottom-6 text-[10px] text-muted whitespace-nowrap">Sem 2</span>
+                                </div>
+                                <div class="w-1/4 bg-teal-500/60 hover:bg-teal-500/80 transition-colors rounded-t-md relative group flex justify-center" style="height: 87%">
+                                    <span class="absolute -top-6 text-xs text-teal-300 opacity-0 group-hover:opacity-100 transition-opacity font-bold">3.5</span>
+                                    <span class="absolute -bottom-6 text-[10px] text-muted whitespace-nowrap">Sem 3</span>
+                                </div>
+                                <div class="w-1/4 bg-gradient-to-t from-teal-600 to-teal-400 shadow-[0_0_10px_rgba(20,184,166,0.3)] transition-all hover:brightness-110 rounded-t-md relative group flex justify-center" style="height: 95%">
+                                    <span class="absolute -top-6 text-xs text-teal-300 opacity-100 transition-opacity font-bold" th:text="${student.gpa}">3.8</span>
+                                    <span class="absolute -bottom-6 text-[10px] text-teal-400 font-bold whitespace-nowrap">Current</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Achievements -->
+                        <div>
+                            <h2 class="text-lg font-bold font-heading mb-5 flex items-center gap-2">
+                                <i data-lucide="medal" class="w-5 h-5 text-amber-400"></i> Achievements
+                            </h2>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="glass p-4 rounded-2xl border border-subtle flex flex-col items-center text-center card-hover relative overflow-hidden">
+                                    <div class="absolute -right-4 -top-4 w-12 h-12 bg-amber-500/20 rounded-full blur-xl"></div>
+                                    <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center mb-2">
+                                        <i data-lucide="star" class="w-5 h-5 text-amber-400"></i>
+                                    </div>
+                                    <h4 class="text-sm font-bold text-foreground">Honor Roll</h4>
+                                    <p class="text-[10px] text-muted">Fall 2024</p>
+                                </div>
+                                <div class="glass p-4 rounded-2xl border border-subtle flex flex-col items-center text-center card-hover relative overflow-hidden">
+                                    <div class="absolute -right-4 -top-4 w-12 h-12 bg-blue-500/20 rounded-full blur-xl"></div>
+                                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center mb-2">
+                                        <i data-lucide="zap" class="w-5 h-5 text-blue-400"></i>
+                                    </div>
+                                    <h4 class="text-sm font-bold text-foreground">Fast Learner</h4>
+                                    <p class="text-[10px] text-muted">15+ Credits</p>
+                                </div>
+                                <div class="glass p-4 rounded-2xl border border-subtle flex flex-col items-center text-center card-hover relative overflow-hidden opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+                                    <div class="w-10 h-10 rounded-full bg-glass flex items-center justify-center mb-2 border border-subtle">
+                                        <i data-lucide="target" class="w-5 h-5 text-muted-dark"></i>
+                                    </div>
+                                    <h4 class="text-sm font-bold text-foreground">Perfect GPA</h4>
+                                    <p class="text-[10px] text-muted">Locked</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
  
             <!-- Quick Navigation -->

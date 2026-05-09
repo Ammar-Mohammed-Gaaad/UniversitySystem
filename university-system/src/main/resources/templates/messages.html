@@ -31,25 +31,47 @@
                     </div>
                 </div>
                 <div class="lg:col-span-2">
-                    <div class="glass rounded-3xl border border-subtle overflow-hidden">
-                        <div class="p-6 border-b border-subtle bg-glass-subtle"><h2 class="text-xl font-bold font-heading flex items-center gap-2"><i data-lucide="inbox" class="w-5 h-5 text-pink-400"></i> All Messages</h2></div>
-                        <div th:if="${messages == null || messages.isEmpty()}" class="p-12 text-center"><i data-lucide="mail-x" class="w-12 h-12 text-muted-dark mx-auto mb-4"></i><p class="text-muted">No messages yet.</p></div>
-                        <div th:if="${messages != null && !messages.isEmpty()}" class="divide-y divide-subtle">
-                            <div th:each="msg : ${messages}" class="p-5 hover:bg-glass transition-colors">
-                                <div class="flex items-start gap-4">
-                                    <div class="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center" th:classappend="${msg.senderEmail == currentUserEmail ? 'bg-teal-600/20' : 'bg-pink-600/20'}">
-                                        <i data-lucide="user" class="w-5 h-5" th:classappend="${msg.senderEmail == currentUserEmail ? 'text-teal-400' : 'text-pink-400'}"></i>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <div class="flex items-center gap-2"><span class="font-medium text-foreground text-sm" th:text="${msg.senderName}"></span><i data-lucide="arrow-right" class="w-3 h-3 text-muted-dark"></i><span class="text-sm text-muted" th:text="${msg.receiverName}"></span></div>
-                                            <span class="text-xs text-muted-dark" th:text="${#temporals.format(msg.sentAt, 'dd MMM, HH:mm')}"></span>
+                    <!-- Messaging UI -->
+                    <div class="glass rounded-3xl border border-subtle overflow-hidden flex flex-col h-[calc(100vh-12rem)] animate-fade-in-up">
+                        <!-- Chat Header -->
+                        <div class="p-4 border-b border-subtle bg-glass-subtle flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-pink-600/20 flex items-center justify-center border border-pink-500/20">
+                                    <i data-lucide="inbox" class="w-5 h-5 text-pink-400"></i>
+                                </div>
+                                <div>
+                                    <h2 class="font-bold text-foreground">Message History</h2>
+                                    <p class="text-[10px] text-pink-400 font-bold uppercase tracking-widest">Recent Conversations</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                <span class="text-[10px] font-bold text-muted uppercase">Online</span>
+                            </div>
+                        </div>
+
+                        <!-- Messages Area -->
+                        <div id="messageArea" class="flex-1 overflow-y-auto p-6 space-y-6 bg-glass/5 custom-scrollbar">
+                            <div th:each="msg : ${messages}" class="flex flex-col" th:classappend="${currentUserEmail == msg.senderEmail ? 'items-end' : 'items-start'}">
+                                <div class="flex items-end gap-2 max-w-[85%] group">
+                                    <div th:if="${currentUserEmail != msg.senderEmail}" class="w-8 h-8 rounded-full bg-pink-600/10 flex items-center justify-center shrink-0 border border-pink-500/20 text-[10px] font-bold text-pink-400" th:text="${#strings.substring(msg.senderName, 0, 1)}">S</div>
+                                    
+                                    <div class="flex flex-col" th:classappend="${currentUserEmail == msg.senderEmail ? 'items-end' : 'items-start'}">
+                                        <div class="flex items-center gap-2 mb-1 px-1">
+                                            <span class="text-[10px] font-bold text-muted-dark" th:text="${msg.senderName}">Name</span>
+                                            <span class="text-[9px] text-muted-dark opacity-60" th:text="${#temporals.format(msg.sentAt, 'HH:mm')}">Time</span>
                                         </div>
-                                        <p class="text-foreground text-sm" th:text="${msg.content}"></p>
-                                        <span th:if="${msg.senderEmail == currentUserEmail}" class="inline-block mt-2 px-2 py-0.5 rounded bg-teal-500/10 text-teal-400 text-[10px] font-bold uppercase border border-teal-500/20">Sent</span>
-                                        <span th:if="${msg.senderEmail != currentUserEmail}" class="inline-block mt-2 px-2 py-0.5 rounded bg-pink-500/10 text-pink-400 text-[10px] font-bold uppercase border border-pink-500/20">Received</span>
+                                        <div class="px-4 py-2.5 rounded-2xl shadow-sm text-sm"
+                                             th:classappend="${currentUserEmail == msg.senderEmail ? 'bg-pink-600 text-white rounded-br-none' : 'bg-glass border border-subtle text-foreground rounded-bl-none'}">
+                                            <p th:text="${msg.content}">Message content</p>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div th:if="${#lists.isEmpty(messages)}" class="h-full flex flex-col items-center justify-center text-center opacity-30">
+                                <i data-lucide="messages-square" class="w-16 h-16 mb-4"></i>
+                                <p class="font-heading text-lg">No messages yet.</p>
+                                <p class="text-xs">Start the conversation using the form on the left!</p>
                             </div>
                         </div>
                     </div>
@@ -57,6 +79,13 @@
             </div>
         </div>
     </div>
+
     <footer th:replace="~{fragments :: footer}"></footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const area = document.getElementById('messageArea');
+            if (area) area.scrollTop = area.scrollHeight;
+        });
+    </script>
 </body>
 </html>

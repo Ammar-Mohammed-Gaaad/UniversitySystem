@@ -55,18 +55,32 @@
                             </div>
                             <p class="text-sm text-muted mb-2 flex items-center gap-2">
                                 <i data-lucide="clock" class="w-3.5 h-3.5"></i> <span th:text="${exam.durationMinutes} + ' mins'">60 mins</span>
-                                <i data-lucide="calendar" class="w-3.5 h-3.5 ml-2"></i> <span th:text="${#temporals.format(exam.startTime, 'dd MMM yyyy, HH:mm')}">Date</span>
+                                <i data-lucide="calendar" class="w-3.5 h-3.5 ml-2"></i> <span class="exam-start-time" th:data-start="${exam.startTime}" th:text="${#temporals.format(exam.startTime, 'dd MMM yyyy, HH:mm')}">Date</span>
+                                <span class="exam-countdown ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-glass border border-subtle hidden"></span>
                             </p>
                             <p class="text-sm text-secondary" th:if="${exam.description != null && !exam.description.isEmpty()}" th:text="${exam.description}">Description</p>
                         </div>
                         
                         <div class="flex-shrink-0 min-w-[140px]">
-                            <div th:if="${submissionMap.get(exam.id) != null}" class="text-center p-3 rounded-xl bg-glass-subtle border border-subtle">
-                                <p class="text-xs text-muted mb-1">Your Score</p>
-                                <p class="text-xl font-bold font-heading" 
-                                   th:classappend="${(submissionMap.get(exam.id).score * 1.0 / submissionMap.get(exam.id).totalPossibleScore) >= 0.5} ? 'text-green-400' : 'text-red-400'">
-                                    <span th:text="${submissionMap.get(exam.id).score}">10</span> / <span th:text="${submissionMap.get(exam.id).totalPossibleScore}">10</span>
-                                </p>
+                            <div th:if="${submissionMap.get(exam.id) != null}" class="text-center p-3 rounded-xl bg-glass-subtle border border-subtle flex items-center justify-center gap-4">
+                                <div>
+                                    <p class="text-xs text-muted mb-1">Your Score</p>
+                                    <p class="text-xl font-bold font-heading" 
+                                       th:classappend="${(submissionMap.get(exam.id).score * 1.0 / submissionMap.get(exam.id).totalPossibleScore) >= 0.5} ? 'text-green-400' : 'text-red-400'">
+                                        <span th:text="${submissionMap.get(exam.id).score}">10</span> / <span th:text="${submissionMap.get(exam.id).totalPossibleScore}">10</span>
+                                    </p>
+                                </div>
+                                <div class="relative w-12 h-12">
+                                    <!-- Background circle -->
+                                    <svg class="w-12 h-12 transform -rotate-90">
+                                        <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="transparent" class="text-subtle" />
+                                        <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="transparent"
+                                                th:classappend="${(submissionMap.get(exam.id).score * 1.0 / submissionMap.get(exam.id).totalPossibleScore) >= 0.5} ? 'text-green-500' : 'text-red-500'"
+                                                th:stroke-dasharray="${2 * 3.14159 * 20}"
+                                                th:stroke-dashoffset="${2 * 3.14159 * 20 * (1 - (submissionMap.get(exam.id).score * 1.0 / submissionMap.get(exam.id).totalPossibleScore))}"
+                                                class="transition-all duration-1000 ease-out" />
+                                    </svg>
+                                </div>
                             </div>
                             
                             <a th:if="${submissionMap.get(exam.id) == null}" th:href="@{/student/exam/{id}/take(id=${exam.id})}" class="block w-full text-center px-4 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-medium transition-all shadow-[0_0_15px_rgba(15,118,110,0.3)]">
@@ -81,5 +95,38 @@
     </div>
 
     <footer th:replace="~{fragments :: footer}"></footer>
+
+    <script>
+        // Exam countdown
+        document.querySelectorAll('.exam-start-time').forEach(el => {
+            const startAttr = el.getAttribute('data-start');
+            if(!startAttr) return;
+            const startDate = new Date(startAttr);
+            const now = new Date();
+            const diffMs = startDate - now;
+            const badge = el.parentElement.querySelector('.exam-countdown');
+            
+            if(diffMs > 0 && badge) {
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                badge.classList.remove('hidden');
+                if(diffDays > 0) {
+                    badge.textContent = diffDays + 'd ' + diffHours + 'h left';
+                    badge.classList.add('text-teal-400', 'border-teal-500/30', 'bg-teal-500/10');
+                } else if(diffHours > 0) {
+                    badge.textContent = diffHours + 'h ' + diffMins + 'm left';
+                    badge.classList.add('text-amber-400', 'border-amber-500/30', 'bg-amber-500/10');
+                } else {
+                    badge.textContent = 'Starts in ' + diffMins + 'm';
+                    badge.classList.add('text-red-400', 'border-red-500/30', 'bg-red-500/10', 'animate-pulse');
+                }
+            } else if (diffMs <= 0 && badge) {
+                badge.classList.remove('hidden');
+                badge.textContent = 'Active Now';
+                badge.classList.add('text-green-400', 'border-green-500/50', 'bg-green-500/20', 'animate-pulse');
+            }
+        });
+    </script>
 </body>
 </html>
